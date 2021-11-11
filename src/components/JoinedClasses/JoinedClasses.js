@@ -2,20 +2,25 @@ import { Avatar } from "@material-ui/core";
 import { FolderOpen, PermContactCalendar } from "@material-ui/icons";
 import React from "react";
 import { Link } from "react-router-dom";
+import { useLocalContext } from "../../context/context";
 import "./style.css";
 const JoinedClasses = ({ classData }) => {
+  const { dataInfo } = useLocalContext();
+  const idOwner=String(classData.id);
+  const image="../../img/"+idOwner.substr(idOwner.length-1)+".jpg";
+
   return (
     <li className="joined__list">
       <div className="joined__wrapper">
         <div className="joined__container">
-          <div className="joined__imgWrapper" />
+          <div className="joined__imgWrapper"/>
           <div className="joined__image" />
           <div className="joined__content">
-            <Link className="joined__title" to={`/${classData._id}`}>
-            <h2>{classData.className}</h2>
-            <p>{classData.subject}</p>
+            <Link className="joined__title" to={`/${classData.id}`}>
+            <h2>{classData.name}</h2>
+            <p>{classData.description}</p>
             </Link>
-            <p className="joined__owner">{classData.owner}</p>
+            <p className="joined__owner">{classData?.ownerId!==dataInfo.id}</p>
           </div>
         </div>
         <Avatar

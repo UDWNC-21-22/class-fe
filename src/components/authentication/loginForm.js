@@ -28,9 +28,7 @@ const Login = () => {
 
             // set access_token to cookie
             cookie.save('access_token', response.data?.access_token)
-
             alert(response.message)
-            
         }
         catch (err) {
             console.log("ERROR login, err: ", err)
