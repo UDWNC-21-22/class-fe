@@ -25,9 +25,17 @@ const register = ({username, password, fullname, email}) => {
     })
 }
 
+const getInfo = () => {
+    return AxiosBasic({
+        url: urls.info,
+        method: 'GET'
+    })
+}
+
 const authApi = {
     login,
-    register
+    register,
+    getInfo
 }
 
 export default authApi
