@@ -10,7 +10,7 @@ const getClasses = () => {
 
 const createClass = ({name, description,ownerId}) => {
     return AxiosBasic({
-        url: urls.register,
+        url: urls.createClass,
         method: 'POST',
         data:{
             name,

@@ -2,44 +2,29 @@ import { Button, DialogActions, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { useLocalContext } from "../../context/context";
 import classApi from '../../apis/class.api';
-import cookie from 'react-cookies';
-import authApi from '../../apis/auth.api';
 
 const Form = () => {
   const { setShowForm } = useLocalContext();
   const { check, setChecked } = useLocalContext();
-  const { dataInfo, setDataInfo } = useLocalContext();
+  const { dataInfo } = useLocalContext();
 
   const [name, setClassName] = useState("");
   const [description, setDescription] = useState("");
-  const [ownerId,setOwnerID]= useState("");
 
   const { setCreateClassDialog } = useLocalContext();
 
   const handleSubmit = async (e) => {
     try {
-      e.preventDefault()
-
-      let response = await authApi.getInfo()
-      console.log("response: ", response)
-
-      // set response.data to global state user
-      setDataInfo(response.data);
-      setOwnerID(dataInfo.id);
-      console.log("ownerId: ", ownerId);
-    }
-    catch (err) {
-        console.log("ERROR login, err: ", err)
-    }
-
-    try {
         e.preventDefault()
+        let userID=dataInfo.id
 
-        let response = await classApi.createClass({ name, description, ownerId })
+        let response = await classApi.createClass({ name, description, userID })
         console.log("response: ", response)
+        setCreateClassDialog(false);
+        setShowForm(false);
     }
     catch (err) {
-        console.log("ERROR login, err: ", err)
+        console.log("ERROR create class, err: ", err)
     }
   }
 

@@ -14,7 +14,8 @@ const Login = () => {
     const btnstyle = { margin: '8px 0' }
 
     const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('')
+    const [password, setPassword] = useState('');
+    const [check, setChecked]=useState(false);
 
     const login = async (e) => {
         try {
@@ -23,12 +24,10 @@ const Login = () => {
             let response = await authApi.login({ username, password })
             console.log("response: ", response)
 
-            // set response.data to global state user
-            // ...
-
             // set access_token to cookie
             cookie.save('access_token', response.data?.access_token)
             alert(response.message)
+            setChecked(!check)
         }
         catch (err) {
             console.log("ERROR login, err: ", err)
@@ -71,7 +70,6 @@ const Login = () => {
                     <Typography > Do you have an account ?
                         <Link href="/register" >
                             Register
-
                         </Link>
                     </Typography>
                 </form>

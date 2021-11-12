@@ -2,13 +2,26 @@ import React, { useEffect, useState } from "react";
 import { Drawer,JoinedClasses } from "..";
 import { useLocalContext } from "../../context/context";
 import classApi from '../../apis/class.api';
+import authApi from '../../apis/auth.api';
 
 const Home = () => {
   const { dataClassJoined, setDataClassJoined } = useLocalContext();
   const { dataClassCreate, setDataClassCreate } = useLocalContext();
-  
+  const { dataInfo, setDataInfo } = useLocalContext();
+
   useEffect(() => {
     const fetchData = async () => {
+      try {  
+        let response = await authApi.getInfo()
+        console.log("response: ", response)
+  
+        // set response.data to global state user
+        setDataInfo(response.data);
+      }
+      catch (err) {
+          console.log("ERROR login, err: ", err)
+      }
+
       try {
         let response = await classApi.getClasses()
 
@@ -21,7 +34,7 @@ const Home = () => {
       }
     };
     fetchData();
-  },[dataClassCreate, setDataClassCreate, dataClassJoined, setDataClassJoined]);
+  },[dataClassCreate, setDataClassCreate, dataClassJoined, setDataClassJoined,dataInfo, setDataInfo]);
   
   return (
     <div>

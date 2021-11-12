@@ -34,6 +34,7 @@ ol {
   background-color: #174ea6;
 }
 .joined__image {
+  background-image: url(../../img/1.jpg);
   height: 100%;
   left: 0;
   position: absolute;
@@ -57,7 +58,7 @@ ol {
   position: relative;
 }
 .joined__title {
-  color: white;
+  color: #ffffff;
   font-family: "Roboto";
   text-decoration: none;
 }
