@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Grid, Paper, Avatar, TextField, Button, Typography, Link } from '@material-ui/core'
+import { Navigate } from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -28,6 +29,7 @@ const Login = () => {
             cookie.save('access_token', response.data?.access_token)
             alert(response.message)
             setChecked(!check)
+            window.open("/home", "_self", "")
         }
         catch (err) {
             console.log("ERROR login, err: ", err)
@@ -40,6 +42,11 @@ const Login = () => {
                 alert('An error has occurred')
             }
         }
+    }
+
+    const handleSubmit = () => {
+        if (check)
+        <Link href="/home"/>
     }
 
     return (
@@ -61,7 +68,9 @@ const Login = () => {
                         }
                         label="Remember me"
                     />
-                    <Button type='submit' color='primary' variant="contained" style={btnstyle} fullWidth>Sign in</Button>
+                    <Button type='submit' color='primary' variant="contained" style={btnstyle} onClick={handleSubmit} fullWidth>
+                        Sign in
+                    </Button>
                     <Typography >
                         <Link href="/#" >
                             Forgot password ?

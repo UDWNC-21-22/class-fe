@@ -6,7 +6,6 @@ import { useLocalContext } from "../../context/context";
 import "./style.css";
 const JoinedClasses = ({ classData }) => {
   const { dataInfo } = useLocalContext();
-  const idOwner=String(classData.id);
   /*
   const image="../../img/"+idOwner.substr(idOwner.length-1)+".jpg";
   console.log("link: ",image);
