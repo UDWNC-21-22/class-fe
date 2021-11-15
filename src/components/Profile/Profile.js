@@ -1,6 +1,7 @@
 import { Avatar, Button, Container, Grid, makeStyles, Paper, TextField, Typography, Box } from "@material-ui/core";
 import React, { useState } from "react";
 import Drawer from '../Drawer/Drawer'
+import authApi from "../../apis/auth.api";
 
 const useStyles = makeStyles(themes => ({
     container: {
@@ -35,9 +36,23 @@ const dummy = {
 }
 
 const Profile = () => {
-    const [FullName, setFullName] = useState(dummy.fullname);
-
+    let user;
     const styles = useStyles();
+    const [FullName, setFullName] = useState(()=>{
+        const saved = localStorage.getItem('fullname');
+        //const init = JSON.parse(saved);
+        return saved || '';
+    });
+    const [UserName, setUserName] = useState(()=>{
+        const saved = localStorage.getItem("username");
+        //const init = JSON.parse(saved);
+        return saved;
+    })
+    const [Email, setEmail] = useState(()=>{
+        const saved = localStorage.getItem("email");
+        //const init = JSON.parse(saved);
+        return saved;
+    })
 
     return (
         <div>
@@ -53,13 +68,15 @@ const Profile = () => {
                                 <Typography>FullName</Typography>
                                 <TextField fullWidth
                                     value={FullName}
+                                    onChange={e=>{setFullName(e.target.value)}}
                                 />
                                 <Typography>Email</Typography>
                                 <TextField fullWidth
-                                    value={dummy.email}
+                                    value={Email}
+                                    onChange={e=>{setEmail(e.target.value)}}
                                 />
                                 <Typography>User Name</Typography>
-                                <Typography>{dummy.username}</Typography>
+                                <Typography>{UserName}</Typography>
                             </Grid>
                         </Grid>
                     </Paper>

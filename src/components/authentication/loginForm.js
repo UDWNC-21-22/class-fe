@@ -18,13 +18,20 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [check, setChecked]=useState(false);
 
+    const setData = (data) => {
+        localStorage.setItem("username", data.username);
+        localStorage.setItem("fullname", data.fullname);
+        localStorage.setItem("email", data.email);
+    }
+
     const login = async (e) => {
         try {
             e.preventDefault()
 
             let response = await authApi.login({ username, password })
-            console.log("response: ", response)
-
+            console.log("response: ", response.data)
+            console.log(1);
+            setData(response.data);
             // set access_token to cookie
             cookie.save('access_token', response.data?.access_token)
             alert(response.message)
