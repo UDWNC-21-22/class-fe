@@ -1,17 +1,31 @@
-import { AppBar, Toolbar, Typography, Avatar, Menu, MenuItem} from "@material-ui/core";
-import { Add, Apps } from "@mui/icons-material";
+import { AppBar, Toolbar, Typography, Avatar, Menu, MenuItem, Divider, ListItemIcon, IconButton, Tabs, Box } from "@material-ui/core";
+import { PersonAdd, Settings } from "@material-ui/icons";
+import { Add, Apps, Logout } from "@mui/icons-material";
 import React from "react";
-import { CreateClass } from "..";
+import { CreateClass, Home } from "..";
 import { useLocalContext } from "../../context/context";
 import { useStyles } from "./style";
+import { Link } from 'react-router-dom';
+import LinkTab from "./LinkTab";
+import MemberList from "../MemberList/MemberList";
+import SwipeableTemporaryDrawer from "../ClassDetail/ClassDetail"
 
 const Header = ({ children }) => {
   const classes = useStyles();
 
+  //Add and join dialog
   const [anchorEl, setAnchorEl] = React.useState(null);
-
   const handleClick = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
+
+  //Profile dialog
+  const [anchorElProfile, setAnchorElProfile] = React.useState(null);
+  const handleClickProfile = (event) => setAnchorElProfile(event.currentTarget);
+  const handleCloseProfile = () => setAnchorElProfile(null);
+  const handleProfile = e => {
+    e.preventDefault();
+    window.open("/home", "_self", "")
+  }
 
   const {
     setCreateClassDialog,
@@ -27,16 +41,34 @@ const Header = ({ children }) => {
     handleClose();
     setJoinClassDialog(true);
   };
+
+  //Nav tabs
+  const [selectedTab, setSelectedTab] = React.useState(0);
+
+  const handleChangePage = (event, newValue) => {
+    setSelectedTab(newValue);
+  };
+
+
   return (
     <div className={classes.root}>
       <AppBar className={classes.appBar} position="static">
         <Toolbar className={classes.toolbar}>
           <div className={classes.headerWrapper}>
             {children}
-            
+
             <Typography variant="h6" className={classes.title}>
               Classroom
             </Typography>
+          </div>
+          <div >
+            <Box sx={{ width: '100%' }}>
+              <Tabs value={selectedTab} onChange={handleChangePage} aria-label="nav tabs example">
+                <LinkTab label="Class" href="/" />
+                <LinkTab label="Member" to="/memberlist" />
+              </Tabs>
+
+            </Box>
           </div>
           <div className={classes.header__wrapper__right}>
             <Add onClick={handleClick} className={classes.icon} />
@@ -52,14 +84,64 @@ const Header = ({ children }) => {
               <MenuItem onClick={handleCreate}>Create Class</MenuItem>
             </Menu>
             <div>
-              <Avatar                               
-                className={classes.icon}
-              />
+              <IconButton onClick={handleClickProfile}>
+                <Avatar />
+              </IconButton>
+              <Menu
+                anchorEl={anchorElProfile}
+                open={Boolean(anchorElProfile)}
+                onClose={handleCloseProfile}
+                onClick={handleCloseProfile}
+                PaperProps={{
+                  elevation: 0,
+                  sx: {
+                    overflow: 'visible',
+                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                    mt: 1.5,
+                    '& .MuiAvatar-root': {
+                      width: 32,
+                      height: 32,
+                      ml: -0.5,
+                      mr: 1,
+                    },
+                    '&:before': {
+                      content: '""',
+                      display: 'block',
+                      position: 'absolute',
+                      top: 0,
+                      right: 14,
+                      width: 10,
+                      height: 10,
+                      bgcolor: 'background.paper',
+                      transform: 'translateY(-50%) rotate(45deg)',
+                      zIndex: 0,
+                    },
+                  },
+                }}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+              >
+                <MenuItem component={Link} to='profile'>
+                  <Avatar /> Profile
+                </MenuItem>
+                <MenuItem component={Link} to='grade'>
+                  <Avatar /> Grades
+                </MenuItem>
+                <Divider />
+                <MenuItem>
+                  <ListItemIcon>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                  Logout
+                </MenuItem>
+              </Menu>
             </div>
           </div>
         </Toolbar>
       </AppBar>
       <CreateClass />
+      {selectedTab === 0 && <Home />}
+      {selectedTab === 1 && <MemberList />}
     </div>
   );
 };

@@ -8,7 +8,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-import {ClassHeader} from './ClassHeader';
+// import ClassHeader from './ClassHeader';
 import { Menu } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
@@ -76,7 +76,7 @@ export default function SwipeableTemporaryDrawer() {
     <div>
       {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <ClassHeader>
+          {/* <ClassHeader>
             <IconButton
               edge="start"
               className={classes.menuButton}
@@ -86,7 +86,7 @@ export default function SwipeableTemporaryDrawer() {
             >
               <Menu />
             </IconButton>
-          </ClassHeader>
+          </ClassHeader> */}
 
           <SwipeableDrawer
             anchor={anchor}

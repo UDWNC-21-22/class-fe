@@ -32,9 +32,11 @@ const MemberList = () => {
     const [memberList, setMemberList] = useState();
     const [classmatesNumber, setClassmatesNumber] = useState(Names.length);
 
+    
+
     return (
         <div>
-            <Drawer />
+            {/* <Drawer /> */}
             <Container fixed >
                 <div className={styles.container}>
                     <Table className={styles.role}>

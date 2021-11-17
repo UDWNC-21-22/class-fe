@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Drawer,JoinedClasses } from "..";
+import { Drawer, JoinedClasses } from "..";
 import { useLocalContext } from "../../context/context";
 import classApi from '../../apis/class.api';
 import authApi from '../../apis/auth.api';
@@ -9,17 +9,17 @@ const Home = () => {
   const { dataClassCreate, setDataClassCreate } = useLocalContext();
   const { dataInfo, setDataInfo } = useLocalContext();
 
-  useEffect(() => {
+  useEffect(() => { 
     const fetchData = async () => {
-      try {  
+      try {
         let response = await authApi.getInfo()
         console.log("response: ", response)
-  
+
         // set response.data to global state user
         setDataInfo(response.data);
       }
       catch (err) {
-          console.log("ERROR login, err: ", err)
+        console.log("ERROR login, err: ", err)
       }
 
       try {
@@ -30,24 +30,24 @@ const Home = () => {
         setDataClassJoined(response.data.classMember)
       }
       catch (err) {
-          console.log("ERROR login, err: ", err)
+        console.log("ERROR login, err: ", err)
       }
     };
     fetchData();
-  },[dataClassCreate, setDataClassCreate, dataClassJoined, setDataClassJoined,dataInfo, setDataInfo]);
-  
+  }, []);
+
   return (
     <div>
-        <Drawer />
-            <ol className="joined">
-            {dataClassCreate.map((item) => (
-              <JoinedClasses classData={item} />
-            ))}            
-            
-            {dataClassJoined.map((item) => (
-              <JoinedClasses classData={item} />
-            ))}
-          </ol>
+      {/* <Drawer /> */}
+      <ol className="joined">
+        {dataClassCreate.map((item) => (
+          <JoinedClasses classData={item} />
+        ))}
+
+        {dataClassJoined.map((item) => (
+          <JoinedClasses classData={item} />
+        ))}
+      </ol>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import { Avatar, Button, Container, Grid, makeStyles, Paper, TextField, Typography, Box } from "@material-ui/core";
 import React, { useState } from "react";
-import Drawer from '../Drawer/Drawer'
-import authApi from "../../apis/auth.api";
+import { useLocalContext } from "../../context/context";
 
 const useStyles = makeStyles(themes => ({
     container: {
@@ -54,10 +53,13 @@ const Profile = () => {
         return saved;
     })
 
+    const {dataInfo} = useLocalContext();
+
     return (
         <div>
-            <Drawer />
+            {/* <Drawer /> */}
             <Container >
+                {console.log(dataInfo)}
                 <Box className={styles.container}>
                     <Paper className={styles.root}>
                         <Grid className={styles.grid}>
@@ -67,16 +69,16 @@ const Profile = () => {
                             <Grid>
                                 <Typography>FullName</Typography>
                                 <TextField fullWidth
-                                    value={FullName}
+                                    value={dataInfo.fullname}
                                     onChange={e=>{setFullName(e.target.value)}}
                                 />
                                 <Typography>Email</Typography>
                                 <TextField fullWidth
-                                    value={Email}
+                                    value={dataInfo.email}
                                     onChange={e=>{setEmail(e.target.value)}}
                                 />
                                 <Typography>User Name</Typography>
-                                <Typography>{UserName}</Typography>
+                                <Typography>{dataInfo.username}</Typography>
                             </Grid>
                         </Grid>
                     </Paper>

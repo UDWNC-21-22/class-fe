@@ -1,6 +1,6 @@
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core";
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
@@ -36,4 +36,8 @@ export const useStyles = makeStyles(() => ({
     color: "#5f6368",
     cursor: "pointer",
   },
+  nav: {
+    display: 'flex',
+    textAlign: 'center'
+  }
 }));
