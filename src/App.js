@@ -37,6 +37,7 @@ function App() {
   //   }
   // ])
   // return element
+  const{dataInfo}=useLocalContext();
 
   return (
     <>
@@ -48,7 +49,7 @@ function App() {
           <Route path='/home' exact element={<Home />} />
           <Route path='/profile' exact element={<Profile />} />
           <Route path='/grade' exact element={<GradesList />} />
-          <Route path='/class' element={<SwipeableTemporaryDrawer />} />
+          <Route path="`/${dataInfo.username}`" element={<SwipeableTemporaryDrawer />} />
           <Route path='/memberlist' element={<MemberList />} />
         </Routes>
       </Router>

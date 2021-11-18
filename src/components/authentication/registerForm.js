@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, Paper, Avatar, Typography, TextField, Button } from '@material-ui/core'
+import { Grid, Paper, Avatar, Typography, TextField, Button, Divider, makeStyles } from '@material-ui/core'
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -8,11 +8,20 @@ import { cookie } from 'react-cookies';
 import authApi from '../../apis/auth.api';
 import severity from '../Notifications/severity';
 
+const useStyles = makeStyles((theme) => ({
+    divider: {
+        background: theme.palette.divider,
+        marginTop: '10px',
+        backgroundColor: 'black'
+    }
+}))
+
 const Signup = () => {
     const paperStyle = { padding: '30px 20px', width: 300, margin: "20px auto" }
     const headerStyle = { margin: 0 }
     const avatarStyle = { backgroundColor: '#1bbd7e' }
     const marginTop = { marginTop: 5 }
+    const classes = useStyles();
 
     const [FullName, setFullName] = useState('');
     const [Email, setEmail] = useState('');
@@ -72,7 +81,7 @@ const Signup = () => {
                     message: 'Successed! Please login to continue',
                     type: 'success'
                 })
-                
+
                 window.open("/", "_self", "")
             }
         }
@@ -101,6 +110,8 @@ const Signup = () => {
                         <h2 style={headerStyle}>Sign Up</h2>
                         <Typography variant='caption' gutterBottom>Please fill this form to create an account !</Typography>
                     </Grid>
+                    <Button fullWidth  variant='contained' color='primary' style={{ marginTop: '10px' }}>Register with google</Button>
+                    <Divider className={classes.divider} />
                     <form onSubmit={handleSubmit}>
                         <TextField fullWidth
                             label='Full Name'
