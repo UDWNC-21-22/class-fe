@@ -42,30 +42,6 @@ const Signup = () => {
         return true;
     }
 
-    const login = async () => {
-        try {
-
-            let response = await authApi.login({ username: UserName, password: Password })
-            console.log("response: ", response)
-
-            // set access_token to cookie
-            cookie.save('access_token', response.data?.access_token)
-            alert(response.message)
-            window.open("/home", "_self", "")
-        }
-        catch (err) {
-            console.log("ERROR login, err: ", err)
-
-            if (Object.keys(err).length > 0) {
-                alert(err?.message)
-            }
-            else {
-                // An error has occurred
-                alert('An error has occurred')
-            }
-        }
-    }
-
     const handleSubmit = async (e) => {
         try {
             e.preventDefault();
@@ -110,8 +86,6 @@ const Signup = () => {
                         <h2 style={headerStyle}>Sign Up</h2>
                         <Typography variant='caption' gutterBottom>Please fill this form to create an account !</Typography>
                     </Grid>
-                    <Button fullWidth  variant='contained' color='primary' style={{ marginTop: '10px' }}>Register with google</Button>
-                    <Divider className={classes.divider} />
                     <form onSubmit={handleSubmit}>
                         <TextField fullWidth
                             label='Full Name'

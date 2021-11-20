@@ -28,6 +28,7 @@ const Header = ({ children }) => {
   }
 
   const {
+    dataInfo,
     setCreateClassDialog,
     setJoinClassDialog
   } = useLocalContext();
@@ -61,7 +62,10 @@ const Header = ({ children }) => {
               Classroom
             </Typography>
           </div>
-          <div >
+          {
+            dataInfo.access_token == undefined?
+            <></>:
+            <div >
             <Box sx={{ width: '100%' }}>
               <Tabs value={selectedTab} onChange={handleChangePage} aria-label="nav tabs example">
                 <LinkTab label="Class" href="/" />
@@ -70,7 +74,11 @@ const Header = ({ children }) => {
 
             </Box>
           </div>
-          <div className={classes.header__wrapper__right}>
+          }
+          {
+            dataInfo.access_token == undefined?
+            <></>:
+            <div className={classes.header__wrapper__right}>
             <Add onClick={handleClick} className={classes.icon} />
             <Apps className={classes.icon} />
             <Menu
@@ -137,6 +145,7 @@ const Header = ({ children }) => {
               </Menu>
             </div>
           </div>
+          }
         </Toolbar>
       </AppBar>
       <CreateClass />
