@@ -58,7 +58,7 @@ const Signup = () => {
                     type: 'success'
                 })
 
-                window.open("/", "_self", "")
+                window.open("/home", "_self", "")
             }
         }
         catch (err) {

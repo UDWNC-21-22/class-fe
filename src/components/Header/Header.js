@@ -30,7 +30,8 @@ const Header = ({ children }) => {
   const {
     dataInfo,
     setCreateClassDialog,
-    setJoinClassDialog
+    setJoinClassDialog,
+    classDetail
   } = useLocalContext();
 
   const handleCreate = () => {
@@ -63,7 +64,7 @@ const Header = ({ children }) => {
             </Typography>
           </div>
           {
-            dataInfo.access_token == undefined?
+            classDetail?.id == undefined?
             <></>:
             <div >
             <Box sx={{ width: '100%' }}>
