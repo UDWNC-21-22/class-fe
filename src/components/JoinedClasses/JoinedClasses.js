@@ -8,8 +8,10 @@ const JoinedClasses = ({ classData }) => {
   const { dataInfo } = useLocalContext();
   /*
   const image="../../img/"+idOwner.substr(idOwner.length-1)+".jpg";
-  console.log("link: ",image);
+  
   */
+  console.log("owner: ",classData.owner)
+
   return (
     <li className="joined__list">
       <div className="joined__wrapper">
@@ -22,9 +24,11 @@ const JoinedClasses = ({ classData }) => {
               <h2>{classData.name}</h2>
               <p>{classData.description}</p>
             </Link>
-            <p className="joined__owner">
-              {classData.ownerId!==dataInfo.id ? dataInfo.username :null}
-            </p>
+            {classData.owner.map((item)=>(
+              <p className="joined__owner">
+                {item.id!==dataInfo.id ? item.username :null}
+              </p>
+            ))}
           </div>
         </div>
         <Avatar
