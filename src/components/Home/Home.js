@@ -35,6 +35,7 @@ const Home = () => {
         // set response.data to global state user
         setDataClassCreate(response.data.classOwner)
         setDataClassJoined(response.data.classMember)
+        console.log(response.data.classMember)
       }
       catch (err) {
         console.log("ERROR login, err: ", err)
