@@ -43,7 +43,8 @@ const Login = () => {
             context.setContext(response.data);
             console.log(context.dataInfo);
             // set access_token to cookie
-            cookie.save('access_token', response.data?.access_token)
+            cookie.save('access_token', response.data?.access_token);
+            cookie.save('user_data', response.data);
             alert(response.message)
             setChecked(!check)
             //window.open("/home", "_self", "")
