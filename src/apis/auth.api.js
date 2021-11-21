@@ -1,7 +1,7 @@
 import AxiosBasic from "../services/api";
 import urls from './urls'
 
-const login = ({username, password}) => {
+const login = async ({username, password}) => {
     return AxiosBasic({
         url: urls.login,
         method: 'POST',
@@ -12,7 +12,7 @@ const login = ({username, password}) => {
     })
 }
 
-const register = ({username, password, fullname, email}) => {
+const register = async ({username, password, fullname, email}) => {
     return AxiosBasic({
         url: urls.register,
         method: 'POST',
@@ -25,7 +25,7 @@ const register = ({username, password, fullname, email}) => {
     })
 }
 
-const getInfo = () => {
+const getInfo = async () => {
     return AxiosBasic({
         url: urls.info,
         method: 'GET'

@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import Signup from "./components/authentication/registerForm";
 import Login from "./components/authentication/loginForm";
 import Home from "./components/Home/Home";
@@ -37,14 +38,14 @@ function App() {
   //   }
   // ])
   // return element
-  const{dataInfo}=useLocalContext();
+  const [isLogin, setIsLogin] = useState(true);
 
   return (
     <>
       <Router>
         <Header />
         <Routes>
-          <Route path='/' exact element={<Login />} />
+          <Route path='/' exact element={<Login isLogin={isLogin} setIsLogin={setIsLogin}/>} />
           <Route path='/register' exact element={<Signup />} />
           <Route path='/home' exact element={<Home />} />
           <Route path='/profile' exact element={<Profile />} />

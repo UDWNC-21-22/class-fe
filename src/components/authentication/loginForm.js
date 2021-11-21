@@ -8,6 +8,7 @@ import Signup from './registerForm';
 import authApi from '../../apis/auth.api';
 import cookie from 'react-cookies';
 import { GoogleLogin } from 'react-google-login';
+import { useLocalContext } from '../../context/context';
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -27,26 +28,27 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [check, setChecked] = useState(false);
+    const context = useLocalContext();
 
-    const setData = (data) => {
-        localStorage.setItem("username", data.username);
-        localStorage.setItem("fullname", data.fullname);
-        localStorage.setItem("email", data.email);
+    const updateData = async (response) => {
+        //setDataInfo(response.data);
+        //console.log(dataInfo);
     }
 
-    const login = async (e) => {
+    const login = async e => {
         try {
             e.preventDefault()
 
-            let response = await authApi.login({ username, password })
-            console.log("response: ", response.data)
-            console.log(1);
-            setData(response.data);
+            const response = await authApi.login({ username, password })
+            context.setContext(response.data);
+            console.log(context.dataInfo);
             // set access_token to cookie
             cookie.save('access_token', response.data?.access_token)
             alert(response.message)
             setChecked(!check)
-            window.open("/home", "_self", "")
+            //window.open("/home", "_self", "")
+
+
         }
         catch (err) {
             console.log("ERROR login, err: ", err)
@@ -82,7 +84,7 @@ const Login = () => {
                         <Avatar style={avatarStyle}><LockOutlinedIcon /></Avatar>
                         <h2>Sign In</h2>
                     </Grid>
-                    
+
                     <GoogleLogin
                         clientId="492338854152-ko1a3rle97tas7umfj8csll5phi81rfh.apps.googleusercontent.com"
                         render={renderProps => (
@@ -95,7 +97,7 @@ const Login = () => {
                     />
                     <Divider className={classes.divider} />
                 </div>
-                <form onSubmit={(e) => login(e)}>
+                <form onSubmit={login}>
 
                     <TextField onChange={(e) => setUsername(e.target.value)} label='Username' placeholder='Enter username' fullWidth required />
                     <TextField onChange={(e) => setPassword(e.target.value)} label='Password' placeholder='Enter password' type='password' fullWidth required />
@@ -108,7 +110,7 @@ const Login = () => {
                         }
                         label="Remember me"
                     />
-                    <Button type='submit' color='primary' variant="contained" style={btnstyle} onClick={handleSubmit} fullWidth>
+                    <Button type='submit' color='primary' variant="contained" style={btnstyle} fullWidth>
                         Sign in
                     </Button>
                     <Typography >

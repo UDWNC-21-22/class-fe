@@ -77,7 +77,7 @@ const Header = ({ children }) => {
           </div>
           }
           {
-            dataInfo.access_token == undefined?
+            dataInfo?.access_token == undefined?
             <></>:
             <div className={classes.header__wrapper__right}>
             <Add onClick={handleClick} className={classes.icon} />
@@ -150,8 +150,8 @@ const Header = ({ children }) => {
         </Toolbar>
       </AppBar>
       <CreateClass />
-      {selectedTab === 0 && <Home />}
-      {selectedTab === 1 && <MemberList />}
+      {/* {selectedTab === 0 && <Home />}
+      {selectedTab === 1 && <MemberList />} */}
     </div>
   );
 };
