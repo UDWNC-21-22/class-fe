@@ -1,14 +1,13 @@
 import { AppBar, Toolbar, Typography, Avatar, Menu, MenuItem, Divider, ListItemIcon, IconButton, Tabs, Box } from "@material-ui/core";
-import { PersonAdd, Settings } from "@material-ui/icons";
 import { Add, Apps, Logout } from "@mui/icons-material";
 import React from "react";
-import { CreateClass, Home } from "..";
+import { CreateClass } from "..";
 import { useLocalContext } from "../../context/context";
 import { useStyles } from "./style";
 import { Link } from 'react-router-dom';
 import LinkTab from "./LinkTab";
-import MemberList from "../MemberList/MemberList";
-import SwipeableTemporaryDrawer from "../ClassDetail/ClassDetail"
+import authApi from "../../apis/auth.api";
+import cookie from 'react-cookies';
 
 const Header = ({ children }) => {
   const classes = useStyles();
@@ -31,7 +30,8 @@ const Header = ({ children }) => {
     dataInfo,
     setCreateClassDialog,
     setJoinClassDialog,
-    classDetail
+    classDetail,
+    setDataInfo,
   } = useLocalContext();
 
   const handleCreate = () => {
@@ -50,6 +50,28 @@ const Header = ({ children }) => {
   const handleChangePage = (event, newValue) => {
     setSelectedTab(newValue);
   };
+
+  //Log out
+  const logout = async () => {
+    try{
+      await authApi.logout();
+      cookie.remove('user_data');
+      cookie.remove('access_token');
+      setDataInfo({});
+      //console.log(cookie.load('access_token'));
+    }
+    catch(err){
+      console.log("ERROR login, err: ", err)
+
+            if (Object.keys(err).length > 0) {
+                alert(err?.message)
+            }
+            else {
+                // An error has occurred
+                alert('An error has occurred')
+            }
+    }
+  }
 
 
   return (
@@ -128,7 +150,7 @@ const Header = ({ children }) => {
                   },
                 }}
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                
               >
                 <MenuItem component={Link} to='profile'>
                   <Avatar /> Profile
@@ -137,7 +159,7 @@ const Header = ({ children }) => {
                   <Avatar /> Grades
                 </MenuItem>
                 <Divider />
-                <MenuItem>
+                <MenuItem onClick={logout}>
                   <ListItemIcon>
                     <Logout fontSize="small" />
                   </ListItemIcon>

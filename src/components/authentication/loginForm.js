@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, Paper, Avatar, TextField, Button, Typography, Link, Divider, styled, makeStyles } from '@material-ui/core'
-import { Navigate } from 'react-router-dom';
+import { Grid, Paper, Avatar, TextField, Button, Typography, Link, Divider, makeStyles } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Signup from './registerForm';
 import authApi from '../../apis/auth.api';
 import cookie from 'react-cookies';
 import { GoogleLogin } from 'react-google-login';

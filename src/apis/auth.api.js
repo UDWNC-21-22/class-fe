@@ -25,6 +25,13 @@ const register = async ({username, password, fullname, email}) => {
     })
 }
 
+const logout = async () => {
+    return AxiosBasic({
+        url: urls.logout,
+        method: 'GET'
+    })
+}
+
 const getInfo = async () => {
     return AxiosBasic({
         url: urls.info,
@@ -35,6 +42,7 @@ const getInfo = async () => {
 const authApi = {
     login,
     register,
+    logout,
     getInfo
 }
 

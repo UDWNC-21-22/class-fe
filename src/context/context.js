@@ -19,11 +19,6 @@ export function ContextProvider({ children }) {
   const [dataClassJoined, setDataClassJoined] = useState([]);
   const [classDetail, setClassDetail]=useState();
 
-  const setContext = (data) => {
-    setDataInfo(data);
-  }
-
-
   const value = {
     createClassDialog, setCreateClassDialog,
     joinClassDialog, setJoinClassDialog,
@@ -33,7 +28,6 @@ export function ContextProvider({ children }) {
     dataClassCreate, setDataClassCreate,
     dataClassJoined, setDataClassJoined,
     classDetail, setClassDetail,
-    setContext,
   };
   return <AddContext.Provider value={value}>{children}</AddContext.Provider>;
 }
