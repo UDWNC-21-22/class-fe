@@ -10,29 +10,19 @@ const Home = () => {
   const { dataInfo, setDataInfo } = useLocalContext();
   const [reloadClass, setReloadClass] = useState(true);
 
-  useEffect(() => {
-    setInterval(() => {
-      setReloadClass(false);
-    }, 5000);
-  }, [])
+  useEffect(async () => {
+    try {
+      let response = await classApi.getClasses()
 
-  useEffect(() => { 
-    const fetchData = async () => {
-      try {
-        let response = await classApi.getClasses()
-  
-        // set response.data to global state user
-        setDataClassCreate(response.data.classOwner)
-        setDataClassJoined(response.data.classMember)
-      }
-      catch (err) {
+      // set response.data to global state user
+      setDataClassCreate(response.data.classOwner)
+      setDataClassJoined(response.data.classMember)
+    }
+    catch (err) {
         console.log("ERROR login, err: ", err)
-      }
-    };
-    fetchData();
-    setReloadClass(true);
-  }, [reloadClass]);
-
+    }
+  },[]);
+  
   return (
     <div>
       {/* <Drawer /> */}
