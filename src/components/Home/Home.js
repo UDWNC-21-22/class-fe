@@ -9,32 +9,29 @@ const Home = () => {
   const { dataClassCreate, setDataClassCreate } = useLocalContext();
   const { dataInfo, setDataInfo } = useLocalContext();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {  
-        let response = await authApi.getInfo()
-        console.log("response: ", response)
-  
-        // set response.data to global state user
-        setDataInfo(response.data);
-      }
-      catch (err) {
-          console.log("ERROR login, err: ", err)
-      }
+  useEffect(async () => {
+    // try {  
+    //   let response = await authApi.getInfo()
+    //   console.log("response: ", response)
 
-      try {
-        let response = await classApi.getClasses()
+    //   // set response.data to global state user
+    //   setDataInfo(response.data);
+    // }
+    // catch (err) {
+    //     console.log("ERROR login, err: ", err)
+    // }
 
-        // set response.data to global state user
-        setDataClassCreate(response.data.classOwner)
-        setDataClassJoined(response.data.classMember)
-      }
-      catch (err) {
-          console.log("ERROR login, err: ", err)
-      }
-    };
-    fetchData();
-  },[dataClassCreate, setDataClassCreate, dataClassJoined, setDataClassJoined,dataInfo, setDataInfo]);
+    try {
+      let response = await classApi.getClasses()
+
+      // set response.data to global state user
+      setDataClassCreate(response.data.classOwner)
+      setDataClassJoined(response.data.classMember)
+    }
+    catch (err) {
+        console.log("ERROR login, err: ", err)
+    }
+  },[]);
   
   return (
     <div>
