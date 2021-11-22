@@ -1,7 +1,10 @@
-import { Avatar, Button, Container, Grid, makeStyles, Paper, TextField, Typography, Box } from "@material-ui/core";
+import { Button, Container, Grid, makeStyles, Paper, TextField, Typography, Box } from "@material-ui/core";
 import React, { useState } from "react";
-import Drawer from '../Drawer/Drawer'
 import authApi from "../../apis/auth.api";
+import { useLocalContext } from "../../context/context";
+import Notification from "../Notifications/Notification";
+import severity from "../Notifications/severity";
+import cookie from 'react-cookies';
 
 const useStyles = makeStyles(themes => ({
     container: {
@@ -36,74 +39,148 @@ const dummy = {
 }
 
 const Profile = () => {
-    let user;
+    const { dataInfo, setDataInfo } = useLocalContext();
     const styles = useStyles();
-    const [FullName, setFullName] = useState(()=>{
-        const saved = localStorage.getItem('fullname');
-        //const init = JSON.parse(saved);
-        return saved || '';
-    });
-    const [UserName, setUserName] = useState(()=>{
-        const saved = localStorage.getItem("username");
-        //const init = JSON.parse(saved);
-        return saved;
-    })
-    const [Email, setEmail] = useState(()=>{
-        const saved = localStorage.getItem("email");
-        //const init = JSON.parse(saved);
-        return saved;
-    })
+    const [isChangeProfile, setIsChangeProfile] = useState(false);
+    const [currentFullName, setFullName] = useState(dataInfo.fullname);
+    const [currentEmail, setEmail] = useState(dataInfo.email)
+
+    /**
+     * change password
+     */
+    const [isChangePassword, setIsChangePassword] = useState(false);
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [changePassword, setChangePassword] = useState('');
+    const [confirmChangePassword, setConfirmChangePassword] = useState('');
+
+    const [Notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+
+    const updateProfile = async (e) => {
+        try {
+            e.preventDefault();
+            console.log(currentEmail);
+            await authApi.changeProfile({ fullname: currentFullName, email: currentEmail });
+            setNotify({
+                isOpen: true,
+                message: 'Change successed',
+                type: severity.success
+            })
+            const newData = await authApi.getInfo();
+            setDataInfo(newData.data);
+            setIsChangeProfile(false);
+            cookie.save("user_data", newData.data);
+        }
+        catch (err) {
+
+        }
+    }
+
+    const updatePassword = async e => {
+        try {
+            e.preventDefault();
+
+            const data = await authApi.changePassword({ curPass: currentPassword, changePass: changePassword, confirmPass: confirmChangePassword })
+            console.log(data);
+            setNotify({
+                isOpen: true,
+                message: 'Change successed',
+                type: severity.success
+            })
+        }
+        catch (err) {
+            if (Object.keys(err).length > 0) {
+                setNotify({
+                    isOpen: true,
+                    message: err?.message,
+                    type: severity.error
+                })
+            }
+            else {
+                // An error has occurred
+                alert('An error has occurred')
+            }
+        }
+    }
 
     return (
         <div>
-            <Drawer />
+            {/* <Drawer /> */}
             <Container >
+                {console.log(dataInfo)}
                 <Box className={styles.container}>
                     <Paper className={styles.root}>
                         <Grid className={styles.grid}>
                             <Grid>
                                 <Typography>Thông tin cá nhân</Typography>
                             </Grid>
-                            <Grid>
-                                <Typography>FullName</Typography>
-                                <TextField fullWidth
-                                    value={FullName}
-                                    onChange={e=>{setFullName(e.target.value)}}
-                                />
-                                <Typography>Email</Typography>
-                                <TextField fullWidth
-                                    value={Email}
-                                    onChange={e=>{setEmail(e.target.value)}}
-                                />
-                                <Typography>User Name</Typography>
-                                <Typography>{UserName}</Typography>
-                            </Grid>
+                            {
+                                isChangeProfile == false ?
+                                    <Grid>
+                                        <Typography>FullName</Typography>
+                                        <Typography>{currentFullName}</Typography>
+                                        <Typography>Email</Typography>
+                                        <Typography>{currentEmail}</Typography>
+                                        <Typography>User Name</Typography>
+                                        <Typography>{dataInfo.username}</Typography>
+                                        <Button onClick={() => setIsChangeProfile(true)}>Change</Button>
+                                    </Grid> :
+                                    <form onSubmit={updateProfile}>
+                                        <Grid>
+                                            <Typography>FullName</Typography>
+                                            <TextField fullWidth
+                                                value={currentFullName}
+                                                onChange={e => { setFullName(e.target.value) }}
+                                            />
+
+                                            <Typography>Email</Typography>
+                                            <TextField fullWidth
+                                                value={currentEmail}
+                                                onChange={e => { setEmail(e.target.value) }}
+                                            />
+
+                                            <Typography>User Name</Typography>
+                                            <Typography>{dataInfo.username}</Typography>
+                                            <Button type='submit'>Update</Button>
+
+                                        </Grid>
+                                    </form>
+                            }
+
                         </Grid>
                     </Paper>
                     <Paper className={styles.root}>
                         <Grid className={styles.grid}>
-                            <form className={styles.changePassword}>
+                            <form className={styles.changePassword} onSubmit={updatePassword}>
                                 <Typography>
                                     Change password
                                 </Typography>
                                 <TextField fullWidth
                                     label='Current Password'
                                     placeholder='Enter curent password'
-                                    type='password' />
+                                    type='password'
+                                    onChange={e => { setCurrentPassword(e.target.value) }}
+                                />
                                 <TextField fullWidth
                                     label='New Password'
                                     placeholder='Enter new password'
-                                    type='password' />
+                                    type='password'
+                                    onChange={e => { setChangePassword(e.target.value) }}
+                                />
                                 <TextField fullWidth
                                     label='Confirm Password'
-                                    placeholder='Re-enter new password' 
-                                    type='password'/>
-                                <Button>Change Password</Button>
+                                    placeholder='Re-enter new password'
+                                    type='password'
+                                    onChange={e => { setConfirmChangePassword(e.target.value) }}
+                                />
+                                <Button type='submit'>Change Password</Button>
                             </form>
                         </Grid>
                     </Paper>
                 </Box>
             </Container>
+            <Notification
+                Notify={Notify}
+                setNotify={setNotify} />
         </div>
     )
 }

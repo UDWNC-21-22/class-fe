@@ -5,9 +5,9 @@ import Drawer from '../Drawer/Drawer'
 import { color } from "@mui/system";
 
 const Names = [
-    { id: '1', FullName: "Đình Khôi" },
-    { id: '2', FullName: 'Hồ An' },
-    { id: '3', FullName: 'Trâm Ngân' }
+    { id: '1', FullName: "Đình Khôi", grade:10 },
+    { id: '2', FullName: 'Hồ An', grade:10 },
+    { id: '3', FullName: 'Trâm Ngân', grade:10 }
 ]
 
 const useStyles = makeStyles(theme => ({
@@ -32,9 +32,11 @@ const MemberList = () => {
     const [memberList, setMemberList] = useState();
     const [classmatesNumber, setClassmatesNumber] = useState(Names.length);
 
+    
+
     return (
         <div>
-            <Drawer />
+            {/* <Drawer /> */}
             <Container fixed >
                 <div className={styles.container}>
                     <Table className={styles.role}>
@@ -77,6 +79,7 @@ const MemberList = () => {
                                     <TableRow>
                                         <TableCell className={styles.tableCell}><Avatar /></TableCell>
                                         <TableCell>{item.FullName}</TableCell>
+                                        <TableCell>{item.grade}</TableCell>
                                     </TableRow>
                                 ))
                             }

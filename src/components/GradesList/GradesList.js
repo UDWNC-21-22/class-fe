@@ -21,6 +21,8 @@ const rows = [
 ];
 
 export default function GradesList() {
+
+    
     return (
         <Container>
             <TableContainer component={Paper}>

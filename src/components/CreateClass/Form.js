@@ -11,7 +11,7 @@ const Form = () => {
   const [name, setClassName] = useState("");
   const [description, setDescription] = useState("");
 
-  const { setCreateClassDialog } = useLocalContext();
+  const { dataClassCreate, setCreateClassDialog, setDataClassCreate } = useLocalContext();
 
   const handleSubmit = async (e) => {
     try {
@@ -19,7 +19,10 @@ const Form = () => {
         let userID=dataInfo.id
 
         let response = await classApi.createClass({ name, description, userID })
-        console.log("response: ", response)
+        setDataClassCreate([
+          ...dataClassCreate,
+          response.data
+        ])
         setCreateClassDialog(false);
         setShowForm(false);
     }
