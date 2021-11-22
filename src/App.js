@@ -5,9 +5,8 @@ import Home from "./components/Home/Home";
 import Profile from './components/Profile/Profile';
 import GradesList from "./components/GradesList/GradesList";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import MemberList from "./components/MemberList/MemberList";
+import ClassDetail from "./components/ClassDetail/ClassDetail";
 import { Header } from "./components";
-import ClassDetail from "./components/ClassDetail/ClassDetail"
 import { useLocalContext } from './context/context'
 
 function App() {
@@ -24,7 +23,7 @@ function App() {
           <Route path='/profile' exact element={<Profile />} />
           <Route path='/grade' exact element={<GradesList />} />
           {/* <Route path='/memberlist' element={<MemberList />} /> */}
-          <Route path='/:id' element={<ClassDetail />} />
+          <Route path='/classdetail' element={<ClassDetail />} />
         </Routes>
       </Router>
     </>

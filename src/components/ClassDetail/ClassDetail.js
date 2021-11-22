@@ -1,103 +1,59 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-// import ClassHeader from './ClassHeader';
-import { Menu } from "@material-ui/icons";
-import { IconButton } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import React,{useState,useEffect} from 'react';
+import { useLocalContext } from "../../context/context";
+import "./style.css";
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
 
-const useStyles = makeStyles({
-  list: {
-    width: 250,
-  },
-  fullList: {
-    width: "auto",
-  },
-});
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'left',
+  color: theme.palette.text.secondary,
+}));
 
-export default function SwipeableTemporaryDrawer() {
-  const [state, setState] = React.useState({
-    top: false
-  });
+export default function ClassDetail() {
+  const {classDetail} = useLocalContext();
+  const { dataInfo } = useLocalContext();
 
-  const classes = useStyles();
-
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event &&
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
-    ) {
-      return;
+  const [code,setCode]=useState();
+  
+  useEffect(() => {
+  const _code= classDetail.owner.map((item)=>{
+    let temp;
+    if (item.id===dataInfo.id) {temp=classDetail.code}
+    if (temp){
+      return(
+        <Item>
+        <p>CODE:
+          {
+            (temp) 
+            ? <h3>{temp}</h3>
+            :null
+          }
+          </p>
+        </Item>
+      )
     }
+    return <></>
+  });
+  setCode(_code)
+},[]);
 
-    setState({ ...state, [anchor]: open });
-  };
-
-  const list = (anchor) => (
-    <Box
-      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
-
+                
   return (
-    <div>
-      {['left'].map((anchor) => (
-        <React.Fragment key={anchor}>
-          {/* <ClassHeader>
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="menu"
-              onClick={toggleDrawer(anchor, true)}
-            >
-              <Menu />
-            </IconButton>
-          </ClassHeader> */}
-
-          <SwipeableDrawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-            onOpen={toggleDrawer(anchor, true)}
-          >
-            {list(anchor)}
-          </SwipeableDrawer>
-        </React.Fragment>
-      ))}
+    <div className="list">
+    <div className="wrapper">
+      <div className="container">
+        <div className="image" />
+        <div className="content">
+          <div className="title">
+            <h1>{classDetail.name}</h1>
+            <p>{classDetail.description}</p>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div>{code}</div>
     </div>
   );
 }

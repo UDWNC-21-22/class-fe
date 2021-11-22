@@ -6,11 +6,7 @@ import { useLocalContext } from "../../context/context";
 import "./style.css";
 const JoinedClasses = ({ classData }) => {
   const { dataInfo } = useLocalContext();
-  /*
-  const image="../../img/"+idOwner.substr(idOwner.length-1)+".jpg";
-  
-  */
-  console.log("owner: ",classData.owner)
+  const {setClassDetail} = useLocalContext();
 
   return (
     <li className="joined__list">
@@ -20,7 +16,9 @@ const JoinedClasses = ({ classData }) => {
           </div>
           <div className="joined__image" />
           <div className="joined__content">
-            <Link className="joined__title" to={`/${classData.id}`}>
+            <Link className="joined__title" to="/classdetail" onClick={()=>{
+              setClassDetail(classData)
+            }}>
               <h2>{classData.name}</h2>
               <p>{classData.description}</p>
             </Link>

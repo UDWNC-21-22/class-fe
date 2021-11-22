@@ -17,7 +17,7 @@ export function ContextProvider({ children }) {
   const [dataInfo, setDataInfo] = useState(cookie.load('user_data'));
   const [dataClassCreate, setDataClassCreate] = useState([]);
   const [dataClassJoined, setDataClassJoined] = useState([]);
-  const [classDetail, setClassDetail]=useState();
+  const [classDetail, setClassDetail]=useState([]);
 
   const value = {
     createClassDialog, setCreateClassDialog,
