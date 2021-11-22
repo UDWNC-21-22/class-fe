@@ -65,6 +65,13 @@ const changeProfile = async ({fullname, email}) => {
     })
 }
 
+const authenticate = ()=>{
+    return AxiosBasic({
+        url: urls.authenticate,
+        method: 'GET'
+    })
+}
+
 const authApi = {
     login,
     register,
@@ -72,6 +79,7 @@ const authApi = {
     getInfo,
     changeProfile,
     changePassword,
+    authenticate
 }
 
 export default authApi

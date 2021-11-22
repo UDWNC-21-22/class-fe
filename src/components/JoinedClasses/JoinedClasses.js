@@ -4,12 +4,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useLocalContext } from "../../context/context";
 import "./style.css";
-const JoinedClasses = ({ classData }) => {
+const JoinedClasses = ({ classData, key }) => {
   const { dataInfo } = useLocalContext();
   const {setClassDetail} = useLocalContext();
 
   return (
-    <li className="joined__list">
+    <li key={key} className="joined__list">
       <div className="joined__wrapper">
         <div className="joined__container">
           <div className="joined__imgWrapper">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect} from 'react'
 import { Grid, Paper, Avatar, TextField, Button, Typography, Link, Divider, makeStyles } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -7,6 +7,9 @@ import authApi from '../../apis/auth.api';
 import cookie from 'react-cookies';
 import { GoogleLogin } from 'react-google-login';
 import { useLocalContext } from '../../context/context';
+import {useNavigate} from 'react-router-dom'
+
+
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -17,6 +20,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Login = () => {
+
+    const navigate = useNavigate()
 
     const paperStyle = { padding: 20, height: '70vh', width: 280, margin: "20px auto" }
     const avatarStyle = { backgroundColor: '#1bbd7e' }
@@ -41,8 +46,8 @@ const Login = () => {
             cookie.save('user_data', response.data);
             alert(response.message)
             setChecked(!check)
-            //window.open("/home", "_self", "")
-
+            // window.open("/home", "_self", "")
+            navigate("/")
 
         }
         catch (err) {
@@ -70,6 +75,8 @@ const Login = () => {
     const googleFailure = (err) => {
         console.log(err);
     }
+
+    
 
     return (
         <Grid>

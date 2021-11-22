@@ -27,13 +27,10 @@ const Home = () => {
     <div>
       {/* <Drawer /> */}
       <ol className="joined">
-        {dataClassCreate.map((item) => (
-          <JoinedClasses classData={item} />
+        {[...dataClassCreate, ...dataClassJoined].map((item, index) => (
+          <JoinedClasses key={index} classData={item} />
         ))}
 
-        {dataClassJoined.map((item) => (
-          <JoinedClasses classData={item} />
-        ))}
       </ol>
     </div>
   );
