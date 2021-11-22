@@ -1,3 +1,4 @@
+import { Axios } from "axios";
 import AxiosBasic from "../services/api";
 import urls from './urls'
 
@@ -39,11 +40,38 @@ const getInfo = async () => {
     })
 }
 
+const changePassword = async ({curPass, changePass, confirmPass}) => {
+    return AxiosBasic({
+        url: urls.changePassword,
+        method: "POST",
+        data:{
+            currentPassword: curPass,
+            changePassword: changePass,
+            confirmPassword: confirmPass
+        }
+    })
+}
+
+const changeProfile = async ({fullname, email}) => {
+    console.log(fullname)
+    console.log(email)
+    return AxiosBasic({
+        url: urls.changeProfile,
+        method: "POST",
+        data:{
+            fullname,
+            email,
+        }
+    })
+}
+
 const authApi = {
     login,
     register,
     logout,
-    getInfo
+    getInfo,
+    changeProfile,
+    changePassword,
 }
 
 export default authApi

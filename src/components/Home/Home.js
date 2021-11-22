@@ -16,14 +16,15 @@ const Home = () => {
     }, 5000);
   }, [])
 
-  useEffect(() => { 
+  useEffect(() => {
     const fetchData = async () => {
       try {
         let response = await classApi.getClasses()
-  
+
         // set response.data to global state user
         setDataClassCreate(response.data.classOwner)
         setDataClassJoined(response.data.classMember)
+        console.log(response.data.classMember)
       }
       catch (err) {
         console.log("ERROR login, err: ", err)
