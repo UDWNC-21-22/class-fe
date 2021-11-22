@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { Grid, Paper, Avatar, Typography, TextField, Button, Divider, makeStyles } from '@material-ui/core'
+import React, { useState } from 'react'
+import { Grid, Paper, Avatar, Typography, TextField, Button, Divider, makeStyles, Link } from '@material-ui/core'
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Notification from '../Notifications/Notification';
-import { cookie } from 'react-cookies';
 import authApi from '../../apis/auth.api';
 import severity from '../Notifications/severity';
 
@@ -125,6 +124,12 @@ const Signup = () => {
                             label="I accept the terms and conditions."
                         />
                         <Button type='submit' variant='contained' color='primary'>Sign up</Button>
+                        <Divider style={{marginTop: '10px'}}/>
+                        <Typography > If you have an account 
+                        <Link href="/" >
+                            Login
+                        </Link>
+                    </Typography>
                     </form>
                 </Paper>
             </Grid>

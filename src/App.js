@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Signup from "./components/authentication/registerForm";
+import Logout from "./components/authentication/registerForm";
 import Login from "./components/authentication/loginForm";
 import Home from "./components/Home/Home";
 import Profile from './components/Profile/Profile';
@@ -7,50 +7,24 @@ import GradesList from "./components/GradesList/GradesList";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MemberList from "./components/MemberList/MemberList";
 import { Header } from "./components";
-import SwipeableTemporaryDrawer from "./components/ClassDetail/ClassDetail"
-import {useLocalContext} from './context/context'
+import ClassDetail from "./components/ClassDetail/ClassDetail"
+import { useLocalContext } from './context/context'
 
 function App() {
-  // const element = useRoutes([
-  //   {
-  //     path: '/',
-  //     element: <Login />
-  //   },
-  //   {
-  //     path: '/register',
-  //     element: <Signup />
-  //   },
-  //   {
-  //     path: '/home',
-  //     element: <Home />
-  //   },
-  //   {
-  //     path: '/people',
-  //     element: <MemberList />
-  //   },
-  //   {
-  //     path: '/profile',
-  //     element: <Profile />
-  //   },
-  //   {
-  //     path: '/grades',
-  //     element: <GradesList />
-  //   }
-  // ])
-  // return element
-  const [isLogin, setIsLogin] = useState(true);
+  const { dataInfo } = useLocalContext();
 
   return (
     <>
       <Router>
         <Header />
         <Routes>
-          <Route path='/' exact element={<Login isLogin={isLogin} setIsLogin={setIsLogin}/>} />
-          <Route path='/register' exact element={<Signup />} />
-          <Route path='/home' exact element={<Home />} />
+          <Route path='/' exact element={dataInfo?.access_token !== undefined ? <Home /> : <Login />} />
+          <Route path='/register' exact element={<Logout />} />
+          {/* <Route path='/home' exact element={<Home />} /> */}
           <Route path='/profile' exact element={<Profile />} />
           <Route path='/grade' exact element={<GradesList />} />
-          <Route path='/memberlist' element={<MemberList />} />
+          {/* <Route path='/memberlist' element={<MemberList />} /> */}
+          <Route path='/:id' element={<ClassDetail />} />
         </Routes>
       </Router>
     </>

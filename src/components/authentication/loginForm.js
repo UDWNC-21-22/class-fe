@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Grid, Paper, Avatar, TextField, Button, Typography, Link, Divider, makeStyles } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -26,20 +26,16 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [check, setChecked] = useState(false);
-    const context = useLocalContext();
-
-    const updateData = async (response) => {
-        //setDataInfo(response.data);
-        //console.log(dataInfo);
-    }
+    const {setDataInfo} = useLocalContext();
 
     const login = async e => {
         try {
             e.preventDefault()
 
             const response = await authApi.login({ username, password })
-            context.setContext(response.data);
-            console.log(context.dataInfo);
+            
+            setDataInfo(response.data);
+
             // set access_token to cookie
             cookie.save('access_token', response.data?.access_token);
             cookie.save('user_data', response.data);

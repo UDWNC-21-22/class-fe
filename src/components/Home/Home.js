@@ -16,39 +16,27 @@ const Home = () => {
     }, 5000);
   }, [])
 
+  const fetchData = async () => {
+    try {
+      let response = await classApi.getClasses()
+
+      // set response.data to global state user
+      setDataClassCreate(response.data.classOwner)
+      setDataClassJoined(response.data.classMember)
+    }
+    catch (err) {
+      console.log("ERROR login, err: ", err)
+    }
+  };
+
   useEffect(() => { 
-    const fetchData = async () => {
-      // try {
-      //   let response = await authApi.getInfo()
-      //   console.log("response: ", response)
-      //   console.log(typeof response.data);
-      //   // set response.data to global state user
-      //   setDataInfo(response.data);
-      // }
-      // catch (err) {
-      //   console.log("ERROR login, err: ", err)
-      // }
-
-      try {
-        let response = await classApi.getClasses()
-
-        // set response.data to global state user
-        setDataClassCreate(response.data.classOwner)
-        setDataClassJoined(response.data.classMember)
-        console.log(response.data.classMember)
-      }
-      catch (err) {
-        console.log("ERROR login, err: ", err)
-      }
-    };
     fetchData();
     setReloadClass(true);
-  }, [reloadClass]);
+  }, [1]);
 
   return (
     <div>
       {/* <Drawer /> */}
-      {console.log('data info', dataInfo)}
       <ol className="joined">
         {dataClassCreate.map((item) => (
           <JoinedClasses classData={item} />
