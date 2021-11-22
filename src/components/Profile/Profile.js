@@ -1,4 +1,4 @@
-import { Avatar, Button, Container, Grid, makeStyles, Paper, TextField, Typography, Box } from "@material-ui/core";
+import { Button, Container, Grid, makeStyles, Paper, TextField, Typography, Box } from "@material-ui/core";
 import React, { useState } from "react";
 import { useLocalContext } from "../../context/context";
 

@@ -16,23 +16,22 @@ const Home = () => {
     }, 5000);
   }, [])
 
-  const fetchData = async () => {
-    try {
-      let response = await classApi.getClasses()
-
-      // set response.data to global state user
-      setDataClassCreate(response.data.classOwner)
-      setDataClassJoined(response.data.classMember)
-    }
-    catch (err) {
-      console.log("ERROR login, err: ", err)
-    }
-  };
-
   useEffect(() => { 
+    const fetchData = async () => {
+      try {
+        let response = await classApi.getClasses()
+  
+        // set response.data to global state user
+        setDataClassCreate(response.data.classOwner)
+        setDataClassJoined(response.data.classMember)
+      }
+      catch (err) {
+        console.log("ERROR login, err: ", err)
+      }
+    };
     fetchData();
     setReloadClass(true);
-  }, [1]);
+  }, [reloadClass]);
 
   return (
     <div>
