@@ -8,8 +8,6 @@ export function useLocalContext() {
 }
 
 export function ContextProvider({ children }) {
-
-
   const [createClassDialog, setCreateClassDialog] = useState(false);
   const [joinClassDialog, setJoinClassDialog] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -17,7 +15,7 @@ export function ContextProvider({ children }) {
   const [dataInfo, setDataInfo] = useState(cookie.load('user_data'));
   const [dataClassCreate, setDataClassCreate] = useState([]);
   const [dataClassJoined, setDataClassJoined] = useState([]);
-  const [classDetail, setClassDetail]=useState([]);
+  const [classDetail, setClassDetail]=useState(cookie.load('class_data'));
 
   const value = {
     createClassDialog, setCreateClassDialog,

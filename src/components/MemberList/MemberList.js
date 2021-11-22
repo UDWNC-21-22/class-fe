@@ -1,14 +1,7 @@
 import React, { useState } from "react";
-import { Avatar, Container, Grid, makeStyles, TableBody, TableCell, TableHead, TableRow, Typography } from '@material-ui/core';
+import { Avatar, Container, makeStyles, TableBody, TableCell, TableRow } from '@material-ui/core';
 import { Table } from "@material-ui/core";
-import Drawer from '../Drawer/Drawer'
-import { color } from "@mui/system";
-
-const Names = [
-    { id: '1', FullName: "Đình Khôi", grade:10 },
-    { id: '2', FullName: 'Hồ An', grade:10 },
-    { id: '3', FullName: 'Trâm Ngân', grade:10 }
-]
+import { useLocalContext } from "../../context/context";
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -29,14 +22,14 @@ const useStyles = makeStyles(theme => ({
 
 const MemberList = () => {
     const styles = useStyles();
-    const [memberList, setMemberList] = useState();
-    const [classmatesNumber, setClassmatesNumber] = useState(Names.length);
+    const {classDetail} = useLocalContext();
+    console.log('classDetail',classDetail)
+    console.log('classDetail length',classDetail.member.length)
 
-    
+    const [classmatesNumber, setClassmatesNumber] = useState(classDetail.member.length);
 
     return (
         <div>
-            {/* <Drawer /> */}
             <Container fixed >
                 <div className={styles.container}>
                     <Table className={styles.role}>
@@ -51,10 +44,10 @@ const MemberList = () => {
                     <Table className={styles.table}>
                         <TableBody>
                             {
-                                Names.map((item) => (
+                                classDetail.owner.map((item) => (
                                     <TableRow>
                                         <TableCell className={styles.tableCell}><Avatar /></TableCell>
-                                        <TableCell>{item.FullName}</TableCell>
+                                        <TableCell>{item.fullname}</TableCell>
                                     </TableRow>
                                 ))
                             }
@@ -75,11 +68,11 @@ const MemberList = () => {
                     <Table className={styles.table}>
                         <TableBody>
                             {
-                                Names.map((item) => (
+                                classDetail.member.map((item) => (
                                     <TableRow>
                                         <TableCell className={styles.tableCell}><Avatar /></TableCell>
-                                        <TableCell>{item.FullName}</TableCell>
-                                        <TableCell>{item.grade}</TableCell>
+                                        <TableCell>{item.fullname}</TableCell>
+                                        {/* <TableCell>{item.grade}</TableCell> */}
                                     </TableRow>
                                 ))
                             }

@@ -3,7 +3,9 @@ import { FolderOpen, PermContactCalendar } from "@material-ui/icons";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useLocalContext } from "../../context/context";
+import cookie from 'react-cookies';
 import "./style.css";
+
 const JoinedClasses = ({ classData }) => {
   const { dataInfo } = useLocalContext();
   const {setClassDetail} = useLocalContext();
@@ -18,6 +20,8 @@ const JoinedClasses = ({ classData }) => {
           <div className="joined__content">
             <Link className="joined__title" to="/classdetail" onClick={()=>{
               setClassDetail(classData)
+
+              cookie.save('class_data', classData);
             }}>
               <h2>{classData.name}</h2>
               <p>{classData.description}</p>

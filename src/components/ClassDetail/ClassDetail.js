@@ -4,6 +4,7 @@ import "./style.css";
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import { Button } from '@material-ui/core'
+import MemberList from '../MemberList/MemberList';
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -18,8 +19,10 @@ export default function ClassDetail() {
   const { dataInfo } = useLocalContext();
   const [code,setCode]=useState();
 
+  console.log('classDetail',classDetail)
+  console.log('classDetail length',classDetail.member.length)
   const handleClick= () => {
-
+    window.open("/memberlist", "_self", "")
   }
 
   useEffect(() => {
@@ -38,11 +41,11 @@ export default function ClassDetail() {
             }
             </p>
           </Item>
-          <Button variant="outlined" onClick={handleClick}>INVITE</Button>
+          <Button variant="outlined" onClick={handleClick}>MEMBER LIST</Button>
         </div>
       )
     }
-    return <></>
+    return <Button variant="outlined" onClick={handleClick}>MEMBER LIST</Button>
   });
   setCode(_code)
 },[]);
