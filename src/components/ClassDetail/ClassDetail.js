@@ -3,35 +3,43 @@ import { useLocalContext } from "../../context/context";
 import "./style.css";
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
+import { Button } from '@material-ui/core'
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
-  textAlign: 'left',
+  textAlign: 'center',
   color: theme.palette.text.secondary,
+  width: '10rem',
 }));
 
 export default function ClassDetail() {
   const {classDetail} = useLocalContext();
   const { dataInfo } = useLocalContext();
-
   const [code,setCode]=useState();
-  
+
+  const handleClick= () => {
+
+  }
+
   useEffect(() => {
   const _code= classDetail.owner.map((item)=>{
     let temp;
     if (item.id===dataInfo.id) {temp=classDetail.code}
     if (temp){
       return(
-        <Item>
-        <p>CODE:
-          {
-            (temp) 
-            ? <h3>{temp}</h3>
-            :null
-          }
-          </p>
-        </Item>
+        <div className="footer">
+          <Item>
+          <p>CODE:
+            {
+              (temp) 
+              ? <h3>{temp}</h3>
+              :null
+            }
+            </p>
+          </Item>
+          <Button variant="outlined" onClick={handleClick}>INVITE</Button>
+        </div>
       )
     }
     return <></>
