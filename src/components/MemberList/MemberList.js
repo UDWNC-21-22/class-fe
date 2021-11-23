@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Avatar, Container, makeStyles, TableBody, TableCell, TableRow } from '@material-ui/core';
 import { Table } from "@material-ui/core";
 import { useLocalContext } from "../../context/context";
+import classApi from '../../apis/class.api';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -23,10 +24,37 @@ const useStyles = makeStyles(theme => ({
 const MemberList = () => {
     const styles = useStyles();
     const {classDetail} = useLocalContext();
-    console.log('classDetail',classDetail)
-    console.log('classDetail length',classDetail.member.length)
-
     const [classmatesNumber, setClassmatesNumber] = useState(classDetail.member.length);
+    const {checkTeacher} = useLocalContext();
+    const [grade,setGrade]=useState();
+
+    console.log("checkTeacher",checkTeacher)
+    const [code,setCode]=useState();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+              let classID=classDetail.id
+              let response = await classApi.getGrade({ classID })
+              setGrade(response.data)
+              console.log("grade",grade)
+            }
+            catch (err) {
+              console.log("ERROR get grade, err: ", err)
+            }
+          };
+        fetchData();
+
+        if (checkTeacher===true){    
+            const _code= grade.map((item)=>{    
+                return(
+                    <TableCell>{item.grade}</TableCell>
+                )
+              }
+            );
+            setCode(_code)
+        }
+      },[checkTeacher,classDetail.id,grade]);
 
     return (
         <div>
@@ -72,7 +100,7 @@ const MemberList = () => {
                                     <TableRow>
                                         <TableCell className={styles.tableCell}><Avatar /></TableCell>
                                         <TableCell>{item.fullname}</TableCell>
-                                        {/* <TableCell>{item.grade}</TableCell> */}
+                                        {code}                                        
                                     </TableRow>
                                 ))
                             }

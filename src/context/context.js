@@ -16,6 +16,7 @@ export function ContextProvider({ children }) {
   const [dataClassCreate, setDataClassCreate] = useState([]);
   const [dataClassJoined, setDataClassJoined] = useState([]);
   const [classDetail, setClassDetail]=useState(cookie.load('class_data'));
+  const [checkTeacher, setCheckTeacher]=useState(cookie.load('check_teacher'));
 
   const value = {
     createClassDialog, setCreateClassDialog,
@@ -26,6 +27,7 @@ export function ContextProvider({ children }) {
     dataClassCreate, setDataClassCreate,
     dataClassJoined, setDataClassJoined,
     classDetail, setClassDetail,
+    checkTeacher, setCheckTeacher
   };
   return <AddContext.Provider value={value}>{children}</AddContext.Provider>;
 }

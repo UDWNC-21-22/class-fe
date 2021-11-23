@@ -4,7 +4,7 @@ import "./style.css";
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import { Button } from '@material-ui/core'
-import MemberList from '../MemberList/MemberList';
+import cookie from 'react-cookies';
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -18,9 +18,8 @@ export default function ClassDetail() {
   const {classDetail} = useLocalContext();
   const { dataInfo } = useLocalContext();
   const [code,setCode]=useState();
+  const {setCheckTeacher} = useLocalContext();
 
-  console.log('classDetail',classDetail)
-  console.log('classDetail length',classDetail.member.length)
   const handleClick= () => {
     window.open("/memberlist", "_self", "")
   }
@@ -28,8 +27,13 @@ export default function ClassDetail() {
   useEffect(() => {
   const _code= classDetail.owner.map((item)=>{
     let temp;
-    if (item.id===dataInfo.id) {temp=classDetail.code}
+    if (item.id===dataInfo.id) {
+      temp=classDetail.code
+    }
     if (temp){
+      setCheckTeacher(true)
+      cookie.save('check_teacher', true)
+
       return(
         <div className="footer">
           <Item>
@@ -45,6 +49,8 @@ export default function ClassDetail() {
         </div>
       )
     }
+    setCheckTeacher(false)
+    cookie.save('check_teacher', false)
     return <Button variant="outlined" onClick={handleClick}>MEMBER LIST</Button>
   });
   setCode(_code)

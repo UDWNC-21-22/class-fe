@@ -4,7 +4,6 @@ module.exports = {
     logout: '/user/logout',
     info: '/user/info',
     getClasses:'/class/me',
-    createClass: '/class/create',
-    changePassword: '/user/changepassword',
-    changeProfile: '/user/changeprofile',
+    getGrade:'/grade/:id',
+    createClass: '/class/create'
 }
