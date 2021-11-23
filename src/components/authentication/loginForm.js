@@ -31,7 +31,7 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [check, setChecked] = useState(false);
-    const {setDataInfo} = useLocalContext();
+    const {setDataInfo, setAuthLogin} = useLocalContext();
 
     const login = async e => {
         try {
@@ -40,6 +40,7 @@ const Login = () => {
             const response = await authApi.login({ username, password })
             
             setDataInfo(response.data);
+            setAuthLogin(true)
 
             // set access_token to cookie
             cookie.save('access_token', response.data?.access_token);

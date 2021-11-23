@@ -53,16 +53,29 @@ function App() {
               <Route path='/login' exact element={<Login />} />
               <Route path='/register' exact element={<Logout />} />
               {/* <Route path='/home' exact element={<Home />} /> */}
+
+              <Route path='/' exact element={
+                <AuthMiddleware>
+                  <Home />
+                </AuthMiddleware>
+              } />
+              <Route path='/profile' exact element={
+                <AuthMiddleware>
+                  <Profile />
+                </AuthMiddleware>
+              } />
+              <Route path='/grade' exact element={
+                <AuthMiddleware>
+                  <GradesList />
+                </AuthMiddleware>
+              } />
+              {/* <Route path='/memberlist' element={<MemberList />} /> */}
+              <Route path='/classdetail' element={
+                <AuthMiddleware>
+                  <ClassDetail />
+                </AuthMiddleware>
+              } />
             </Routes>
-            <AuthMiddleware>
-              <Routes>
-                <Route path='/' exact element={<Home />} />
-                <Route path='/profile' exact element={<Profile />} />
-                <Route path='/grade' exact element={<GradesList />} />
-                {/* <Route path='/memberlist' element={<MemberList />} /> */}
-                <Route path='/classdetail' element={<ClassDetail />} />
-              </Routes>
-            </AuthMiddleware>
 
           </Router>
         ) : (<h3>Loading....</h3>)
