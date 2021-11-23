@@ -37,8 +37,8 @@ function App() {
         console.log(err)
         setAuthLogin(false)
       }
-      setloadingAuth(false)
     }
+    setloadingAuth(false)
   }, [])
 
 
@@ -64,7 +64,7 @@ function App() {
             </AuthMiddleware>
 
           </Router>
-        ) : ""
+        ) : (<h3>Loading....</h3>)
       }
     </>
   )
