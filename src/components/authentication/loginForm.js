@@ -64,13 +64,30 @@ const Login = () => {
         }
     }
 
-    const handleSubmit = () => {
-        if (check)
-            <Link href="/home" />
-    }
-
     const googleSuccess = async (res) => {
         console.log(res);
+        try{
+            const response = await authApi.googleLogin({fullname: res.profileObj.name, email: res.profileObj.email, access_token: res.accessToken});
+            setDataInfo(response.data);
+            setAuthLogin(true)
+
+            // set access_token to cookie
+            cookie.save('access_token', response.data?.access_token);
+            cookie.save('user_data', response.data);
+            alert(response.message)
+            setChecked(!check)
+            // window.open("/home", "_self", "")
+            navigate("/")
+        }
+        catch(err){
+            if (Object.keys(err).length > 0) {
+                alert(err?.message)
+            }
+            else {
+                // An error has occurred
+                alert('An error has occurred')
+            }
+        }
     }
 
     const googleFailure = (err) => {
@@ -89,7 +106,7 @@ const Login = () => {
                     </Grid>
 
                     <GoogleLogin
-                        clientId="492338854152-ko1a3rle97tas7umfj8csll5phi81rfh.apps.googleusercontent.com"
+                        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                         render={renderProps => (
                             <Button onClick={renderProps.onClick} disabled={renderProps.disabled} fullWidth variant='contained' color='primary' style={{ marginTop: '10px' }}>Login with google</Button>
                         )}

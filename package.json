@@ -2,7 +2,7 @@
   "name": "class",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://ngdkhoi.github.io/Midterm-Class",
+  "homepage": ".",
   "dependencies": {
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",

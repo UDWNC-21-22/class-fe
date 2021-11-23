@@ -1,5 +1,6 @@
 module.exports = {
     login: '/user/login',
+    googleLogin: '/user/googlelogin',
     register: '/user/register',
     logout: '/user/logout',
     info: '/user/info',

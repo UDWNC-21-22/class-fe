@@ -72,8 +72,21 @@ const authenticate = ()=>{
     })
 }
 
+const googleLogin = async ({fullname, email, access_token}) => {
+    return AxiosBasic ({
+        url: urls.googleLogin,
+        method: 'POST',
+        data:{
+            fullname,
+            email,
+            access_token
+        }
+    })
+}
+
 const authApi = {
     login,
+    googleLogin,
     register,
     logout,
     getInfo,

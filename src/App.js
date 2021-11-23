@@ -51,8 +51,6 @@ function App() {
             <Routes>
               <Route path='/login' exact element={<Login />} />
               <Route path='/register' exact element={<Logout />} />
-              {/* <Route path='/home' exact element={<Home />} /> */}
-
               <Route path='/' exact element={
                 <AuthMiddleware>
                   <Home />
@@ -68,7 +66,6 @@ function App() {
                   <GradesList />
                 </AuthMiddleware>
               } />
-              {/* <Route path='/memberlist' element={<MemberList />} /> */}
               <Route path='/classdetail' element={
                 <AuthMiddleware>
                   <ClassDetail />
