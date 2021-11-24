@@ -1,4 +1,3 @@
-import { Axios } from "axios";
 import AxiosBasic from "../services/api";
 import urls from './urls'
 
@@ -40,28 +39,10 @@ const getInfo = async () => {
     })
 }
 
-const changePassword = async ({curPass, changePass, confirmPass}) => {
+const getMyGrade = async () => {
     return AxiosBasic({
-        url: urls.changePassword,
-        method: "POST",
-        data:{
-            currentPassword: curPass,
-            changePassword: changePass,
-            confirmPassword: confirmPass
-        }
-    })
-}
-
-const changeProfile = async ({fullname, email}) => {
-    console.log(fullname)
-    console.log(email)
-    return AxiosBasic({
-        url: urls.changeProfile,
-        method: "POST",
-        data:{
-            fullname,
-            email,
-        }
+        url: urls.getMyGrade,
+        method: 'GET'
     })
 }
 
@@ -90,9 +71,11 @@ const authApi = {
     register,
     logout,
     getInfo,
+    getMyGrade
     changeProfile,
     changePassword,
     authenticate
+
 }
 
 export default authApi

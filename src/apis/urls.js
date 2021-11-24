@@ -5,8 +5,11 @@ module.exports = {
     logout: '/user/logout',
     info: '/user/info',
     getClasses:'/class/me',
+    getGrade:'/grade/:id',
+    getMyGrade:'/grade/me',
     createClass: '/class/create',
     changePassword: '/user/changepassword',
     changeProfile: '/user/changeprofile',
     authenticate: '/user/authenticate'
+
 }

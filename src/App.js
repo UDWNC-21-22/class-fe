@@ -4,6 +4,7 @@ import Login from "./components/authentication/loginForm";
 import Home from "./components/Home/Home";
 import Profile from './components/Profile/Profile';
 import GradesList from "./components/GradesList/GradesList";
+import MemberList from "./components/MemberList/MemberList";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ClassDetail from "./components/ClassDetail/ClassDetail";
 import { Header } from "./components";

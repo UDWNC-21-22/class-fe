@@ -1,14 +1,7 @@
-import React, { useState } from "react";
-import { Avatar, Container, Grid, makeStyles, TableBody, TableCell, TableHead, TableRow, Typography } from '@material-ui/core';
+import React, { useState,useEffect } from "react";
+import { Avatar, Container, makeStyles, TableBody, TableCell, TableRow } from '@material-ui/core';
 import { Table } from "@material-ui/core";
-import Drawer from '../Drawer/Drawer'
-import { color } from "@mui/system";
-
-const Names = [
-    { id: '1', FullName: "Đình Khôi", grade:10 },
-    { id: '2', FullName: 'Hồ An', grade:10 },
-    { id: '3', FullName: 'Trâm Ngân', grade:10 }
-]
+import { useLocalContext } from "../../context/context";
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -29,20 +22,35 @@ const useStyles = makeStyles(theme => ({
 
 const MemberList = () => {
     const styles = useStyles();
-    const [memberList, setMemberList] = useState();
-    const [classmatesNumber, setClassmatesNumber] = useState(Names.length);
+    const {classDetail} = useLocalContext();
+    const [classmatesNumber, setClassmatesNumber] = useState(classDetail.member.length);
+    const {checkTeacher} = useLocalContext();
+    const [grade,setGrade]=useState();
 
-    
+    console.log("checkTeacher",checkTeacher)
+    const [code,setCode]=useState();
+
+    useEffect(() => {
+        if (checkTeacher===true){    
+            const _code= grade.map((item)=>{    
+                return(
+                    <TableCell>{item.grade}</TableCell>
+                )
+              }
+            );
+            setCode(_code)
+        }
+      },[]);
 
     return (
         <div>
-            {/* <Drawer /> */}
             <Container fixed >
                 <div className={styles.container}>
                     <Table className={styles.role}>
                         <TableBody>
                             <TableRow>
                                 <TableCell color='blue'><h2>Teacher</h2></TableCell>
+                                <TableCell align='right'><p>{classDetail.owner.length} teacher</p></TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
@@ -51,10 +59,10 @@ const MemberList = () => {
                     <Table className={styles.table}>
                         <TableBody>
                             {
-                                Names.map((item) => (
+                                classDetail.owner.map((item) => (
                                     <TableRow>
                                         <TableCell className={styles.tableCell}><Avatar /></TableCell>
-                                        <TableCell>{item.FullName}</TableCell>
+                                        <TableCell>{item.fullname}</TableCell>
                                     </TableRow>
                                 ))
                             }
@@ -66,7 +74,7 @@ const MemberList = () => {
                         <TableBody>
                             <TableRow style={{color: 'blue'}}>
                                 <TableCell><h2>Classmates</h2></TableCell>
-                                <TableCell align='right'><p>{classmatesNumber} students</p></TableCell>
+                                <TableCell align='right'><p>{classmatesNumber} student</p></TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
@@ -75,11 +83,11 @@ const MemberList = () => {
                     <Table className={styles.table}>
                         <TableBody>
                             {
-                                Names.map((item) => (
+                                classDetail.member.map((item) => (
                                     <TableRow>
                                         <TableCell className={styles.tableCell}><Avatar /></TableCell>
-                                        <TableCell>{item.FullName}</TableCell>
-                                        <TableCell>{item.grade}</TableCell>
+                                        <TableCell>{item.fullname}</TableCell>
+                                        {code}                                        
                                     </TableRow>
                                 ))
                             }

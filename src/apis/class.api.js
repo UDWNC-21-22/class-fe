@@ -8,6 +8,14 @@ const getClasses = () => {
     })
 }
 
+const getGrade = ({classID}) => {
+    return AxiosBasic({
+        url: urls.getGrade,
+        method: 'GET',
+        data:{classID}
+    })
+}
+
 const createClass = ({name, description,ownerId}) => {
     return AxiosBasic({
         url: urls.createClass,
@@ -22,7 +30,8 @@ const createClass = ({name, description,ownerId}) => {
 
 const classApi = {
     getClasses,
-    createClass
+    createClass,
+    getGrade
 }
 
 export default classApi

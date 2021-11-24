@@ -1,28 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { Drawer, JoinedClasses } from "..";
+import { JoinedClasses } from "..";
 import { useLocalContext } from "../../context/context";
 import classApi from '../../apis/class.api';
-import authApi from '../../apis/auth.api';
 
 const Home = () => {
   const { dataClassJoined, setDataClassJoined } = useLocalContext();
   const { dataClassCreate, setDataClassCreate } = useLocalContext();
-  const { dataInfo, setDataInfo } = useLocalContext();
   const [reloadClass, setReloadClass] = useState(true);
 
-  useEffect(async () => {
-    try {
-      let response = await classApi.getClasses()
+  useEffect(() => {
+    setInterval(() => {
+      setReloadClass(false);
+    }, 5000);
+  }, [])
 
-      // set response.data to global state user
-      setDataClassCreate(response.data.classOwner)
-      setDataClassJoined(response.data.classMember)
-    }
-    catch (err) {
-        console.log("ERROR login, err: ", err)
-    }
-  },[]);
+  useEffect(() => { 
+    const fetchData = async () => {
+      try {
+        let response = await classApi.getClasses()
   
+        // set response.data to global state user
+        setDataClassCreate(response.data.classOwner)
+        setDataClassJoined(response.data.classMember)
+      }
+      catch (err) {
+        console.log("ERROR login, err: ", err)
+      }
+    };
+    fetchData();
+    setReloadClass(true);
+  }, [reloadClass]);
+
   return (
     <div>
       {/* <Drawer /> */}

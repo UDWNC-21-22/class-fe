@@ -2,6 +2,7 @@ import { Button, DialogActions, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { useLocalContext } from "../../context/context";
 import classApi from '../../apis/class.api';
+import cookie from 'react-cookies';
 
 const Form = () => {
   const { setShowForm } = useLocalContext();
@@ -12,6 +13,7 @@ const Form = () => {
   const [description, setDescription] = useState("");
 
   const { dataClassCreate, setCreateClassDialog, setDataClassCreate } = useLocalContext();
+  const {setCheckTeacher} = useLocalContext();
 
   const handleSubmit = async (e) => {
     try {
@@ -25,6 +27,8 @@ const Form = () => {
         ])
         setCreateClassDialog(false);
         setShowForm(false);
+        setCheckTeacher(true)
+        cookie.save('check_teacher', true)
     }
     catch (err) {
         console.log("ERROR create class, err: ", err)
@@ -35,6 +39,8 @@ const Form = () => {
     setCreateClassDialog(false);
     setShowForm(false);
     setChecked(!check);
+    setCheckTeacher(false)
+    cookie.save('check_teacher', false)
   };
 
   return (
