@@ -8,12 +8,12 @@ import { Link as LinkDom } from 'react-router-dom';
 import LinkTab from "./LinkTab";
 import authApi from "../../apis/auth.api";
 import cookie from 'react-cookies';
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({ children }) => {
   const classes = useStyles();
 
-  let { id } = useParams();
+  const navigate = useNavigate()
 
   //Add and join dialog
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -61,7 +61,10 @@ const Header = ({ children }) => {
       cookie.remove('user_data');
       cookie.remove('access_token');
       setDataInfo({});
+
+      navigate("/login")
       //console.log(cookie.load('access_token'));
+
     }
     catch (err) {
       console.log("ERROR login, err: ", err)

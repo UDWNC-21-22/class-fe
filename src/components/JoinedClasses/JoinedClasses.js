@@ -6,7 +6,7 @@ import { useLocalContext } from "../../context/context";
 import cookie from 'react-cookies';
 import "./style.css";
 
-const JoinedClasses = ({ classData }) => {
+const JoinedClasses = ({ classData, key }) => {
   const { dataInfo } = useLocalContext();
   const {setClassDetail} = useLocalContext();
   const {checkTeacher} = useLocalContext();
@@ -26,7 +26,7 @@ const JoinedClasses = ({ classData }) => {
     },[]);
 
   return (
-    <li className="joined__list">
+    <li key={key} className="joined__list">
       <div className="joined__wrapper">
         <div className="joined__container">
           <div className="joined__imgWrapper">

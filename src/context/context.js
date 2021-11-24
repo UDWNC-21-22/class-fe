@@ -15,9 +15,12 @@ export function ContextProvider({ children }) {
   const [dataInfo, setDataInfo] = useState(cookie.load('user_data'));
   const [dataClassCreate, setDataClassCreate] = useState([]);
   const [dataClassJoined, setDataClassJoined] = useState([]);
+
   const [dataGrade, setDataGrade] = useState([]);
   const [classDetail, setClassDetail]=useState(cookie.load('class_data'));
   const [checkTeacher, setCheckTeacher]=useState(cookie.load('check_teacher'));
+  const [authLogin, setAuthLogin] = useState(false)
+
 
   const value = {
     createClassDialog, setCreateClassDialog,
@@ -29,7 +32,8 @@ export function ContextProvider({ children }) {
     dataClassJoined, setDataClassJoined,
     classDetail, setClassDetail,
     checkTeacher, setCheckTeacher,
-    dataGrade, setDataGrade
+    dataGrade, setDataGrade,
+    authLogin, setAuthLogin
   };
   return <AddContext.Provider value={value}>{children}</AddContext.Provider>;
 }
