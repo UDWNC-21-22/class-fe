@@ -2,7 +2,6 @@ import React, { useState,useEffect } from "react";
 import { Avatar, Container, makeStyles, TableBody, TableCell, TableRow } from '@material-ui/core';
 import { Table } from "@material-ui/core";
 import { useLocalContext } from "../../context/context";
-import classApi from '../../apis/class.api';
 
 const useStyles = makeStyles(theme => ({
     container: {
