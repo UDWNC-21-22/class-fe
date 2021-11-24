@@ -3,7 +3,7 @@ import { JoinedClasses } from "..";
 import { useLocalContext } from "../../context/context";
 import classApi from '../../apis/class.api';
 import { Button} from '@material-ui/core'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const ConfirmInvite = () => {
     const [code, setCode] = useState();
@@ -11,6 +11,7 @@ const ConfirmInvite = () => {
 
     const path = window.location.pathname.substring(1).split("/")
     const token=path[1]
+    const {id} = useParams()
 
     const handleClick = () => {
         navigate("/")
@@ -39,6 +40,7 @@ const ConfirmInvite = () => {
 
   return (
     <div>
+        {console.log(id)}
         <Button onClick={handleClick}>HOME</Button>
     </div>
   );
