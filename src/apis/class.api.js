@@ -28,10 +28,23 @@ const createClass = ({name, description,ownerId}) => {
     })
 }
 
+const inviteMember = async ({email, classId, role}) => {
+    return AxiosBasic({
+        url: urls.invite,
+        method: 'POST',
+        data: {
+            email,
+            classId,
+            role
+        }
+    })
+}
+
 const classApi = {
     getClasses,
     createClass,
-    getGrade
+    getGrade,
+    inviteMember
 }
 
 export default classApi

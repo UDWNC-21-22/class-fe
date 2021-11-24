@@ -10,6 +10,6 @@ module.exports = {
     createClass: '/class/create',
     changePassword: '/user/changepassword',
     changeProfile: '/user/changeprofile',
-    authenticate: '/user/authenticate'
-
+    authenticate: '/user/authenticate',
+    invite: '/class/invite'
 }
