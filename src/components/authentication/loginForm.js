@@ -9,8 +9,6 @@ import { GoogleLogin } from 'react-google-login';
 import { useLocalContext } from '../../context/context';
 import {useNavigate} from 'react-router-dom'
 
-
-
 const useStyles = makeStyles((theme) => ({
     divider: {
         background: theme.palette.divider,
@@ -93,8 +91,6 @@ const Login = () => {
     const googleFailure = (err) => {
         console.log(err);
     }
-
-    
 
     return (
         <Grid>

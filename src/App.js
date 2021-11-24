@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Logout from "./components/authentication/registerForm";
 import Login from "./components/authentication/loginForm";
 import Home from "./components/Home/Home";
+import ConfirmInvite from "./components/ConfirmInvite/ConfirmInvite";
 import Profile from './components/Profile/Profile';
 import GradesList from "./components/GradesList/GradesList";
 import MemberList from "./components/MemberList/MemberList";
@@ -75,6 +76,11 @@ function App() {
               <Route exact path='/memberlist' element={
                 <AuthMiddleware>
                   <MemberList />
+                </AuthMiddleware>
+              } />
+              <Route exact path='/confirm-invite/:id' element={
+                <AuthMiddleware>
+                  <ConfirmInvite />
                 </AuthMiddleware>
               } />
             </Routes>

@@ -11,5 +11,6 @@ module.exports = {
     changePassword: '/user/changepassword',
     changeProfile: '/user/changeprofile',
     authenticate: '/user/authenticate',
-    invite: '/class/invite'
+    invite: '/class/invite',
+    verify:'/class/invite/verify'
 }

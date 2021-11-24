@@ -20,7 +20,7 @@ const JoinedClasses = ({ classData, key }) => {
             )
           })
           setCode(_code)
-    },[]);
+    },[setCode]);
 
   return (
     <li key={key} className="joined__list">
