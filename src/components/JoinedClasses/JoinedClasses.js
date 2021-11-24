@@ -9,11 +9,9 @@ import "./style.css";
 const JoinedClasses = ({ classData, key }) => {
   const { dataInfo } = useLocalContext();
   const {setClassDetail} = useLocalContext();
-  const {checkTeacher} = useLocalContext();
   const [code,setCode]=useState();
 
   useEffect(() => {
-      if (checkTeacher===true){    
           const _code= classData.owner.map((item)=>{    
             return(
               <p className="joined__owner">
@@ -22,7 +20,6 @@ const JoinedClasses = ({ classData, key }) => {
             )
           })
           setCode(_code)
-      }
     },[]);
 
   return (

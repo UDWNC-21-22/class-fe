@@ -24,11 +24,6 @@ const MemberList = () => {
     const styles = useStyles();
     const {classDetail} = useLocalContext();
     const [classmatesNumber, setClassmatesNumber] = useState(classDetail.member.length);
-    const {checkTeacher} = useLocalContext();
-    const [grade,setGrade]=useState();
-
-    console.log("checkTeacher",checkTeacher)
-    const [code,setCode]=useState();
 
     return (
         <div>
