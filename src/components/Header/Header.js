@@ -24,10 +24,6 @@ const Header = ({ children }) => {
   const [anchorElProfile, setAnchorElProfile] = React.useState(null);
   const handleClickProfile = (event) => setAnchorElProfile(event.currentTarget);
   const handleCloseProfile = () => setAnchorElProfile(null);
-  const handleProfile = e => {
-    e.preventDefault();
-    window.open("/home", "_self", "")
-  }
 
   const {
     dataInfo,
@@ -94,19 +90,6 @@ const Header = ({ children }) => {
 
 
           </div>
-          {
-            classDetail?.id == undefined ?
-              <></> :
-              <div >
-                <Box sx={{ width: '100%' }}>
-                  <Tabs value={selectedTab} onChange={handleChangePage} aria-label="nav tabs example">
-                    <LinkTab label="Class" href="/" />
-                    <LinkTab label="Member" to="/memberlist" />
-                  </Tabs>
-
-                </Box>
-              </div>
-          }
           {
             dataInfo?.access_token == undefined ?
               <></> :
