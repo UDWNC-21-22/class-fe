@@ -49,19 +49,19 @@ function App() {
           <Router>
             <Header />
             <Routes>
-              <Route path='/login' exact element={<Login />} />
-              <Route path='/register' exact element={<Logout />} />
-              <Route path='/' exact element={
+              <Route exact path='/login' element={<Login />} />
+              <Route exact path='/register' element={<Logout />} />
+              <Route exact path='/' element={
                 <AuthMiddleware>
                   <Home />
                 </AuthMiddleware>
               } />
-              <Route path='/profile' exact element={
+              <Route exact path='/profile' element={
                 <AuthMiddleware>
                   <Profile />
                 </AuthMiddleware>
               } />
-              <Route path='/grade' exact element={
+              <Route exact path='/grade' element={
                 <AuthMiddleware>
                   <GradesList />
                 </AuthMiddleware>
