@@ -5,5 +5,6 @@ module.exports = {
     info: '/user/info',
     getClasses:'/class/me',
     getGrade:'/grade/:id',
+    getMyGrade:'/grade/me',
     createClass: '/class/create'
 }

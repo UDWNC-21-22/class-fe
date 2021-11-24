@@ -39,11 +39,19 @@ const getInfo = async () => {
     })
 }
 
+const getMyGrade = async () => {
+    return AxiosBasic({
+        url: urls.getMyGrade,
+        method: 'GET'
+    })
+}
+
 const authApi = {
     login,
     register,
     logout,
-    getInfo
+    getInfo,
+    getMyGrade
 }
 
 export default authApi

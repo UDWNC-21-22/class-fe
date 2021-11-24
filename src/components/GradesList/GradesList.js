@@ -30,7 +30,6 @@ export default function GradesList() {
                     <TableHead>
                         <TableRow>
                             <TableCell>Subjects</TableCell>
-                            <TableCell>Teacher</TableCell>
                             <TableCell align="right">Grade</TableCell>
                         </TableRow>
                     </TableHead>

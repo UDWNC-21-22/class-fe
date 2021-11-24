@@ -1,6 +1,6 @@
 import { Avatar } from "@material-ui/core";
 import { FolderOpen, PermContactCalendar } from "@material-ui/icons";
-import React from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useLocalContext } from "../../context/context";
 import cookie from 'react-cookies';
@@ -9,6 +9,21 @@ import "./style.css";
 const JoinedClasses = ({ classData }) => {
   const { dataInfo } = useLocalContext();
   const {setClassDetail} = useLocalContext();
+  const {checkTeacher} = useLocalContext();
+  const [code,setCode]=useState();
+
+  useEffect(() => {
+      if (checkTeacher===true){    
+          const _code= classData.owner.map((item)=>{    
+            return(
+              <p className="joined__owner">
+              {item.id!==dataInfo.id ? item.username :null}
+              </p>
+            )
+          })
+          setCode(_code)
+      }
+    },[]);
 
   return (
     <li className="joined__list">
@@ -19,17 +34,14 @@ const JoinedClasses = ({ classData }) => {
           <div className="joined__image" />
           <div className="joined__content">
             <Link className="joined__title" to="/classdetail" onClick={()=>{
-              setClassDetail(classData)
-              cookie.save('class_data', classData);
+              if (classData)
+              {setClassDetail(classData)
+              cookie.save('class_data', classData);}
             }}>
               <h2>{classData.name}</h2>
               <p>{classData.description}</p>
             </Link>
-            {classData.owner.map((item)=>(
-              <p className="joined__owner">
-                {item.id!==dataInfo.id ? item.username :null}
-              </p>
-            ))}
+            {code}
           </div>
         </div>
         <Avatar

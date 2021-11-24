@@ -15,6 +15,7 @@ export function ContextProvider({ children }) {
   const [dataInfo, setDataInfo] = useState(cookie.load('user_data'));
   const [dataClassCreate, setDataClassCreate] = useState([]);
   const [dataClassJoined, setDataClassJoined] = useState([]);
+  const [dataGrade, setDataGrade] = useState([]);
   const [classDetail, setClassDetail]=useState(cookie.load('class_data'));
   const [checkTeacher, setCheckTeacher]=useState(cookie.load('check_teacher'));
 
@@ -27,7 +28,8 @@ export function ContextProvider({ children }) {
     dataClassCreate, setDataClassCreate,
     dataClassJoined, setDataClassJoined,
     classDetail, setClassDetail,
-    checkTeacher, setCheckTeacher
+    checkTeacher, setCheckTeacher,
+    dataGrade, setDataGrade
   };
   return <AddContext.Provider value={value}>{children}</AddContext.Provider>;
 }

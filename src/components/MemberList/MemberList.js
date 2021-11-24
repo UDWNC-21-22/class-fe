@@ -32,19 +32,6 @@ const MemberList = () => {
     const [code,setCode]=useState();
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-              let classID=classDetail.id
-              let response = await classApi.getGrade({ classID })
-              setGrade(response.data)
-              console.log("grade",grade)
-            }
-            catch (err) {
-              console.log("ERROR get grade, err: ", err)
-            }
-          };
-        fetchData();
-
         if (checkTeacher===true){    
             const _code= grade.map((item)=>{    
                 return(
@@ -54,7 +41,7 @@ const MemberList = () => {
             );
             setCode(_code)
         }
-      },[checkTeacher,classDetail.id,grade]);
+      },[]);
 
     return (
         <div>
@@ -64,6 +51,7 @@ const MemberList = () => {
                         <TableBody>
                             <TableRow>
                                 <TableCell color='blue'><h2>Teacher</h2></TableCell>
+                                <TableCell align='right'><p>{classDetail.owner.length} teacher</p></TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
@@ -87,7 +75,7 @@ const MemberList = () => {
                         <TableBody>
                             <TableRow style={{color: 'blue'}}>
                                 <TableCell><h2>Classmates</h2></TableCell>
-                                <TableCell align='right'><p>{classmatesNumber} students</p></TableCell>
+                                <TableCell align='right'><p>{classmatesNumber} student</p></TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
