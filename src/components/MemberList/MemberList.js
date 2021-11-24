@@ -30,18 +30,6 @@ const MemberList = () => {
     console.log("checkTeacher",checkTeacher)
     const [code,setCode]=useState();
 
-    useEffect(() => {
-        if (checkTeacher===true){    
-            const _code= grade.map((item)=>{    
-                return(
-                    <TableCell>{item.grade}</TableCell>
-                )
-              }
-            );
-            setCode(_code)
-        }
-      },[]);
-
     return (
         <div>
             <Container fixed >
@@ -87,7 +75,7 @@ const MemberList = () => {
                                     <TableRow>
                                         <TableCell className={styles.tableCell}><Avatar /></TableCell>
                                         <TableCell>{item.fullname}</TableCell>
-                                        {code}                                        
+                                       
                                     </TableRow>
                                 ))
                             }

@@ -72,8 +72,12 @@ function App() {
                   <ClassDetail />
                 </AuthMiddleware>
               } />
+              <Route exact path='/memberlist' element={
+                <AuthMiddleware>
+                  <MemberList />
+                </AuthMiddleware>
+              } />
             </Routes>
-
           </Router>
         ) : (<h3>Loading....</h3>)
       }

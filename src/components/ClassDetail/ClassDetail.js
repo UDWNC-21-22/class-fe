@@ -5,6 +5,7 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import { Button } from '@material-ui/core'
 import cookie from 'react-cookies';
+import {useNavigate} from 'react-router-dom'
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -15,13 +16,15 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function ClassDetail() {
+  const navigate = useNavigate()
   const {classDetail} = useLocalContext();
   const { dataInfo } = useLocalContext();
   const [code,setCode]=useState();
   const {setCheckTeacher} = useLocalContext();
 
   const handleClick= () => {
-    window.open("/memberlist", "_self", "")
+    
+    navigate("/memberlist")
   }
 
   useEffect(() => {
