@@ -65,13 +65,38 @@ const googleLogin = async ({fullname, email, access_token}) => {
     })
 }
 
+const changePassword = async ({curPass, changePass, confirmPass}) => {
+    return AxiosBasic({
+        url: urls.changePassword,
+        method: "POST",
+        data:{
+            currentPassword: curPass,
+            changePassword: changePass,
+            confirmPassword: confirmPass
+        }
+    })
+}
+
+const changeProfile = async ({fullname, email}) => {
+    console.log(fullname)
+    console.log(email)
+    return AxiosBasic({
+        url: urls.changeProfile,
+        method: "POST",
+        data:{
+            fullname,
+            email,
+        }
+    })
+}
+
 const authApi = {
     login,
     googleLogin,
     register,
     logout,
     getInfo,
-    getMyGrade
+    getMyGrade,
     changeProfile,
     changePassword,
     authenticate
