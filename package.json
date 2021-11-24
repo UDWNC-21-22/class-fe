@@ -2,7 +2,7 @@
   "name": "class",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ngdkhoi.github.io/Midterm-Class/",
+  "homepage": ".",
   "engines": {
     "node": "12.x",
     "npm": "7.0.3"
