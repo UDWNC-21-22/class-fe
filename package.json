@@ -2,7 +2,7 @@
   "name": "class",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "https://midtermclass.herokuapp.com",
   "engines": {
     "node": "12.x",
     "npm": "7.0.3"
