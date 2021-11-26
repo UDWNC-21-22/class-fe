@@ -40,11 +40,22 @@ const inviteMember = async ({email, classId, role}) => {
     })
 }
 
+const verifyMember = async ({inviteToken}) => {
+    return AxiosBasic({
+        url: urls.verify,
+        method: 'POST',
+        data: {
+            inviteToken
+        }
+    })
+}
+
 const classApi = {
     getClasses,
     createClass,
     getGrade,
-    inviteMember
+    inviteMember,
+    verifyMember
 }
 
 export default classApi

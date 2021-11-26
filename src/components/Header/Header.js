@@ -103,7 +103,6 @@ const Header = ({ children }) => {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  <MenuItem onClick={handleJoin}>Join Class</MenuItem>
                   <MenuItem onClick={handleCreate}>Create Class</MenuItem>
                 </Menu>
                 <div>

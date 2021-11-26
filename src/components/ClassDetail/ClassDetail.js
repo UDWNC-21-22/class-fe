@@ -70,7 +70,7 @@ export default function ClassDetail() {
       await classApi.inviteMember({ email: emailInvite, classId: classDetail.id, role: role })
       setNotify({
         isOpen: true,
-        message: 'invite successed',
+        message: 'invite succeeded',
         type: severity.success
       })
     }
