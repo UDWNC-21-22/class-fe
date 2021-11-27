@@ -1,46 +1,87 @@
-import React, { useEffect, useState } from "react";
-import { JoinedClasses } from "..";
-import { useLocalContext } from "../../context/context";
+import React, { useEffect,useState } from "react";
 import classApi from '../../apis/class.api';
 import { Button} from '@material-ui/core'
 import { useNavigate, useParams } from 'react-router-dom'
+import AxiosBasic from "../../services/api";
+import "./style.css";
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
+import { useLocalContext } from "../../context/context";
+
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+  width: '10rem',
+}));
 
 const ConfirmInvite = () => {
-    const [code, setCode] = useState();
     const navigate = useNavigate()
-
-    const path = window.location.pathname.substring(1).split("/")
-    const token=path[1]
+    const path = window.location.pathname.substring(1)
     const {id} = useParams()
 
     const handleClick = () => {
         navigate("/")
       }
 
+      const [check,setCheck]=useState(false)
+
   useEffect(() => { 
     const fetchData = async () => {
-      try {
-        let response = await classApi.verifyMember({inviteToken: token})
-        alert(response.message)        
+        if (!path.includes("confirm-invite-by-code")){
+          try {
+            let response = await classApi.verifyMember({inviteToken: id})
+            
+            setCheck(true)      
+          }
+          catch (err) {
+            console.log("ERROR verify, err: ", err)
+    
+            if (Object.keys(err).length > 0) {
+                alert(err?.message)
+            }
+            else {
+                // An error has occurred
+                alert('An error has occurred')
+            }      
+          }
       }
-      catch (err) {
-        console.log("ERROR verify, err: ", err)
+      else{
+        //confirm-invite-by-code/VBfsX0C
+        try {       
+          const inviteMemberByCode = async () => {
+              return AxiosBasic({
+                  url: '/class/join?code='+id,
+                  method: 'POST'
+              })
+          }
 
-        if (Object.keys(err).length > 0) {
-            alert(err?.message)
+          let response = await inviteMemberByCode()
+          
+          setCheck(true)
         }
-        else {
-            // An error has occurred
-            alert('An error has occurred')
-        }      
-    }
-    };
-    fetchData();
+        catch (err) {
+          console.log("err",err.message)
+          if (Object.keys(err).length > 0) {
+            alert(err?.message)
+          }
+          else {
+              // An error has occurred
+              alert('An error has occurred')
+          }           
+      }
+    }}
+    fetchData()
   }, []);
 
   return (
-    <div>
-        {console.log(id)}
+    <div class="wrapper">
+      {(check)
+      ?<Item>Joined Class succeeded</Item>
+      :null
+      }
+      
         <Button onClick={handleClick}>HOME</Button>
     </div>
   );

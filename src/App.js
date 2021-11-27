@@ -83,6 +83,11 @@ function App() {
                   <ConfirmInvite />
                 </AuthMiddleware>
               } />
+              <Route exact path='/confirm-invite-by-code/:id' element={
+                <AuthMiddleware>
+                  <ConfirmInvite />
+                </AuthMiddleware>
+              } />
             </Routes>
           </Router>
         ) : (<h3>Loading....</h3>)

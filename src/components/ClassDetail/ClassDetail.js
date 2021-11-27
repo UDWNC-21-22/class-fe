@@ -3,7 +3,7 @@ import { useLocalContext } from "../../context/context";
 import "./style.css";
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-import { Button, Box, FormControl, InputLabel, NativeSelect, Grid, TextField } from '@material-ui/core'
+import { Button, Box, FormControl, InputLabel, NativeSelect, Grid, TextField} from '@material-ui/core'
 import cookie from 'react-cookies';
 import { useNavigate } from 'react-router-dom'
 import classApi from '../../apis/class.api';
@@ -26,12 +26,12 @@ export default function ClassDetail() {
   const { checkTeacher, setCheckTeacher } = useLocalContext();
   const [emailInvite, setEmailInvite] = useState();
   const [role, setRole] = useState('member');
+  const [showForm, setShowForm] = useState(false);
   const [Notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
   const handleClick = () => {
-
     navigate("/memberlist")
-  }
+  }  
 
   useEffect(() => {
     const _code = classDetail.owner.map((item) => {
@@ -54,6 +54,7 @@ export default function ClassDetail() {
                 }
               </p>
             </Item>
+            <Button variant="outlined" onClick={() => setShowForm(true)}>INVITE MEMBER</Button>
             <Button variant="outlined" onClick={handleClick}>MEMBER LIST</Button>
           </div>
         )
@@ -89,50 +90,85 @@ export default function ClassDetail() {
     }
   }
 
+  let codeID="http://localhost:3000/confirm-invite-by-code/"+classDetail.code;
+
+  const handleSubmit = async () => {
+    navigator.clipboard.writeText(codeID)
+
+    setNotify({
+      isOpen: true,
+      message: 'copied',
+      type: severity.success
+    })
+    setShowForm(false);
+  }
+
+  const handleCancel = () => {
+    setShowForm(false);
+  }
 
   return (
-    <div className="list">
-      <div className="wrapper">
-        <div className="container">
-          <div className="image" />
-          <div className="content">
-            <div className="title">
-              <h1>{classDetail.name}</h1>
-              <p>{classDetail.description}</p>
+          <div className="list">
+          <div className="wrapper">
+            <div className="container">
+              <div className="image" />
+              <div className="content">
+                <div className="title">
+                  <h1>{classDetail.name}</h1>
+                  <p>{classDetail.description}</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      {
-        !checkTeacher ? <></> :
-          <Grid>
-            <div>
-              <form>
-                <Box sx={{ maxWidth: 120 }}>
-                  <FormControl fullWidth>
-                    <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                      Role
-                    </InputLabel>
-                    <NativeSelect
-                      defaultValue={'member'}
-                      onChange={e => { setRole(e.target.value) }}
-                    >
-                      <option value={'member'}>Student</option>
-                      <option value={'owner'}>Teacher</option>
-                    </NativeSelect>
-                  </FormControl>
-                </Box>
-                <TextField onChange={(e) => setEmailInvite(e.target.value)} label='Email' placeholder='Enter email' fullWidth required />
-                <Button onClick={handleInvite}>Invite</Button>
-              </form>
-            </div>
-          </Grid>
-      }
-      <div>{code}</div>
-      <Notification
-        Notify={Notify}
-        setNotify={setNotify}
-      />
-    </div>
+          {
+            !checkTeacher ? <></> :
+              <Grid>
+                <div>
+                  <form>
+                    <Box sx={{ maxWidth: 120 }}>
+                      <FormControl fullWidth>
+                        <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                          Role
+                        </InputLabel>
+                        <NativeSelect
+                          defaultValue={'member'}
+                          onChange={e => { setRole(e.target.value) }}
+                        >
+                          <option value={'member'}>Student</option>
+                          <option value={'owner'}>Teacher</option>
+                        </NativeSelect>
+                      </FormControl>
+                    </Box>
+                    <TextField onChange={(e) => setEmailInvite(e.target.value)} label='Email' placeholder='Enter email' fullWidth required />
+                    <Button onClick={handleInvite}>Invite</Button>
+                  </form>
+                </div>
+              </Grid>
+          }
+        
+        <div>{code}</div>
+
+        {showForm ? 
+            <Grid>
+              <p>Invite member</p>
+              <div>
+              </div>
+              <div>
+              <Button color="primary" onClick={handleSubmit}>
+                  Copy link
+                </Button>
+
+                <Button onClick={handleCancel}>
+                  Cancel
+                </Button>
+              </div>
+            </Grid>
+            :<></>}
+
+          <Notification
+            Notify={Notify}
+            setNotify={setNotify}
+          />
+          </div>
   );
 }

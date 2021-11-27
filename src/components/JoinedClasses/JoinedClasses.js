@@ -12,15 +12,14 @@ const JoinedClasses = ({ classData, key }) => {
   const [code, setCode] = useState();
 
   useEffect(() => {
-    // console.log('classData: ', classData)
-    // const _code = classData.owner.map((item) => {
-    //   return (
-    //     <p className="joined__owner">
-    //       {item.id !== dataInfo.id ? item.username : null}
-    //     </p>
-    //   )
-    // })
-    // setCode(_code)
+    const _code = classData.owner.map((item) => {
+      return (
+        <p className="joined__owner">
+          {item.id !== dataInfo.id ? item.username : null}
+        </p>
+      )
+    })
+    setCode(_code)
   }, []);
 
   return (
@@ -40,7 +39,8 @@ const JoinedClasses = ({ classData, key }) => {
               <h2>{classData.name}</h2>
               <p>{classData.description}</p>
             </Link>
-            {classData?.code }
+            {code}
+            {/* {classData?.code } */}
           </div>
         </div>
         <Avatar
