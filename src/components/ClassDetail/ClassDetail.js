@@ -90,7 +90,9 @@ export default function ClassDetail() {
     }
   }
 
-  let codeID="http://localhost:3000/confirm-invite-by-code/"+classDetail.code;
+  let codeID=(process.env.NODE_ENV === "production" 
+            ? process.env.REACT_APP_PRODUCTION : process.env.REACT_APP_LOCAL)
+            +"/confirm-invite-by-code/"+classDetail.code;
 
   const handleSubmit = async () => {
     navigator.clipboard.writeText(codeID)
@@ -150,7 +152,7 @@ export default function ClassDetail() {
 
         {showForm ? 
             <Grid>
-              <p>Invite member</p>
+              <h1>Invite member</h1>
               <div>
               </div>
               <div>
