@@ -1,27 +1,25 @@
-import { AppBar, Toolbar, Typography, Avatar, Menu, MenuItem, Divider, ListItemIcon, IconButton, Tabs, Box, Link } from "@material-ui/core";
+import { AppBar, Toolbar, Typography, Avatar, Menu, MenuItem, Divider, ListItemIcon, IconButton, Tabs, Box, Link, Tab, Button } from "@material-ui/core";
 import { Add, Apps, Logout } from "@mui/icons-material";
-import React from "react";
+import React, { useState } from "react";
 import { CreateClass } from "..";
 import { useLocalContext } from "../../context/context";
 import { useStyles } from "./style";
 import { Link as LinkDom } from 'react-router-dom';
-import LinkTab from "./LinkTab";
 import authApi from "../../apis/auth.api";
 import cookie from 'react-cookies';
 import { useNavigate } from "react-router-dom";
 
 const Header = ({ children }) => {
   const classes = useStyles();
-
   const navigate = useNavigate()
 
   //Add and join dialog
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
   //Profile dialog
-  const [anchorElProfile, setAnchorElProfile] = React.useState(null);
+  const [anchorElProfile, setAnchorElProfile] = useState(null);
   const handleClickProfile = (event) => setAnchorElProfile(event.currentTarget);
   const handleCloseProfile = () => setAnchorElProfile(null);
 
@@ -29,8 +27,8 @@ const Header = ({ children }) => {
     dataInfo,
     setCreateClassDialog,
     setJoinClassDialog,
-    classDetail,
     setDataInfo,
+    classId
   } = useLocalContext();
 
   const handleCreate = () => {
@@ -44,7 +42,7 @@ const Header = ({ children }) => {
   };
 
   //Nav tabs
-  const [selectedTab, setSelectedTab] = React.useState(0);
+  const [selectedTab, setSelectedTab] = useState(0);
 
   const handleChangePage = (event, newValue) => {
     setSelectedTab(newValue);
@@ -81,15 +79,25 @@ const Header = ({ children }) => {
         <Toolbar className={classes.toolbar}>
           <div className={classes.headerWrapper} >
             {children}
-
-            <Link href='/' underline="none">
+            <Link underline="none" to='/' component={LinkDom}>
               <Typography variant="h6" className={classes.title}>
                 Classroom
               </Typography>
             </Link>
-
-
           </div>
+          {
+            classId == '' ?
+              <></> :
+              <div >
+                <Box sx={{ width: '100%' }}>
+                  <Tabs value={selectedTab} onChange={handleChangePage} aria-label="nav tabs example">
+                    <Tab label="Class" to={`${classId}`} component={LinkDom} />
+                    <Tab label="Member" to={`/${classId}/memberlist`} component={LinkDom} />
+                  </Tabs>
+
+                </Box>
+              </div>
+          }
           {
             dataInfo?.access_token == undefined ?
               <></> :

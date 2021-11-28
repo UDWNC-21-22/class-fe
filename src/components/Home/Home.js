@@ -6,6 +6,8 @@ import classApi from '../../apis/class.api';
 const Home = () => {
   const { dataClassJoined, setDataClassJoined } = useLocalContext();
   const { dataClassCreate, setDataClassCreate } = useLocalContext();
+  const {setClassId} = useLocalContext();
+  setClassId('');
   // const [reloadClass, setReloadClass] = useState(true);
 
   // useEffect(() => {
@@ -25,6 +27,7 @@ const Home = () => {
     catch (err) {
       console.log("ERROR login, err: ", err)
     }
+    
     // setReloadClass(true);
   }, []);
 

@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import classApi from '../../apis/class.api';
 import Notification from '../Notifications/Notification';
 import severity from "../Notifications/severity";
+import { useParams } from 'react-router';
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -20,6 +21,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function ClassDetail() {
   const navigate = useNavigate()
+  const {classId} = useParams();
   const { classDetail } = useLocalContext();
   const { dataInfo } = useLocalContext();
   const [code, setCode] = useState();
