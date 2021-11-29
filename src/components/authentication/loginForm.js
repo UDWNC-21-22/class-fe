@@ -30,6 +30,8 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [check, setChecked] = useState(false);
     const {setDataInfo, setAuthLogin} = useLocalContext();
+    const {setClassId} = useLocalContext();
+    setClassId('');
 
     const login = async e => {
         try {

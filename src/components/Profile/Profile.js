@@ -40,6 +40,8 @@ const dummy = {
 
 const Profile = () => {
     const { dataInfo, setDataInfo } = useLocalContext();
+    const {setClassId} = useLocalContext();
+    setClassId('');
     const styles = useStyles();
 
     const [isChangeProfile, setIsChangeProfile] = useState(false);
@@ -49,7 +51,6 @@ const Profile = () => {
     /**
      * change password
      */
-    const [isChangePassword, setIsChangePassword] = useState(false);
     const [currentPassword, setCurrentPassword] = useState('');
     const [changePassword, setChangePassword] = useState('');
     const [confirmChangePassword, setConfirmChangePassword] = useState('');

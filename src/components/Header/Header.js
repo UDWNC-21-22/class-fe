@@ -28,7 +28,8 @@ const Header = ({ children }) => {
     setCreateClassDialog,
     setJoinClassDialog,
     setDataInfo,
-    classId
+    classId,
+    setClassId,
   } = useLocalContext();
 
   const handleCreate = () => {
@@ -55,7 +56,7 @@ const Header = ({ children }) => {
       cookie.remove('user_data');
       cookie.remove('access_token');
       setDataInfo({});
-
+      setClassId('')
       navigate("/login")
       //console.log(cookie.load('access_token'));
 

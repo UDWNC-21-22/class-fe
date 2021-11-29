@@ -4,17 +4,11 @@ import { useLocalContext } from "../../context/context";
 import classApi from '../../apis/class.api';
 
 const Home = () => {
-  const { dataClassJoined, setDataClassJoined } = useLocalContext();
-  const { dataClassCreate, setDataClassCreate } = useLocalContext();
+
+  const [dataClassJoined, setDataClassJoined] = useState([]);
+  const [dataClassCreate, setDataClassCreate] = useState([]);
   const {setClassId} = useLocalContext();
   setClassId('');
-  // const [reloadClass, setReloadClass] = useState(true);
-
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     setReloadClass(false);
-  //   }, 5000);
-  // }, [])
 
   useEffect(async () => {
     try {
@@ -30,7 +24,7 @@ const Home = () => {
     
     // setReloadClass(true);
   }, []);
-
+  console.log(dataClassJoined);
   return (
     <div>
       {/* <Drawer /> */}

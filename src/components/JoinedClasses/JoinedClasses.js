@@ -8,7 +8,6 @@ import "./style.css";
 
 const JoinedClasses = ({ classData, key }) => {
   const { dataInfo } = useLocalContext();
-  const { setClassDetail } = useLocalContext();
   const{setClassId} = useLocalContext();
   const [code, setCode] = useState();
 
@@ -22,7 +21,7 @@ const JoinedClasses = ({ classData, key }) => {
     })
     setCode(_code)
   }, []);
-
+  console.log('class data', classData);
   return (
     <li key={key} className="joined__list">
       <div className="joined__wrapper">
@@ -33,7 +32,6 @@ const JoinedClasses = ({ classData, key }) => {
           <div className="joined__content">
             <Link className="joined__title" to={`/${classData.id}`} onClick={() => {
               if (classData) {
-                setClassDetail(classData)
                 setClassId(classData.id)
                 cookie.save('class_data', classData);
               }

@@ -2,6 +2,7 @@ import React, { useState,useEffect } from "react";
 import { Avatar, Container, makeStyles, TableBody, TableCell, TableRow } from '@material-ui/core';
 import { Table } from "@material-ui/core";
 import { useLocalContext } from "../../context/context";
+import cookie from 'react-cookies'
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -22,8 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 const MemberList = () => {
     const styles = useStyles();
-    const {classDetail} = useLocalContext();
-    const [classmatesNumber, setClassmatesNumber] = useState(classDetail.member.length);
+    const classDetail = cookie.load('class_data');
 
     return (
         <div>
@@ -57,7 +57,7 @@ const MemberList = () => {
                         <TableBody>
                             <TableRow style={{color: 'blue'}}>
                                 <TableCell><h2>Classmates</h2></TableCell>
-                                <TableCell align='right'><p>{classmatesNumber} student</p></TableCell>
+                                <TableCell align='right'><p>{classDetail.member.length} student</p></TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
