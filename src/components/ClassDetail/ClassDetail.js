@@ -90,12 +90,12 @@ export default function ClassDetail() {
     }
   }
 
-  let codeID=(process.env.NODE_ENV === "production" 
+  let codeLink=(process.env.NODE_ENV === "production" 
             ? process.env.REACT_APP_PRODUCTION : process.env.REACT_APP_LOCAL)
             +"/confirm-invite-by-code/"+classDetail.code;
 
   const handleSubmit = async () => {
-    navigator.clipboard.writeText(codeID)
+    navigator.clipboard.writeText(codeLink)
 
     setNotify({
       isOpen: true,
@@ -110,7 +110,7 @@ export default function ClassDetail() {
   }
 
   return (
-          <div className="list">
+    <Grid className="list">
           <div className="wrapper">
             <div className="container">
               <div className="image" />
@@ -122,8 +122,8 @@ export default function ClassDetail() {
               </div>
             </div>
           </div>
-          {
-            !checkTeacher ? <></> :
+          
+          {!checkTeacher ? <></> :
               <Grid>
                 <div>
                   <form>
@@ -148,6 +148,18 @@ export default function ClassDetail() {
               </Grid>
           }
         
+        {!classDetail.assignments 
+        ? <Button onClick={()=>{navigate("/assignment")}}>GO TO ASSIGNMENT</Button>
+        : <Grid>
+                {classDetail.assignments.map((item)=>(
+                  <p>{item.name}</p>
+                ))}
+                <Button onClick={()=>{
+                  navigate("/assignment")
+                }}>SHOW MORE ASSIGNMENT</Button>
+          </Grid>
+        }
+
         <div>{code}</div>
 
         {showForm ? 
@@ -165,12 +177,13 @@ export default function ClassDetail() {
                 </Button>
               </div>
             </Grid>
-            :<></>}
+            :<></>
+        }
 
           <Notification
             Notify={Notify}
             setNotify={setNotify}
           />
-          </div>
+    </Grid>
   );
 }

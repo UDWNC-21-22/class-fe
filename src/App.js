@@ -3,6 +3,7 @@ import Logout from "./components/authentication/registerForm";
 import Login from "./components/authentication/loginForm";
 import Home from "./components/Home/Home";
 import ConfirmInvite from "./components/ConfirmInvite/ConfirmInvite";
+import Assignment from "./components/Assignment/Assignment";
 import Profile from './components/Profile/Profile';
 import GradesList from "./components/GradesList/GradesList";
 import MemberList from "./components/MemberList/MemberList";
@@ -86,6 +87,11 @@ function App() {
               <Route exact path='/confirm-invite-by-code/:id' element={
                 <AuthMiddleware>
                   <ConfirmInvite />
+                </AuthMiddleware>
+              } />
+              <Route exact path='/assignment' element={
+                <AuthMiddleware>
+                  <Assignment />
                 </AuthMiddleware>
               } />
             </Routes>

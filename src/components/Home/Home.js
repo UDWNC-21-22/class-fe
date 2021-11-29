@@ -14,7 +14,8 @@ const Home = () => {
   //   }, 5000);
   // }, [])
 
-  useEffect(async () => {
+  useEffect(
+    async () => {
     try {
       let response = await classApi.getClasses()
 
