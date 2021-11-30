@@ -91,7 +91,7 @@ const Header = ({ children }) => {
 
           </div>
           {
-            dataInfo?.access_token == undefined ?
+            dataInfo?.access_token === undefined ?
               <></> :
               <div className={classes.header__wrapper__right}>
                 <Add onClick={handleClick} className={classes.icon} />

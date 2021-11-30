@@ -123,6 +123,46 @@ function Assignment() {
         message: 'update assignment succeeded',
         type: severity.success
       })
+      
+                //update class detail assignment
+                const updateClass = async () => {
+                  return AxiosBasic({
+                      url: '/class/me/'+classDetail.id,
+                      method: 'GET'
+                  })
+                }
+                try{
+                  let res = await updateClass()
+                  console.log("res.data class detail: ", res.data)
+
+                  //setClassDetail(classDetail=>({...classDetail, assignments: res.data.assignments}))
+                  setClassDetail(prevState => ({
+                    ...prevState,
+                    assignments: res.data.assignments,
+                    id: res.data.id,
+                    code:res.data.code,
+                    description:res.data.description,
+                    inviteToken:res.data.inviteToken,
+                    memberId:res.data.memberId,
+                    name:res.data.name,
+                    ownerId:res.data.ownerId
+                 }))
+                  console.log("class detail: ", classDetail.assignments)
+                  cookie.save('class_data', classDetail);
+                }
+                catch (err) {
+                  if (Object.keys(err).length > 0) {
+                    setNotify({
+                      isOpen: true,
+                      message: err?.message,
+                      type: severity.error
+                    })
+                  }
+                  else {
+                    // An error has occurred
+                    alert('An error has occurred class detail')
+                  }   
+                }
     }
     catch (err) {
       if (Object.keys(err).length > 0) {

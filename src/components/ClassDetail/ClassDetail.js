@@ -150,7 +150,6 @@ export default function ClassDetail() {
               </Grid>
           }
         
-        {console.log("classDetail.assignments data:",classDetail.assignments)}
         {!classDetail.assignments 
         ? <Button onClick={()=>{navigate("/assignment")}}>GO TO ASSIGNMENT</Button>
         : <Grid>

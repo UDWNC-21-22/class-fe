@@ -20,17 +20,14 @@
 }
 .image {
   background-image: url(../../img/1.jpg);
-  height: 18.375rem;
-  width: 40rem;
+  height: 100%;
+  width: 100%;
   left: 0;
   top: 0;
   position: absolute;
   background-repeat: no-repeat;
   -webkit-background-size: cover;
   background-size: cover;
-}
-.container {
-  position: relative;
 }
 .content {
   display: flex;
@@ -40,20 +37,25 @@
   justify-content: space-between;
   height: 4.5rem;
   padding: 1rem 1rem 0.75rem;
-  position: relative;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 .title {
   color: #ffffff;
   font-family: "Roboto";
   text-decoration: none;
+  padding: 1rem;
 }
 .title h1 {
   font-weight: 400;
-  font-size: 200%;
-  padding-bottom: 0.5rem;
+  font-size: 400%;
+  padding-left: 1rem;
+  padding-top: 1rem;
 }
 .title p {
   font-size: 140%;
+  padding: 1rem;
 }
 .footer{
   display: flex;
