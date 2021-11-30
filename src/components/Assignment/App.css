@@ -37,6 +37,9 @@
   
   .characters h2 {
     padding: .5em .8em .5em .5em;
+  }  
+  .characters p {
+    padding: .5em;
   }
 
   .li-button {

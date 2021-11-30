@@ -7,11 +7,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom'
 import Notification from '../Notifications/Notification';
 import severity from "../Notifications/severity";
+import cookie from 'react-cookies';
 import AxiosBasic from "../../services/api";
+const { v1: uuidv1 } = require('uuid');
 
 function Assignment() {
-  const { v1: uuidv1 } = require('uuid');
-
   const navigate = useNavigate()
     const [name, setClassName] = useState("");
     const [description, setDescription] = useState("");
@@ -25,24 +25,39 @@ function Assignment() {
 
     const [Notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
 
+    function isNumeric(value) {
+      return /^\d+$/.test(value);
+    }
+
     const handleAdd = async (e) => {
         try {
             e.preventDefault()
-            let items=Array.from(characters)
-            items.push({id:uuidv1(),name:name,description:description,scoreRate:scoreRate})
 
-            if (nameButton==="UPDATE"){
-                const reorderedItem = items.pop();
-                console.log(reorderedItem)
-                items.splice(index, 1, reorderedItem);
+            if (!isNumeric(scoreRate)){
+              setNotify({
+                isOpen: true,
+                message: 'Grade is a number value',
+                type: severity.warning
+              })
             }
-
-            console.log(items)
-            updateCharacters(items)
-            setClassName("")
-            setDescription("")
-            setscoreRate("")
-            setChecked(false)
+            else
+            {
+              let items=Array.from(characters)
+              items.push({id:uuidv1(),name:name,description:description,scoreRate:scoreRate})
+  
+              if (nameButton==="UPDATE"){
+                  const reorderedItem = items.pop();
+                  console.log(reorderedItem)
+                  items.splice(index, 1, reorderedItem);
+              }
+  
+              console.log(items)
+              updateCharacters(items)
+              setClassName("")
+              setDescription("")
+              setscoreRate("")
+              setChecked(false)
+            }
         }
         catch (err) {
             console.log("ERROR create assignment, err: ", err)
@@ -84,37 +99,47 @@ function Assignment() {
           message: 'update assignment succeeded',
           type: severity.success
         })
+        
+                //update class detail assignment
+                const updateClass = async () => {
+                  return AxiosBasic({
+                      url: '/class/me/'+classDetail.id,
+                      method: 'GET'
+                  })
+                }
+                try{
+                  let res = await updateClass()
+                  console.log("res.data class detail: ", res.data)
 
-        //update class detail assignment
-        // const updateClass = async () => {
-        //   return AxiosBasic({
-        //       url: '/class/me/'+classDetail.id,
-        //       method: 'GET'
-        //   })
-        // }
-        // try{
-        //   let res=await updateClass()
-        //   console.log("res DATA: ", res.data)
-        //   setClassDetail([
-        //     ...classDetail,
-        //     res.data
-        //   ])
+                  //setClassDetail(classDetail=>({...classDetail, assignments: res.data.assignments}))
+                  setClassDetail(prevState => ({
+                    ...prevState,
+                    assignments: res.data.assignments,
+                    id: res.data.id,
+                    code:res.data.code,
+                    description:res.data.description,
+                    inviteToken:res.data.inviteToken,
+                    memberId:res.data.memberId,
+                    name:res.data.name,
+                    ownerId:res.data.ownerId
+                 }))
+                  console.log("class detail: ", classDetail.assignments)
 
-        //   console.log("classDetail DATA: ", classDetail)
-
-        // }
-        // catch (err) {
-        //   if (Object.keys(err).length > 0) {
-        //     setNotify({
-        //       isOpen: true,
-        //       message: err?.message,
-        //       type: severity.error
-        //     })
-        //   }
-        //   else {
-        //     alert('An error has occurred')
-        //   }      
-        // }
+                  cookie.save('class_data', classDetail);
+                }
+                catch (err) {
+                  if (Object.keys(err).length > 0) {
+                    setNotify({
+                      isOpen: true,
+                      message: err?.message,
+                      type: severity.error
+                    })
+                  }
+                  else {
+                    // An error has occurred
+                    alert('An error has occurred class detail')
+                  }   
+                }
       }
       catch (err) {
         if (Object.keys(err).length > 0) {
@@ -216,7 +241,7 @@ function Assignment() {
                 className="form__input"
                 variant="filled"
                 value={scoreRate}
-                onChange={(e) => setscoreRate(e.target.value)}
+                onChange={(e) => (setscoreRate(e.target.value))}
                 /> 
           </div>
             <Button onClick={handleAdd} color="primary" disabled={!name | !scoreRate}>

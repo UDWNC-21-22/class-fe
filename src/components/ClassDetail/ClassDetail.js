@@ -110,10 +110,11 @@ export default function ClassDetail() {
   }
 
   return (
-    <Grid className="list">
-          <div className="wrapper">
-            <div className="container">
-              <div className="image" />
+    <Grid className="cover">
+      <div className="list">
+        <div className="wrapper">
+          <div className="container">
+            <div className="image" />
               <div className="content">
                 <div className="title">
                   <h1>{classDetail.name}</h1>
@@ -122,6 +123,7 @@ export default function ClassDetail() {
               </div>
             </div>
           </div>
+      </div>
           
           {!checkTeacher ? <></> :
               <Grid>
@@ -148,6 +150,7 @@ export default function ClassDetail() {
               </Grid>
           }
         
+        {console.log("classDetail.assignments data:",classDetail.assignments)}
         {!classDetail.assignments 
         ? <Button onClick={()=>{navigate("/assignment")}}>GO TO ASSIGNMENT</Button>
         : <Grid>
