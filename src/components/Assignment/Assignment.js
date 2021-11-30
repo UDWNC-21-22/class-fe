@@ -13,17 +13,23 @@ import { Update } from "@material-ui/icons"
 
 const useStyles = makeStyles((theme) => ({
   cardContainer: {
-    width: '60%',
+    width: '40%',
   },
   card: {
     display: 'flex',
-    flexDirection: 'row',
-    width: '60%',
+    justifyContent: 'space-between',
     height: '100px',
-    margin: theme.spacing(4),
   },
-  cardButton: {
-
+  cartContentGrid: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    width: '70%'
+  },
+  cardButtonGrid: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
 }))
 
@@ -149,20 +155,21 @@ function Assignment() {
                     <Draggable key={id} draggableId={id} index={index}>
                       {(provided) => (
                         <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                          <Paper>
+                          <Paper style={{ backgroundColor: '#d4d4d4', marginTop: '10px' }}>
                             <Grid container className={style.card}>
-                              <Grid item>
-                                <Typography>{name}</Typography>
-                                <p>
-                                  {description}
-                                </p>
-                                <p>
-                                  {scoreRate}
-                                </p>
+                              <Grid item className={style.cartContentGrid}>
+                                  <Typography variant='h4' style={{width: '80%', textAlign: 'left', marginLeft: '10%'}}>{name}</Typography>
+                                  <Typography variant='caption'style={{width: '80%', textAlign: 'left', marginLeft: '10%'}}>
+                                    {description}
+                                  </Typography>
+                                  <Typography variant='h5'style={{width: '80%', textAlign: 'left', marginLeft: '10%'}}>
+                                    {scoreRate}
+                                  </Typography>
+
                               </Grid>
-                              <Grid item className="li-button">
-                                <Button startIcon={<Update />}
-                                  style={{ backgroundColor: '#00a152' }}
+                              <Grid item className={style.cardButtonGrid}>
+                                <Button startIcon={<Update style={{ display: 'flex', justifyContent: 'center', textAlign: 'center' }} />}
+                                  style={{ backgroundColor: '#00a152', height: '50px' }}
                                   onClick={() => {
                                     setChecked(true)
                                     setNameButton("UPDATE")
@@ -172,7 +179,7 @@ function Assignment() {
                                     setIndex(index)
                                   }} />
                                 <Button startIcon={<DeleteIcon />}
-                                  style={{ backgroundColor: '#ff1744' }}
+                                  style={{ backgroundColor: '#ff1744', height: '50px', }}
                                   onClick={() => {
                                     const items = Array.from(characters);
                                     items.splice(index, 1);
