@@ -89,7 +89,7 @@ function App() {
                   <ConfirmInvite />
                 </AuthMiddleware>
               } />
-              <Route exact path='/assignment' element={
+              <Route exact path='/:classId/assignment' element={
                 <AuthMiddleware>
                   <Assignment />
                 </AuthMiddleware>

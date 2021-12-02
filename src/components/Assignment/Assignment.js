@@ -42,8 +42,8 @@ function Assignment() {
   const [description, setDescription] = useState("");
   const [scoreRate, setscoreRate] = useState("");
   const [index, setIndex] = useState("");
-  const { classDetail, setClassDetail } = useLocalContext();
-  const [characters, updateCharacters] = useState(classDetail.assignments);
+  const classData = cookie.load('class_data');
+  const [characters, updateCharacters] = useState(classData.assignments);
 
   const [check, setChecked] = useState(false)
   const [nameButton, setNameButton] = useState("")
@@ -99,7 +99,7 @@ function Assignment() {
   }
 
   const handleSave = async () => {
-    let classID = classDetail.id
+    let classID = classData.id
     let ass = Array.from(characters)
 
     const updateAssignment = async () => {
@@ -127,28 +127,14 @@ function Assignment() {
                 //update class detail assignment
                 const updateClass = async () => {
                   return AxiosBasic({
-                      url: '/class/me/'+classDetail.id,
+                      url: '/class/me/'+classData.id,
                       method: 'GET'
                   })
                 }
                 try{
-                  let res = await updateClass()
-                  console.log("res.data class detail: ", res.data)
-
-                  //setClassDetail(classDetail=>({...classDetail, assignments: res.data.assignments}))
-                  setClassDetail(prevState => ({
-                    ...prevState,
-                    assignments: res.data.assignments,
-                    id: res.data.id,
-                    code:res.data.code,
-                    description:res.data.description,
-                    inviteToken:res.data.inviteToken,
-                    memberId:res.data.memberId,
-                    name:res.data.name,
-                    ownerId:res.data.ownerId
-                 }))
-                  console.log("class detail: ", classDetail.assignments)
-                  cookie.save('class_data', classDetail);
+                  await updateClass()
+                  
+                  cookie.save('class_data', classData);
                 }
                 catch (err) {
                   if (Object.keys(err).length > 0) {
@@ -183,7 +169,7 @@ function Assignment() {
     <Grid className="App">
       <Button onClick={handleSave}>SAVE</Button>
       <Button onClick={() => {
-        navigate("/classdetail")
+        navigate(`/${classData.id}`)
       }}>RETURN TO CLASS</Button>
       <header className="App-header">
         <DragDropContext onDragEnd={handleOnDragEnd}>

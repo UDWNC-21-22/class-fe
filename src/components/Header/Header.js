@@ -30,6 +30,7 @@ const Header = ({ children }) => {
     setDataInfo,
     classId,
     setClassId,
+    isTeacher,
   } = useLocalContext();
 
   const handleCreate = () => {
@@ -95,6 +96,9 @@ const Header = ({ children }) => {
                   <Tabs value={selectedTab} onChange={handleChangePage} aria-label="nav tabs example">
                     <Tab label="Class" to={`${classId}`} component={LinkDom} />
                     <Tab label="Member" to={`/${classId}/memberlist`} component={LinkDom} />
+                    {
+                      
+                    }
                   </Tabs>
 
                 </Box>

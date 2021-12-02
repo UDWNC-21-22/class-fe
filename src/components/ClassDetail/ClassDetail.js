@@ -20,6 +20,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function ClassDetail() {
+  const navigate = useNavigate();
   const { classId } = useParams();
   const { dataInfo } = useLocalContext();
   const [emailInvite, setEmailInvite] = useState();
@@ -34,11 +35,6 @@ export default function ClassDetail() {
     try{
       const res = await classApi.getClassById({ id: classId });
       setClassData(res.data);
-
-  const handleClick = () => {
-    navigate("/memberlist")
-  }
-
 
       for(let i = 0; i < res.data.ownerId.length; i++){
         if(res.data.ownerId[i] == dataInfo.id){
@@ -81,7 +77,7 @@ export default function ClassDetail() {
     + "/confirm-invite-by-code/" + classData?.code;
 
   const handleSubmit = async () => {
-    navigator.clipboard.writeText(codeLink)
+    navigator.clipboard.writeText(codeID)
 
     setNotify({
       isOpen: true,
@@ -136,11 +132,10 @@ export default function ClassDetail() {
           </div>
         </Grid>
       }
-
-      {!classDetail.assignments
+      {!classData.assignments
         ? <Button onClick={() => { navigate("/assignment") }}>GO TO ASSIGNMENT</Button>
         : <Grid>
-          {classDetail.assignments.map((item) => {
+          {classData.assignments.map((item) => {
             return (
               <div>
                 <p>{item.name} : {item.scoreRate}</p>
@@ -150,12 +145,24 @@ export default function ClassDetail() {
           }
           )}
           <Button onClick={() => {
-            navigate("/assignment")
+            navigate(`/${classId}/assignment`)
           }}>SHOW MORE ASSIGNMENT</Button>
         </Grid>
       }
-
-      <div>{code}</div>
+      <div>
+        {
+          !isTeacher ? <></>:
+          <div className="footer">
+          <Item>
+            <p>CODE:
+              {classData?.code}
+            </p>
+          </Item>
+          <Button variant="outlined" onClick={() => setShowForm(true)}>INVITE MEMBER</Button>
+        </div>
+        }
+      </div>
+      
       {showForm ?
         <Grid>
           <h1>Invite member</h1>
