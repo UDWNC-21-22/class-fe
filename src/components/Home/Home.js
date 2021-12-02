@@ -10,7 +10,8 @@ const Home = () => {
   const {setClassId} = useLocalContext();
   setClassId('');
 
-  useEffect(async () => {
+  useEffect(
+    async () => {
     try {
       let response = await classApi.getClasses()
 

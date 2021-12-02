@@ -57,13 +57,25 @@ const verifyMember = async ({inviteToken}) => {
     })
 }
 
+const updateAssignment = async ({classId,assignments}) => {
+    return AxiosBasic({
+        url: urls.updateAssignment,
+        method: 'POST',
+        data: {
+            classId,
+            assignments
+        }
+    })
+}
+
 const classApi = {
     getClasses,
     getClassById,
     createClass,
     getGrade,
     inviteMember,
-    verifyMember
+    verifyMember,
+    updateAssignment
 }
 
 export default classApi

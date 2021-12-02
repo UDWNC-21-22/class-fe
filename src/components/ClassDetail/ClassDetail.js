@@ -29,10 +29,16 @@ export default function ClassDetail() {
   const [classData, setClassData] = useState({});
   const [isTeacher, setIsTeacher] = useState(false);
 
+
   useEffect(async () => {
     try{
       const res = await classApi.getClassById({ id: classId });
       setClassData(res.data);
+
+  const handleClick = () => {
+    navigate("/memberlist")
+  }
+
 
       for(let i = 0; i < res.data.ownerId.length; i++){
         if(res.data.ownerId[i] == dataInfo.id){
@@ -75,7 +81,7 @@ export default function ClassDetail() {
     + "/confirm-invite-by-code/" + classData?.code;
 
   const handleSubmit = async () => {
-    navigator.clipboard.writeText(codeID)
+    navigator.clipboard.writeText(codeLink)
 
     setNotify({
       isOpen: true,
@@ -90,58 +96,66 @@ export default function ClassDetail() {
   }
 
   return (
-    <div className="list">
-      <div className="wrapper">
-        <div className="container">
-          <div className="image" />
-          <div className="content">
-            <div className="title">
-              <h1>{classData?.name}</h1>
+    <Grid className="cover">
+      <div className="list">
+        <div className="wrapper">
+          <div className="container">
+            <div className="image" />
+            <div className="content">
+              <div className="title">
+               <h1>{classData?.name}</h1>
               <p>{classData?.description}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      {
-        !isTeacher ? <></> :
-          <Grid>
-            <div>
-              <form>
-                <Box sx={{ maxWidth: 120 }}>
-                  <FormControl fullWidth>
-                    <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                      Role
-                    </InputLabel>
-                    <NativeSelect
-                      defaultValue={'member'}
-                      onChange={e => { setRole(e.target.value) }}
-                    >
-                      <option value={'member'}>Student</option>
-                      <option value={'owner'}>Teacher</option>
-                    </NativeSelect>
-                  </FormControl>
-                </Box>
-                <TextField onChange={(e) => setEmailInvite(e.target.value)} label='Email' placeholder='Enter email' fullWidth required />
-                <Button onClick={handleInvite}>Invite</Button>
-              </form>
-            </div>
-          </Grid>
+
+
+      {!isTeacher ? <></> :
+        <Grid>
+          <div>
+            <form>
+              <Box sx={{ maxWidth: 120 }}>
+                <FormControl fullWidth>
+                  <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                    Role
+                  </InputLabel>
+                  <NativeSelect
+                    defaultValue={'member'}
+                    onChange={e => { setRole(e.target.value) }}
+                  >
+                    <option value={'member'}>Student</option>
+                    <option value={'owner'}>Teacher</option>
+                  </NativeSelect>
+                </FormControl>
+              </Box>
+              <TextField onChange={(e) => setEmailInvite(e.target.value)} label='Email' placeholder='Enter email' fullWidth required />
+              <Button onClick={handleInvite}>Invite</Button>
+            </form>
+          </div>
+        </Grid>
       }
 
-      <div>
-        {
-          !isTeacher ? <></>:
-          <div className="footer">
-          <Item>
-            <p>CODE:
-              {classData?.code}
-            </p>
-          </Item>
-          <Button variant="outlined" onClick={() => setShowForm(true)}>INVITE MEMBER</Button>
-        </div>
-        }
-      </div>
+      {!classDetail.assignments
+        ? <Button onClick={() => { navigate("/assignment") }}>GO TO ASSIGNMENT</Button>
+        : <Grid>
+          {classDetail.assignments.map((item) => {
+            return (
+              <div>
+                <p>{item.name} : {item.scoreRate}</p>
+                
+              </div>
+            )
+          }
+          )}
+          <Button onClick={() => {
+            navigate("/assignment")
+          }}>SHOW MORE ASSIGNMENT</Button>
+        </Grid>
+      }
 
+      <div>{code}</div>
       {showForm ?
         <Grid>
           <h1>Invite member</h1>
@@ -157,12 +171,18 @@ export default function ClassDetail() {
             </Button>
           </div>
         </Grid>
+
         : <></>}
+
 
       <Notification
         Notify={Notify}
         setNotify={setNotify}
       />
-    </div>
+
+
+
+    </Grid>
+
   );
 }

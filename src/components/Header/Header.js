@@ -87,6 +87,7 @@ const Header = ({ children }) => {
             </Link>
           </div>
           {
+
             classId == '' ?
               <></> :
               <div >

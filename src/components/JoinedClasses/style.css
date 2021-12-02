@@ -14,12 +14,12 @@ ol {
   display: flex;
   flex-direction: column;
   height: 18.375rem;
+  width: 18.75rem;
   margin-bottom: 1.5rem;
   margin-right: 1.5rem;
   overflow: hidden;
   position: relative;
   text-align: left;
-  width: 18.75rem;
   background-color: #fff;
   border: 0.0625rem solid #dadce0;
   -webkit-border-radius: 0.5rem;

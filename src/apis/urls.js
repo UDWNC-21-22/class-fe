@@ -13,5 +13,6 @@ module.exports = {
     changeProfile: '/user/changeprofile',
     authenticate: '/user/authenticate',
     invite: '/class/invite',
-    verify:'/class/invite/verify'
+    verify:'/class/invite/verify',
+    updateAssignment:'/class/update-assignment'
 }
