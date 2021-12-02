@@ -8,6 +8,13 @@ const getClasses = () => {
     })
 }
 
+const getClassById = ({id}) => {
+    return AxiosBasic({
+        url: `${urls.getClassById}${id}`,
+        method: 'GET'
+    })
+}
+
 const getGrade = ({classID}) => {
     return AxiosBasic({
         url: urls.getGrade,
@@ -63,6 +70,7 @@ const updateAssignment = async ({classId,assignments}) => {
 
 const classApi = {
     getClasses,
+    getClassById,
     createClass,
     getGrade,
     inviteMember,

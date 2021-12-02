@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import classApi from '../../apis/class.api';
 import Notification from '../Notifications/Notification';
 import severity from "../Notifications/severity";
+import { useParams } from 'react-router';
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -19,56 +20,41 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function ClassDetail() {
-  const navigate = useNavigate()
-  const { classDetail } = useLocalContext();
+  const { classId } = useParams();
   const { dataInfo } = useLocalContext();
-  const [code, setCode] = useState();
-  const { checkTeacher, setCheckTeacher } = useLocalContext();
   const [emailInvite, setEmailInvite] = useState();
   const [role, setRole] = useState('member');
   const [showForm, setShowForm] = useState(false);
   const [Notify, setNotify] = useState({ isOpen: false, message: '', type: '' });
+  const [classData, setClassData] = useState({});
+  const [isTeacher, setIsTeacher] = useState(false);
+
+
+  useEffect(async () => {
+    try{
+      const res = await classApi.getClassById({ id: classId });
+      setClassData(res.data);
 
   const handleClick = () => {
     navigate("/memberlist")
   }
 
-  useEffect(() => {
-    const _code = classDetail.owner.map((item) => {
-      let temp;
-      if (item.id === dataInfo.id) {
-        temp = classDetail.code
-      }
-      if (temp) {
-        setCheckTeacher(true)
-        cookie.save('check_teacher', true)
 
-        return (
-          <div className="footer">
-            <Item>
-              <p>CODE:
-                {
-                  (temp)
-                    ? <h3>{temp}</h3>
-                    : null
-                }
-              </p>
-            </Item>
-            <Button variant="outlined" onClick={() => setShowForm(true)}>INVITE MEMBER</Button>
-            <Button variant="outlined" onClick={handleClick}>MEMBER LIST</Button>
-          </div>
-        )
+      for(let i = 0; i < res.data.ownerId.length; i++){
+        if(res.data.ownerId[i] == dataInfo.id){
+          setIsTeacher(true);
+          break;
+        }
       }
-      setCheckTeacher(false)
-      cookie.save('check_teacher', false)
-      return <Button variant="outlined" onClick={handleClick}>MEMBER LIST</Button>
-    });
-    setCode(_code)
+    }
+    catch(e){
+
+    }
   }, []);
 
   const handleInvite = async () => {
     try {
-      await classApi.inviteMember({ email: emailInvite, classId: classDetail.id, role: role })
+      await classApi.inviteMember({ email: emailInvite, classId: classData?.id, role: role })
       setNotify({
         isOpen: true,
         message: 'invite succeeded',
@@ -90,9 +76,9 @@ export default function ClassDetail() {
     }
   }
 
-  let codeLink = (process.env.NODE_ENV === "production"
+  let codeID = (process.env.NODE_ENV === "production"
     ? process.env.REACT_APP_PRODUCTION : process.env.REACT_APP_LOCAL)
-    + "/confirm-invite-by-code/" + classDetail.code;
+    + "/confirm-invite-by-code/" + classData?.code;
 
   const handleSubmit = async () => {
     navigator.clipboard.writeText(codeLink)
@@ -117,15 +103,16 @@ export default function ClassDetail() {
             <div className="image" />
             <div className="content">
               <div className="title">
-                <h1>{classDetail.name}</h1>
-                <p>{classDetail.description}</p>
+               <h1>{classData?.name}</h1>
+              <p>{classData?.description}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {!checkTeacher ? <></> :
+
+      {!isTeacher ? <></> :
         <Grid>
           <div>
             <form>
@@ -169,7 +156,6 @@ export default function ClassDetail() {
       }
 
       <div>{code}</div>
-
       {showForm ?
         <Grid>
           <h1>Invite member</h1>
@@ -185,13 +171,18 @@ export default function ClassDetail() {
             </Button>
           </div>
         </Grid>
-        : <></>
-      }
+
+        : <></>}
+
 
       <Notification
         Notify={Notify}
         setNotify={setNotify}
       />
+
+
+
     </Grid>
+
   );
 }

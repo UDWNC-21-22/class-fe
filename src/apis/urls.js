@@ -5,6 +5,7 @@ module.exports = {
     logout: '/user/logout',
     info: '/user/info',
     getClasses:'/class/me',
+    getClassById:'/class/me/',
     getGrade:'/grade/:id',
     getMyGrade:'/grade/me',
     createClass: '/class/create',

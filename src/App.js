@@ -69,12 +69,12 @@ function App() {
                   <GradesList />
                 </AuthMiddleware>
               } />
-              <Route path='/classdetail' element={
+              <Route path='/:classId' element={
                 <AuthMiddleware>
                   <ClassDetail />
                 </AuthMiddleware>
               } />
-              <Route exact path='/memberlist' element={
+              <Route exact path='/:classId/memberlist' element={
                 <AuthMiddleware>
                   <MemberList />
                 </AuthMiddleware>

@@ -12,6 +12,8 @@ import { useLocalContext } from "../../context/context";
 
 export default function GradesList() {
     const {dataGrade, setDataGrade} = useLocalContext();
+    const {setClassId} = useLocalContext();
+    setClassId('');
 
     useEffect(() => { 
         const fetchData = async () => {
