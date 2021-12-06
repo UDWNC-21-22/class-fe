@@ -41,7 +41,6 @@ const Login = () => {
             
             setDataInfo(response.data);
             setAuthLogin(true)
-
             // set access_token to cookie
             cookie.save('access_token', response.data?.access_token);
             cookie.save('user_data', response.data);
@@ -65,7 +64,6 @@ const Login = () => {
     }
 
     const googleSuccess = async (res) => {
-        console.log(res);
         try{
             const response = await authApi.googleLogin({fullname: res.profileObj.name, email: res.profileObj.email, access_token: res.accessToken});
             setDataInfo(response.data);
