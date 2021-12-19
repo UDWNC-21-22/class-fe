@@ -14,7 +14,7 @@ import { useLocalContext } from './context/context';
 import cookie from 'react-cookies';
 import authApi from './apis/auth.api';
 import AuthMiddleware from './middleware/auth.middleware';
-
+import ListAssignment from "./components/ListAssignment/ListAssignment.js";
 function App() {
   const { dataInfo, authLogin, setDataInfo, setAuthLogin } = useLocalContext();
 
@@ -46,59 +46,64 @@ function App() {
 
 
   return (
-    <>
-      {
-        !loadingAuth ? (
-          <Router>
-            <Header />
-            <Routes>
-              <Route exact path='/login' element={<Login />} />
-              <Route exact path='/register' element={<Logout />} />
-              <Route exact path='/' element={
-                <AuthMiddleware>
-                  <Home />
-                </AuthMiddleware>
-              } />
-              <Route exact path='/profile' element={
-                <AuthMiddleware>
-                  <Profile />
-                </AuthMiddleware>
-              } />
-              <Route exact path='/grade' element={
-                <AuthMiddleware>
-                  <GradesList />
-                </AuthMiddleware>
-              } />
-              <Route path='/:classId' element={
-                <AuthMiddleware>
-                  <ClassDetail />
-                </AuthMiddleware>
-              } />
-              <Route exact path='/:classId/memberlist' element={
-                <AuthMiddleware>
-                  <MemberList />
-                </AuthMiddleware>
-              } />
-              <Route exact path='/confirm-invite/:id' element={
-                <AuthMiddleware>
-                  <ConfirmInvite />
-                </AuthMiddleware>
-              } />
-              <Route exact path='/confirm-invite-by-code/:id' element={
-                <AuthMiddleware>
-                  <ConfirmInvite />
-                </AuthMiddleware>
-              } />
-              <Route exact path='/:classId/assignment' element={
-                <AuthMiddleware>
-                  <Assignment />
-                </AuthMiddleware>
-              } />
-            </Routes>
-          </Router>
-        ) : (<h3>Loading....</h3>)
-      }
-    </>
+    <Router>
+    <Routes>
+      <Route exact path='/' element={<ListAssignment />} />
+    </Routes>
+    </Router>
+    // <>
+    //   {
+    //     !loadingAuth ? (
+    //       <Router>
+    //         <Header />
+    //         <Routes>
+    //           <Route exact path='/login' element={<Login />} />
+    //           <Route exact path='/register' element={<Logout />} />
+    //           <Route exact path='/' element={
+    //             <AuthMiddleware>
+    //               <Home />
+    //             </AuthMiddleware>
+    //           } />
+    //           <Route exact path='/profile' element={
+    //             <AuthMiddleware>
+    //               <Profile />
+    //             </AuthMiddleware>
+    //           } />
+    //           <Route exact path='/grade' element={
+    //             <AuthMiddleware>
+    //               <GradesList />
+    //             </AuthMiddleware>
+    //           } />
+    //           <Route path='/:classId' element={
+    //             <AuthMiddleware>
+    //               <ClassDetail />
+    //             </AuthMiddleware>
+    //           } />
+    //           <Route exact path='/:classId/memberlist' element={
+    //             <AuthMiddleware>
+    //               <MemberList />
+    //             </AuthMiddleware>
+    //           } />
+    //           <Route exact path='/confirm-invite/:id' element={
+    //             <AuthMiddleware>
+    //               <ConfirmInvite />
+    //             </AuthMiddleware>
+    //           } />
+    //           <Route exact path='/confirm-invite-by-code/:id' element={
+    //             <AuthMiddleware>
+    //               <ConfirmInvite />
+    //             </AuthMiddleware>
+    //           } />
+    //           <Route exact path='/:classId/assignment' element={
+    //             <AuthMiddleware>
+    //               <Assignment />
+    //             </AuthMiddleware>
+    //           } />
+    //         </Routes>
+    //       </Router>
+    //     ) : (<h3>Loading....</h3>)
+    //   }
+    // </>
   )
 }
 
