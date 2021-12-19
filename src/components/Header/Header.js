@@ -89,7 +89,7 @@ const Header = ({ children }) => {
           </div>
           {
 
-            classId == '' ?
+            !classId ?
               <></> :
               <div >
                 <Box sx={{ width: '100%' }}>
