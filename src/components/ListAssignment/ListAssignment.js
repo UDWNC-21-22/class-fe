@@ -1,51 +1,19 @@
-import React, { useState } from "react";
-import { useTable, useSortBy } from "react-table";
-import { Menu, MenuItem, IconButton } from "@material-ui/core";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import makeData from "./makeData";
-import styled from "styled-components";
+import React, {
+  useEffect,
+  Fragment,
+  useState
+} from "react";
+import Input from "@mui/material/Input";
+import MaUTable from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import { useTable, usePagination } from "react-table";
+import { Container } from "@material-ui/core";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
-const Styles = styled.div`
-  padding: 1rem;
-
-  table {
-    border-spacing: 0;
-    border: 1px solid black;
-
-    tr {
-      :last-child {
-        td {
-          border-bottom: 0;
-        }
-      }
-    }
-
-    th,
-    td {
-      margin: 0;
-      padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
-
-      :last-child {
-        border-right: 0;
-      }
-
-      input {
-        font-size: 1rem;
-        padding: 0;
-        margin: 0;
-        border: 0;
-      }
-    }
-  }
-
-  .pagination {
-    padding: 0.5rem;
-  }
-`;
-
-// Create an editable cell renderer
 const EditableCell = ({
   value: initialValue,
   row: { index },
@@ -53,23 +21,26 @@ const EditableCell = ({
   updateMyData, // This is a custom function that we supplied to our table instance
 }) => {
   // We need to keep and update the state of the cell normally
-  const [value, setValue] = React.useState(initialValue);
+  const [value, setValue] = useState(initialValue);
 
   const onChange = (e) => {
-    setValue(e.target.value);
+      setValue(e.target.value);
   };
 
   // We'll only update the external data when the input is blurred
   const onBlur = () => {
-    updateMyData(index, id, value);
+      if (value === initialValue) {
+          return;
+      }
+      updateMyData(index, id, value);
   };
 
   // If the initialValue is changed external, sync it up with our state
-  React.useEffect(() => {
-    setValue(initialValue);
+  useEffect(() => {
+      setValue(initialValue);
   }, [initialValue]);
 
-  return <input value={value} onChange={onChange} onBlur={onBlur} />;
+  return <Input value={value} onChange={onChange} onBlur={onBlur} />;
 };
 
 // Set our editable cell renderer as the default Cell renderer
@@ -77,205 +48,202 @@ const defaultColumn = {
   Cell: EditableCell,
 };
 
-function Table({ columns, data, updateMyData, sortBy }) {
-  // For this example, we're using pagination to illustrate how to stop
-  // the current page from resetting when our data changes
+// Be sure to pass our updateMyData and the skipPageReset option
+function Table({ columns, data, updateMyData, skipPageReset }) {
+  // For this example, we're using pagination to illustrate how to stop the current page from resetting when our data changes
   // Otherwise, nothing is different here.
-  const { 
-    getTableProps, 
-    getTableBodyProps, 
-    headerGroups, 
-    prepareRow, 
-    rows,
-    setSortBy 
-  } = useTable(
-      {
-        columns,
-        data,
-        defaultColumn,
-        // updateMyData isn't part of the API, but
-        // anything we put into these options will
-        // automatically be available on the instance.
-        // That way we can call this function from our
-        // cell renderer!
-        updateMyData,
-        initialState: { sortBy }
-      },
-      useSortBy
-    );
+  const { getTableProps, headerGroups, prepareRow, page } =
+      useTable(
+          {
+              columns,
+              data,
+              defaultColumn,
+              // use the skipPageReset option to disable page resetting temporarily
+              autoResetPage: !skipPageReset,
+              // updateMyData isn't part of the API, but anything we put into these options will automatically be available on the instance.
+              // That way we can call this function from our cell renderer!
+              updateMyData,
+          },
+          usePagination
+      );
 
-  //Profile dialog
-  const [anchorElProfile, setAnchorElProfile] = useState(null);
-  const handleClickProfile = (event) => setAnchorElProfile(event.currentTarget);
-  const handleCloseProfile = () => setAnchorElProfile(null);
-
-  const [dataCell, setDataCell] = useState([]);
-
-  const [colID,setColID]=useState()
   // Render the UI for your table
   return (
-    <>
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                // Add the sorting props to control sorting. For this example
-                // we can add them into the header props
-                //sort column.getSortByToggleProps()
-                <th {...column.getHeaderProps()}
-                  onClick={() => {
-                    console.log("col",column.id)
-                    setColID(column.id)
-
-                    //set sort desc, aesc or none?
-                    const desc =
-                      column.isSortedDesc === true
-                        ? undefined
-                        : column.isSortedDesc === false
-                        ? true
-                        : false;
-                    setSortBy([{ id: column.id, desc }, ...sortBy]);
-                  }}
-                >
-                  {column.render("Header")}
-
-                  {/* Add a sort direction indicator */}
-                  <span>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? " 🔽"
-                        : " 🔼"
-                      : ""}
-                  </span>
-
-                  <IconButton onClick={handleClickProfile}>
-                    <MoreVertIcon />
-                  </IconButton>
-                  <Menu
-                    anchorEl={anchorElProfile}
-                    open={Boolean(anchorElProfile)}
-                    onClose={handleCloseProfile}
-                    onClick={handleCloseProfile}
-                    PaperProps={{
-                      elevation: 0,
-                      sx: {
-                        overflow: "visible",
-                        filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                        mt: 1.5,
-                        "& .MuiAvatar-root": {
-                          width: 32,
-                          height: 32,
-                          ml: -0.5,
-                          mr: 1,
-                        },
-                        "&:before": {
-                          content: '""',
-                          display: "block",
-                          position: "absolute",
-                          top: 0,
-                          right: 14,
-                          width: 10,
-                          height: 10,
-                          bgcolor: "background.paper",
-                          transform: "translateY(-50%) rotate(45deg)",
-                          zIndex: 0,
-                        },
-                      },
-                    }}
-                    transformOrigin={{ horizontal: "right", vertical: "top" }}
-                  >
-                    <MenuItem
-                      onClick={() => {
-                        console.log("colID", colID);
-                        let items = new Set();
-
-                        for (const row of rows) {
-                          let obj = row.allCells.find(o => o.column.id === colID);
-                          items.add({
-                            name: row.allCells[1].value,
-                            grade: obj.value,
-                          });
-                        }
-                        setDataCell(items);
-                        console.log(dataCell);
-                      }}
-                    >
-                      Save
-                    </MenuItem>
-                    <MenuItem>Reset</MenuItem>
-                  </Menu>
-                </th>
+      <MaUTable {...getTableProps()}>
+          <TableHead>
+              {headerGroups.map((headerGroup) => (
+                  <TableRow {...headerGroup.getHeaderGroupProps()}>
+                      {headerGroup.headers.map((column) => (
+                          <TableCell {...column.getHeaderProps()}>
+                              {column.render("Header")}
+                          </TableCell>
+                      ))}
+                  </TableRow>
               ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <>
-                      {/* Here added onClick function to get cell value */}
-                      <td
-                        {...cell.getCellProps()}
-                        style={{
-                          padding: "10px",
-                          border: "solid 1px gray",
-                        }}
-                      >
-                        {cell.render("Cell")}
-                      </td>
-                    </>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </>
+          </TableHead>
+          <TableBody>
+              {page.map((row, i) => {
+                  prepareRow(row);
+                  const cell = row.cells.map((cell) => {
+                      return (
+                          <TableCell {...cell.getCellProps()}>
+                              {cell.render("Cell")}
+                          </TableCell>
+                      );
+                  });
+                  if (row.original.isHaveAccount)
+                      return <TableRow {...row.getRowProps()}>{cell}</TableRow>;
+                  else if (!row.original.isHaveAccount) {
+                      return (
+                          <TableRow
+                              {...row.getRowProps()}
+                              style={{ background: "#808080" }}
+                          >
+                              {cell}
+                          </TableRow>
+                      );
+                  }
+              })}
+          </TableBody>
+      </MaUTable>
   );
 }
 
-function ListAssignment() {
-  // Define column of the table
+const DetailClassGrade = () => {
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [loadingGradeStructure, setLoadingGradeStructure] = useState(false);
+  const [loadingGradeBoard, setLoadingGradeBoard] = useState(false);
+  const [gradeStructure, setGradeStructure] = useState([]);
+  const [board, setBoard] = useState();
+
+  const [data, setData] = useState([]);
+  const [uploadListStudentFile, setUploadListStudentFile] = useState();
+
+  useEffect(() => {
+      setLoading(true);
+      setLoadingGradeBoard(true);
+      setLoadingGradeStructure(true);
+
+      const dataGrade=[
+        {name:"bt1",maxPoint:100},
+        {name:"bt2",maxPoint:50}
+      ]
+
+      const dataGradeBoard=[
+        {studentId:"001",
+        studentCode:"001",
+        studentName:"tram ngan",
+        gradeArray:[
+          {name:"bt1",point:100},
+          {name:"bt2",point:99}
+        ]},
+        {studentId:"002",
+        studentCode:"002",
+        studentName:"yen tram",
+        gradeArray:[
+          {name:"bt1",point:100},
+          {name:"bt2",point:99}
+        ]},
+        {studentId:"003",
+        studentCode:"003",
+        gradeArray:[
+          {name:"bt1",point:100},
+          {name:"bt2",point:99}
+        ]}
+      ]
+      // axios
+      //     .get(API_URL_GRADE + id, { headers })
+      //     .then((response) => {
+      //         if (response.data.data) {
+                  setLoadingGradeStructure(false);
+                  setGradeStructure(
+                      dataGrade.map((gradeComponent) => {
+                          return {
+                              maxPoint: gradeComponent.maxPoint,
+                              name: gradeComponent.name,
+                          };
+                      })
+                  );
+      //         }
+      //     })
+      //     .then(() => {
+      //         axios
+      //             .get(
+      //                 API_URL_GRADE + "board/" + id,
+      //                 { headers: headers }
+      //             )
+                  // .then(function (response) {
+                      setLoadingGradeBoard(false);
+                      const responseBoard = dataGradeBoard;
+                      setData(
+                          responseBoard.map((student) => {
+                              let gradeNameAndGradeArrayObject = {};
+                              gradeNameAndGradeArrayObject = student.gradeArray.map((grade) => {
+                                  const gradeName = grade.name;
+                                  return { [gradeName]: grade.point };
+                              });
+
+                              let gradeNameAndGradeArray = {};
+
+                              for (let i = 0; i < gradeNameAndGradeArrayObject.length; i++)
+                                  gradeNameAndGradeArray = Object.assign(
+                                      gradeNameAndGradeArray,
+                                      gradeNameAndGradeArrayObject[i]
+                                  );
+
+                              const row = {
+                                  ...gradeNameAndGradeArray,
+                                  code: student.studentCode,
+                                  name: student.studentName,
+                                  subRows: 0,
+                                  isHaveAccount: student.name ? true : false,
+                              };
+
+                              return row;
+                          })
+                      );
+
+                      setBoard(dataGrade.map((element) => {
+                          return element;
+                      }));
+      //             })
+      //             .catch((err) => {
+      //                 setError(ERROR_CODE[err] || "Error!");
+      //             });
+      //         setLoading(false);
+      //     });
+  }, []);
+
   const columns = React.useMemo(
-    () => [
-      {
-        Header: "First Name",
-        accessor: "firstName",
-      },
-      {
-        Header: "Last Name",
-        accessor: "lastName",
-      },
-      {
-        Header: "Age",
-        accessor: "age"
-      },
-    ],
-    []
+      () => [
+          {
+              Header: "Name",
+              columns: [
+                  {
+                      Header: "Code",
+                      accessor: "code",
+                  },
+                  {
+                      Header: "Name",
+                      accessor: "name",
+                  },
+              ],
+          },
+          {
+              Header: "Grade",
+              columns: gradeStructure.map((gradeStructure) => {
+                  return {
+                      Header:
+                          gradeStructure.name + " (Max: " + gradeStructure.maxPoint + " )",
+                      accessor: gradeStructure.name,
+                  };
+              }),
+          },
+      ],
+      [gradeStructure]
   );
 
-  const infoData=[
-    { mssv: "1234", name: "Raj"},
-    { mssv: "1235", name: "Raj1"},
-    { mssv: "1236", name: "Raj2"},
-    { mssv: "1237", name: "Raj3"},
-    { mssv: "1238", name: "Raj4"}
-  ]
-  const gradeData=[
-    {bt1:"1",bt2:""},
-    {bt1:"2",bt2:""},
-    {bt1:"3",bt2:""},
-    {bt1:"4",bt2:""},
-    {bt1:"5",bt2:""}
-  ]
-  const [data, setData] = React.useState(() => makeData(5));
-  const [originalData] = React.useState(data);
   const [skipPageReset, setSkipPageReset] = React.useState(false);
 
   // We need to keep the table from resetting the pageIndex when we
@@ -285,45 +253,132 @@ function ListAssignment() {
   // the rowIndex, columnId and new value to update the
   // original data
   const updateMyData = (rowIndex, columnId, value) => {
-    // We also turn on the flag to not reset the page
-    setSkipPageReset(true);
-    setData((old) =>
+      // We also turn on the flag to not reset the page
+      setLoading(true);
+      setSkipPageReset(true);
+
+      //console.log("rowIndex: ", rowIndex);
+      //console.log("columnId: ", columnId);
+      //console.log("value:", value);
+      const studentId = board[rowIndex].studentId;
+      const gradeId = board[rowIndex].gradeArray.find(element => element.name === columnId).id;
+      const point = parseInt(value);
+
+      const postData = {
+          studentId,
+          gradeId,
+          point
+      }
+
+      setData((old) =>
       old.map((row, index) => {
-        if (index === rowIndex) {
-          return {
-            ...old[rowIndex],
-            [columnId]: value,
-          };
-        }
-        return row;
+          if (index === rowIndex) {
+              return {
+                  ...old[rowIndex],
+                  [columnId]: value,
+              };
+          }
+          return row;
       })
-    );
+      );
+      // axios.post(API_URL_GRADE + id, postData, { headers })
+      //     .then(function (response) {
+      //         if (response.data.status === 0) {
+      //             setError("Occur error! Please try again later!")
+      //         }
+      //         else if (response.data.status === 1) {
+      //             setData((old) =>
+      //                 old.map((row, index) => {
+      //                     if (index === rowIndex) {
+      //                         return {
+      //                             ...old[rowIndex],
+      //                             [columnId]: value,
+      //                         };
+      //                     }
+      //                     return row;
+      //                 })
+      //             );
+      //         }
+      //         setLoading(false);
+      //     })
   };
 
-  // After data changes, we turn the flag back off
+  // After data chagnes, we turn the flag back off
   // so that if data actually changes when we're not
   // editing it, the page is reset
   React.useEffect(() => {
-    setSkipPageReset(false);
+      setSkipPageReset(false);
   }, [data]);
+
+  const downloadStudentList = () => {
+      // axios
+      //     .get(
+      //         API_URL_CLASSROOM + id + "/export-student",
+      //         { headers: headers }
+      //     ).then((response) => {
+      //         const downloadLink = response.data.data;
+      //         window.open(downloadLink);
+      //     })
+  }
+
+  const handleUploadStudentListFile = e => {
+      if (!e.target.files || e.target.files.length === 0) {
+          setUploadListStudentFile(undefined)
+          return
+      }
+
+      // I've kept this example simple by using the first image instead of multiple
+      setUploadListStudentFile(e.target.files[0]);
+  }
+
+  useEffect(() => {
+      if (!uploadListStudentFile) {
+          return
+      }
+
+      const objectUrl = URL.createObjectURL(uploadListStudentFile)
+
+      setLoading(true);
+
+      const dataArray = new FormData();
+      dataArray.append("import-student-file", uploadListStudentFile);
+      // axios.post(API_URL_CLASSROOM + id + "/import-student", dataArray, { headers })
+      //     .then(function (response) {
+      //         if (response.data.status === 0) {
+      //             setError("Please check your permission and try again later!")
+      //         }
+      //         else if (response.data.status === 1) {
+      //             window.location.reload();
+      //         }
+      //     })
+      //     .catch(function (error) {
+      //         setError(error);
+      //         return error;
+      //     })
+      setLoading(false);
+
+      // free memory when ever this component is unmounted
+      return () => URL.revokeObjectURL(objectUrl)
+  }, [uploadListStudentFile])
 
   // Let's add a data resetter/randomizer to help
   // illustrate that flow...
-  const resetData = () => setData(originalData);
-
-  const sortBy = [{ id: "firstName" }];
-
   return (
-    <Styles>
-      <Table
-        columns={columns}
-        data={data}
-        updateMyData={updateMyData}
-        skipPageReset={skipPageReset}
-        sortBy={sortBy}
-      />
-    </Styles>
+      <Fragment>
+              <Box sx={{ p: 2, pr: 10, display: "flex", flexDirection: "row-reverse" }}>
+                  <Button variant="outlined" onClick={downloadStudentList}>Download Student List</Button>
+                  <Button variant="outlined" component="label" sx={{ mr: 2 }}> Upload Student List <input type="file" hidden onChange={handleUploadStudentListFile} /> </Button>
+              </Box>
+          <Container>
+                  <Table
+                      columns={columns}
+                      data={data}
+                      updateMyData={updateMyData}
+                      skipPageReset={skipPageReset}
+                  />
+          </Container>
+      </Fragment>
   );
-}
+};
 
-export default ListAssignment;
+export default DetailClassGrade;

@@ -14,7 +14,7 @@ import { useLocalContext } from './context/context';
 import cookie from 'react-cookies';
 import authApi from './apis/auth.api';
 import AuthMiddleware from './middleware/auth.middleware';
-import ListAssignment from "./components/ListAssignment/ListAssignment.js";
+import DetailClassGrade from "./components/ListAssignment/ListAssignment.js";
 function App() {
   const { dataInfo, authLogin, setDataInfo, setAuthLogin } = useLocalContext();
 
@@ -48,7 +48,7 @@ function App() {
   return (
     <Router>
     <Routes>
-      <Route exact path='/' element={<ListAssignment />} />
+      <Route exact path='/' element={<DetailClassGrade />} />
     </Routes>
     </Router>
     // <>
