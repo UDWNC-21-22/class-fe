@@ -14,5 +14,8 @@ module.exports = {
     authenticate: '/user/authenticate',
     invite: '/class/invite',
     verify:'/class/invite/verify',
-    updateAssignment:'/class/update-assignment'
+    updateAssignment:'/class/update-assignment',
+    uploadStudentList: '/class/:classId/import',
+    downloadStudentList: '/class/:classId/export',
+    showStudentGradeList: '/class/:classId/grade',
 }

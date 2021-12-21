@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import Notification from "../Notifications/Notification";
 import severity from "../Notifications/severity";
 import cookie from "react-cookies";
-import AxiosBasic from "../../services/api";
+import {AxiosBasic} from "../../services/api";
 import { Update } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
