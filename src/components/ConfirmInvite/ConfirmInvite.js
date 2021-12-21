@@ -2,7 +2,7 @@ import React, { useEffect,useState } from "react";
 import classApi from '../../apis/class.api';
 import { Button} from '@material-ui/core'
 import { useNavigate, useParams } from 'react-router-dom'
-import AxiosBasic from "../../services/api";
+import {AxiosBasic} from "../../services/api";
 import "./style.css";
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';

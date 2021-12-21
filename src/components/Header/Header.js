@@ -96,9 +96,7 @@ const Header = ({ children }) => {
                   <Tabs value={selectedTab} onChange={handleChangePage} aria-label="nav tabs example">
                     <Tab label="Class" to={`${classId}`} component={LinkDom} />
                     <Tab label="Member" to={`/${classId}/memberlist`} component={LinkDom} />
-                    {
-                      
-                    }
+                    <Tab label="Grades" to={`/${classId}/grades`} component={LinkDom} />
                   </Tabs>
 
                 </Box>

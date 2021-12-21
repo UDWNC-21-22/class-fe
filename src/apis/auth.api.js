@@ -1,4 +1,4 @@
-import AxiosBasic from "../services/api";
+import {AxiosBasic} from "../services/api";
 import urls from './urls'
 
 const login = async ({username, password}) => {

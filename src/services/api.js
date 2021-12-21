@@ -17,7 +17,7 @@ const ErrorResponse = (e) => {
     }
 }
 
-const AxiosBasic = async ({ url, method, headers = {}, data = {} }) => {
+export const AxiosBasic = async ({ url, method, headers = {}, data = {} }) => {
     return new Promise(async (resolve, reject) => {
         await axios({
             url: (process.env.NODE_ENV === "production" ? process.env.REACT_APP_API_PRO : process.env.REACT_APP_API_DEV) + url,
@@ -33,4 +33,16 @@ const AxiosBasic = async ({ url, method, headers = {}, data = {} }) => {
     })
 }
 
-export default AxiosBasic
+export const AxiosDownload = async ({ url, method, headers = {}, responseType }) => {
+    const res = await axios({
+        url: (process.env.NODE_ENV === "production" ? process.env.REACT_APP_API_PRO : process.env.REACT_APP_API_DEV) + url,
+        method,
+        headers: {
+            Authorization: `Bearer ${cookie.load('access_token')}`,
+            ...headers
+        },
+        responseType: responseType
+    });
+    return res;
+
+}
