@@ -78,14 +78,23 @@ const changePassword = async ({curPass, changePass, confirmPass}) => {
 }
 
 const changeProfile = async ({fullname, email}) => {
-    console.log(fullname)
-    console.log(email)
     return AxiosBasic({
         url: urls.changeProfile,
         method: "POST",
         data:{
             fullname,
             email,
+        }
+    })
+}
+
+const updateStudentId = async ({studentId}) => {
+    console.log('ult',studentId);
+    return AxiosBasic({
+        url: urls.updateStudentId,
+        method: "POST",
+        data:{
+            studentId,
         }
     })
 }
@@ -99,8 +108,8 @@ const authApi = {
     getMyGrade,
     changeProfile,
     changePassword,
-    authenticate
-
+    authenticate,
+    updateStudentId,
 }
 
 export default authApi
