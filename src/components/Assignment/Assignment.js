@@ -82,11 +82,12 @@ function Assignment() {
           name: name,
           description: description,
           scoreRate: scoreRate,
+          isDone: false,
         });
 
         if (nameButton === "UPDATE") {
           const reorderedItem = items.pop();
-          console.log(reorderedItem);
+          
           items.splice(index, 1, reorderedItem);
         }
 
