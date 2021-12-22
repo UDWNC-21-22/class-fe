@@ -14,7 +14,6 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import cookie from "react-cookies";
 import { useNavigate } from "react-router-dom";
 import classApi from "../../apis/class.api";
 import Notification from "../Notifications/Notification";

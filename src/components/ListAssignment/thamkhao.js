@@ -146,6 +146,107 @@ const DetailClassGrade = () => {
     const [data, setData] = React.useState([]);
     const [uploadListStudentFile, setUploadListStudentFile] = useState();
 
+      useEffect(
+    async () => {
+    setLoading(true);
+    setLoadingGradeBoard(true);
+    setLoadingGradeStructure(true);
+    const callApi = await classApi.getGradeList({ classId })
+
+    setAssignments(oldData => [...oldData, callApi.assignment.map((element) => {
+      return {
+        name: element.name,
+        maxPoint: element.max,
+      };
+    })])
+    
+    //setStudentGrade( () => { })
+    const dataGradeBoard = [
+      {
+        studentId: "001",
+        studentCode: "001",
+        studentName: "tram ngan",
+        gradeArray: [
+          { name: "bt1", point: 100 },
+          { name: "bt2", point: 99 },
+        ],
+      },
+      {
+        studentId: "002",
+        studentCode: "002",
+        studentName: "yen tram",
+        gradeArray: [
+          { name: "bt1", point: 100 },
+          { name: "bt2", point: 99 },
+        ],
+      },
+      {
+        studentId: "003",
+        gradeArray: [
+          { name: "bt1", point: 100 },
+          { name: "bt2", point: 99 },
+        ],
+      },
+    ];
+    // axios
+    //     .get(API_URL_GRADE + id, { headers })
+    //     .then((response) => {
+    //         if (response.data.data) {
+    setLoadingGradeStructure(false);
+    setGradeStructure(
+      assignments.map((gradeComponent) => {
+        return {
+          maxPoint: gradeComponent.maxPoint,
+          name: gradeComponent.name,
+        };
+      })
+    );
+    //         }
+    //     })
+    //     .then(() => {
+    //         axios
+    //             .get(
+    //                 API_URL_GRADE + "board/" + id,
+    //                 { headers: headers }
+    //             )
+    // .then(function (response) {
+    setLoadingGradeBoard(false);
+    const responseBoard = dataGradeBoard;
+    setData(
+      responseBoard.map((student) => {
+        let gradeNameAndGradeArrayObject = {};
+        gradeNameAndGradeArrayObject = student.gradeArray.map((grade) => {
+          const gradeName = grade.name;
+          return { [gradeName]: grade.point };
+        });
+
+        let gradeNameAndGradeArray = {};
+
+        for (let i = 0; i < gradeNameAndGradeArrayObject.length; i++)
+          gradeNameAndGradeArray = Object.assign(
+            gradeNameAndGradeArray,
+            gradeNameAndGradeArrayObject[i]
+          );
+
+        const row = {
+          ...gradeNameAndGradeArray,
+          code: student.studentId,
+          name: student.studentName,
+          subRows: 0,
+          isHaveAccount: student.name ? true : false,
+        };
+
+        return row;
+      })
+    );
+
+    setBoard(
+      assignments.map((element) => {
+        return element;
+      })
+    );
+  }, []);
+
     useEffect(() => {
         setLoading(true);
         setLoadingGradeBoard(true);
