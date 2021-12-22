@@ -18,4 +18,5 @@ module.exports = {
     uploadStudentList: '/class/:classId/import',
     downloadStudentList: '/class/:classId/export',
     showStudentGradeList: '/class/:classId/grade',
+    updateStudentId: '/user/updateStudentId',
 }
