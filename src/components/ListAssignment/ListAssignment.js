@@ -356,5 +356,3 @@ const DetailClassGrade = () => {
     </Fragment>
   );
 };
-
-export default DetailClassGrade;
