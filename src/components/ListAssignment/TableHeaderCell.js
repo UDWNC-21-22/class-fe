@@ -9,7 +9,7 @@ import {
   import {useParams} from 'react-router-dom';
   import classApi from "../../apis/class.api";
 
-const TableHeaderCell = ({element, downloadAssignmentGrade, uploadAssignmentGrade}) => {
+const TableHeaderCell = ({element, downloadAssignmentGrade, setIsUpdate}) => {
     const {classId} = useParams();
   /**---Handle MenuList */
   const [anchorEl, setAnchorEl] = useState(null);
@@ -31,7 +31,7 @@ const TableHeaderCell = ({element, downloadAssignmentGrade, uploadAssignmentGrad
     e.preventDefault();
     const formData = new FormData();
     formData.append('data', e.target.files[0]);
-    console.log(formData);
+    setIsUpdate(true);
     await classApi.uploadtAssignmentGrade({classId: classId, assignmentId: element.id, file: formData});
   }
 

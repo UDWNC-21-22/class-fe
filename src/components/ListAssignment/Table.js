@@ -53,11 +53,10 @@ const Root = styled("div")(
   `
 );
 
-const Cell = ({ point, assignmentId, memberId, updateGrade }) => {
+const Cell = ({ point, assignmentId, memberId, updateGrade, setIsUpdate }) => {
   const [value, setValue] = useState(point);
   const changeValue = async (e) => {
     e.preventDefault();
-
     await updateGrade({assignmentId: assignmentId, memberId: memberId, grade: value})
   };
 
@@ -77,7 +76,6 @@ const Cell = ({ point, assignmentId, memberId, updateGrade }) => {
 const Table = ({
   assignments,
   studentsGrade,
-  totalGrade,
   setIsUpdate,
   uploadAssignmentGrade,
   downloadAssignmentGrade,
@@ -94,9 +92,10 @@ const Table = ({
             <th></th>
             {assignments.map((element, i) => (
               <th key={i}>
-                {() =>{setTotalGrades([...totalGrades, 0]);console.log(i); }}
+                {() =>{setTotalGrades([...totalGrades, 0])}}
                 <div className={styles.TableHeaderCell}>
                   <TableHeaderCell
+                    setIsUpdate={setIsUpdate}
                     element={element}
                     downloadAssignmentGrade={downloadAssignmentGrade}
                     uploadAssignmentGrade={uploadAssignmentGrade}
@@ -132,6 +131,7 @@ const Table = ({
                       assignmentId={assignments[i].id}
                       memberId={student.id}
                       updateGrade={updateGrade}
+                      setIsUpdate={setIsUpdate}
                     />
                     <Typography
                       style={{ display: "flex", alignItems: "center" }}
@@ -141,8 +141,7 @@ const Table = ({
                   </div>
                 </td>
               ))}
-              {console.log('etsts', totalGrades)}
-              <td style={{ width: 110 }}>{idx}</td>
+              <td style={{ width: 110 }}>{student.total}</td>
               <td></td>
             </tr>
           ))}

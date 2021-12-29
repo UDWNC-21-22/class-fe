@@ -18,7 +18,7 @@ const ListForTeacher = () => {
         setAssignments(data.assignments);
         setStudentsGrade(data.data);
         setIsUpdate(false);
-    }, [])
+    }, [isUpdate])
 
   const downloadStudentList = async (e) => {
     e.preventDefault();
@@ -46,9 +46,11 @@ const ListForTeacher = () => {
     const formData = new FormData();
     formData.append('File', file);
     await classApi.uploadtAssignmentGrade({classId: classId, assignmentId: assignmentId, file: formData});
+    setIsUpdate(true)
   }
 
   const updateGrade = async ({assignmentId, memberId, grade}) => {
+    setIsUpdate(true);
     await classApi.updateStudentAssignmentGrade({classId, assignmentId, memberId, grade});
   }
 
@@ -59,7 +61,7 @@ const ListForTeacher = () => {
         uploadStudentList={uploadStudentList}
         exportGradeBoard={exportGradeBoard}
       />
-      <Table 
+      <Table
         assignments={assignments}
         studentsGrade={studentsGrade}
         totalGrade={totalGrade}
