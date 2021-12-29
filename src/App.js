@@ -15,6 +15,7 @@ import cookie from "react-cookies";
 import authApi from "./apis/auth.api";
 import AuthMiddleware from "./middleware/auth.middleware";
 import DetailClassGrade from "./components/ListAssignment/ListAssignment.js";
+import ListForTeacher from "./components/ListAssignment/ListForTeacher";
 import Test from "./components/ListAssignment/text";
 function App() {
   const { dataInfo, authLogin, setDataInfo, setAuthLogin } = useLocalContext();
@@ -140,10 +141,10 @@ function App() {
             />
             <Route
               exact
-              path="/:classId/grades/test"
+              path="/:classId/grades/teacher"
               element={
                 <AuthMiddleware>
-                  <Test/>
+                  <ListForTeacher/>
                 </AuthMiddleware>
               }
             />
