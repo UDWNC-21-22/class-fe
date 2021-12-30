@@ -9,12 +9,9 @@ const ListForTeacher = () => {
     const [assignments, setAssignments] = useState([]);
     const [studentsGrade, setStudentsGrade] = useState([]);
     const [isUpdate, setIsUpdate] = useState([true]);
-    const [totalGrade, setTotalGrade] = useState();
     
     useEffect( async () => {
         const data = await classApi.getGradeList({classId: classId});
-        const total = await classApi.getTotalGrade({classId: classId});
-        console.log('grade',total);
         setAssignments(data.assignments);
         setStudentsGrade(data.data);
         setIsUpdate(false);
@@ -64,7 +61,6 @@ const ListForTeacher = () => {
       <Table
         assignments={assignments}
         studentsGrade={studentsGrade}
-        totalGrade={totalGrade}
         setIsUpdate={setIsUpdate}
         uploadAssignmentGrade={uploadAssignmentGrade}
         downloadAssignmentGrade={downloadAssignmentGrade}

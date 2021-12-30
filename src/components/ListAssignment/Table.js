@@ -82,7 +82,6 @@ const Table = ({
   updateGrade,
 }) => {
   const styles = useStyles();
-  const [totalGrades, setTotalGrades] = useState([]);
 
   return (
     <Root sx={{ maxWidth: "100%" }}>
@@ -92,7 +91,6 @@ const Table = ({
             <th></th>
             {assignments.map((element, i) => (
               <th key={i}>
-                {() =>{setTotalGrades([...totalGrades, 0])}}
                 <div className={styles.TableHeaderCell}>
                   <TableHeaderCell
                     setIsUpdate={setIsUpdate}

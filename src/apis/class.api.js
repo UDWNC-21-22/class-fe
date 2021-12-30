@@ -171,14 +171,6 @@ const updateStudentAssignmentGrade = ({classId, assignmentId, memberId, grade}) 
     })
 }
 
-const getTotalGrade = ({classId}) => {
-    const uri = urls.markAsDone.split('/');
-    return AxiosBasic({
-        url: `/${uri[1]}/${classId}`,
-        method: 'GET',
-    })
-}
-
 const classApi = {
     getClasses,
     getClassById,
@@ -195,7 +187,6 @@ const classApi = {
     uploadtAssignmentGrade,
     markAsDone,
     updateStudentAssignmentGrade,
-    getTotalGrade
 }
 
 export default classApi
