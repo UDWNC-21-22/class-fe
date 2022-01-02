@@ -37,7 +37,7 @@ const TableHeaderCell = ({element, downloadAssignmentGrade, setIsUpdate}) => {
 
   const isDone = async (e) => {
     e.preventDefault();
-
+    setIsUpdate(true);
     await classApi.markAsDone({classId: classId, assignmentId: element.id})
   }
 

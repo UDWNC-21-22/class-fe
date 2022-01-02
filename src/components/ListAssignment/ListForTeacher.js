@@ -26,7 +26,7 @@ const ListForTeacher = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('data', e.target.files[0]);
-    console.log(formData);
+    setIsUpdate(true);
     await classApi.importStudentList({classId: classId, file: formData})
   }
 
