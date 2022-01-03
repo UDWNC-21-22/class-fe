@@ -19,9 +19,9 @@ module.exports = {
     downloadStudentList: '/class/:classId/export',
     showStudentGradeList: '/class/:classId/grade',
     updateStudentId: '/user/updateStudentId',
-    markAsDone: '/grade/:classId/:assingmentId/isDone',
+    markAsDone: '/grade/:classId/:assignmentId/isDone',
     exportGradeBoard: '/class/:classId/grade/download',
-    getTotalGrade: '/grade/:classId',
     downloadAssignmentGrade: '/grade/:classId/:assignmentId/export',
     uploadtAssignmentGrade: '/grade/:classId/:assignmentId/import',
+    updateStudentAssignmentGrade: '/grade/:classId/:assignmentId/:studentId'
 }

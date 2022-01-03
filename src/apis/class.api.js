@@ -127,6 +127,7 @@ const downloadAssignmentGrade = async ({classId, assignmentId}) => {
 
 const uploadtAssignmentGrade = async ({classId, assignmentId, file}) => {
     const uri = urls.uploadtAssignmentGrade.split('/');
+    //url: `/${uri[1]}/${classId}/${assignmentId}/${uri[4]}`,
     return AxiosBasic({
         url: `/${uri[1]}/${classId}/${assignmentId}/${uri[4]}`,
         method: 'POST',
@@ -139,7 +140,6 @@ const uploadtAssignmentGrade = async ({classId, assignmentId, file}) => {
 
 const exportGradeBoard = async ({classId}) => {
     const uri = urls.exportGradeBoard.split('/');
-    console.log(uri);
     const response = await AxiosDownload({
         url: `/${uri[1]}/${classId}/${uri[3]}/${uri[4]}`,
         method: 'GET',
@@ -152,6 +152,23 @@ const exportGradeBoard = async ({classId}) => {
       link.setAttribute('download', 'GradeBoard.xlsx'); //or any other extension
       document.body.appendChild(link);
       link.click();
+}
+
+const markAsDone = ({classId, assignmentId}) => {
+    const uri = urls.markAsDone.split('/');
+    return AxiosBasic({
+        url: `/${uri[1]}/${classId}/${assignmentId}/${uri[4]}`,
+        method: 'POST',
+    })
+}
+
+const updateStudentAssignmentGrade = ({classId, assignmentId, memberId, grade}) => {
+    const uri = urls.markAsDone.split('/');
+    return AxiosBasic({
+        url: `/${uri[1]}/${classId}/${assignmentId}/${memberId}`,
+        data: {grade},
+        method: 'POST',
+    })
 }
 
 const classApi = {
@@ -167,7 +184,9 @@ const classApi = {
     getGradeList,
     downloadAssignmentGrade,
     exportGradeBoard,
-    uploadtAssignmentGrade
+    uploadtAssignmentGrade,
+    markAsDone,
+    updateStudentAssignmentGrade,
 }
 
 export default classApi
