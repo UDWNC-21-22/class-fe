@@ -130,7 +130,7 @@ const Login = () => {
                         Sign in
                     </Button>
                     <Typography >
-                        <Link href="/#" >
+                        <Link href="/forgot-password" >
                             Forgot password ?
                         </Link>
                     </Typography>

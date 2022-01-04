@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Logout from "./components/authentication/registerForm";
+import Register from "./components/authentication/registerForm";
 import Login from "./components/authentication/loginForm";
 import Home from "./components/Home/Home";
 import ConfirmInvite from "./components/ConfirmInvite/ConfirmInvite";
@@ -15,6 +15,10 @@ import cookie from "react-cookies";
 import authApi from "./apis/auth.api";
 import AuthMiddleware from "./middleware/auth.middleware";
 import ListForTeacher from "./components/ListAssignment/ListForTeacher";
+import ActiveAccount from './components/authentication/activeAccount'
+import ResetPassword from "./components/authentication/resetPassword";
+import ForgotPassword from "./components/authentication/forgotPassword";
+
 function App() {
   const { dataInfo, authLogin, setDataInfo, setAuthLogin } = useLocalContext();
 
@@ -56,7 +60,10 @@ function App() {
           <Header />
           <Routes>
             <Route exact path="/login" element={<Login />} />
-            <Route exact path="/register" element={<Logout />} />
+            <Route exact path="/register" element={<Register />} />
+            <Route exact path='/active/:id' element={<ActiveAccount />} />
+            <Route exact path='/reset-password/:id' element={<ResetPassword />}/>
+            <Route exact path='/forgot-password' element={<ForgotPassword />}/>
             <Route
               exact
               path="/"

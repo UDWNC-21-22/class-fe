@@ -2,6 +2,9 @@ module.exports = {
     login: '/user/login',
     googleLogin: '/user/googlelogin',
     register: '/user/register',
+    activeAccount: '/user/active/:id',
+    forgotPassword: '/user/forgotPassword',
+    resetPassword: '/user/resetPassword',
     logout: '/user/logout',
     info: '/user/info',
     getClasses:'/class/me',
@@ -23,5 +26,6 @@ module.exports = {
     exportGradeBoard: '/class/:classId/grade/download',
     downloadAssignmentGrade: '/grade/:classId/:assignmentId/export',
     uploadtAssignmentGrade: '/grade/:classId/:assignmentId/import',
-    updateStudentAssignmentGrade: '/grade/:classId/:assignmentId/:studentId'
+    updateStudentAssignmentGrade: '/grade/:classId/:assignmentId/:studentId',
+    
 }

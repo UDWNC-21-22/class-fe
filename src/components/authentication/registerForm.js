@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Grid, Paper, Avatar, Typography, TextField, Button, Divider, makeStyles, Link } from '@material-ui/core'
+import { Grid, Paper, Avatar, Typography, TextField, Button, Divider, Link } from '@material-ui/core'
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -7,20 +7,10 @@ import Notification from '../Notifications/Notification';
 import authApi from '../../apis/auth.api';
 import severity from '../Notifications/severity';
 
-const useStyles = makeStyles((theme) => ({
-    divider: {
-        background: theme.palette.divider,
-        marginTop: '10px',
-        backgroundColor: 'black'
-    }
-}))
-
 const Signup = () => {
     const paperStyle = { padding: '30px 20px', width: 300, margin: "20px auto" }
     const headerStyle = { margin: 0 }
     const avatarStyle = { backgroundColor: '#1bbd7e' }
-    const marginTop = { marginTop: 5 }
-    const classes = useStyles();
 
     const [FullName, setFullName] = useState('');
     const [Email, setEmail] = useState('');
@@ -53,11 +43,9 @@ const Signup = () => {
                 });
                 setNotify({
                     isOpen: true,
-                    message: 'Successed! Please login to continue',
+                    message: 'Successed! Please check you mail to active account',
                     type: 'success'
                 })
-
-                window.open("/home", "_self", "")
             }
         }
         catch (err) {

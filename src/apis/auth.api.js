@@ -25,6 +25,26 @@ const register = async ({username, password, fullname, email}) => {
     })
 }
 
+const acctiveAccount = async ({id}) => {
+    const uri = urls.activeAccount.split('/');
+    return AxiosBasic({
+        url: `/${uri[1]}/${uri[2]}/${id}`,
+        method: 'POST'
+    })
+}
+
+const resetPassword = async ({ newPassword, confirmPassword, oldPassword }) => {
+    return AxiosBasic({
+        url: urls.resetPassword,
+        method: 'POST',
+        data:{
+            newPassword, 
+            confirmPassword, 
+            oldPassword,
+        }
+    })
+}
+
 const logout = async () => {
     return AxiosBasic({
         url: urls.logout,
@@ -99,6 +119,15 @@ const updateStudentId = async ({studentId}) => {
     })
 }
 
+const forgotPassword = async ({email}) => {
+    console.log('here');
+    return AxiosBasic({
+        url: urls.forgotPassword,
+        method: 'POST',
+        data:{email}
+    })
+}
+
 const authApi = {
     login,
     googleLogin,
@@ -110,6 +139,9 @@ const authApi = {
     changePassword,
     authenticate,
     updateStudentId,
+    acctiveAccount,
+    resetPassword,
+    forgotPassword,
 }
 
 export default authApi
