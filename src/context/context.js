@@ -17,7 +17,7 @@ export function ContextProvider({ children }) {
   const [authLogin, setAuthLogin] = useState(false)
   
   const [classId, setClassId]=useState('');
-
+  
   const value = {
     createClassDialog, setCreateClassDialog,
     joinClassDialog, setJoinClassDialog,

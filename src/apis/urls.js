@@ -7,6 +7,7 @@ module.exports = {
     resetPassword: '/user/resetPassword',
     logout: '/user/logout',
     info: '/user/info',
+    isTeacher: (classId) => `/class/${classId}/isTeacher`,
     getClasses:'/class/me',
     getClassById:'/class/me/',
     getGrade:'/grade/:id',
@@ -27,5 +28,7 @@ module.exports = {
     downloadAssignmentGrade: '/grade/:classId/:assignmentId/export',
     uploadtAssignmentGrade: '/grade/:classId/:assignmentId/import',
     updateStudentAssignmentGrade: '/grade/:classId/:assignmentId/:studentId',
+    getClassMember: (classId) => `/class/${classId}/classMember`,
+    getStudentGrade:(classId) => `/grade/${classId}/grades`,
     
 }

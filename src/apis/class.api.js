@@ -171,6 +171,27 @@ const updateStudentAssignmentGrade = ({classId, assignmentId, memberId, grade}) 
     })
 }
 
+const isTeacher = ({classId}) => {
+    return AxiosBasic({
+        url: urls.isTeacher(classId),
+        method: 'GET'
+    })
+}
+
+const getClassMember = ({classId}) => {
+    return AxiosBasic({
+        url: urls.getClassMember(classId),
+        method: 'GET',
+    })
+}
+
+const getStudentGrade = ({classId}) => {
+    return AxiosBasic({
+        url: urls.getStudentGrade(classId),
+        method: 'GET'
+    })
+}
+
 const classApi = {
     getClasses,
     getClassById,
@@ -187,6 +208,9 @@ const classApi = {
     uploadtAssignmentGrade,
     markAsDone,
     updateStudentAssignmentGrade,
+    isTeacher,
+    getClassMember,
+    getStudentGrade
 }
 
 export default classApi

@@ -8,8 +8,8 @@ import {
   TableRow,
 } from "@material-ui/core";
 import { Table } from "@material-ui/core";
-import { useLocalContext } from "../../context/context";
-import cookie from "react-cookies";
+import classApi from "../../apis/class.api";
+import {useParams} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -30,7 +30,12 @@ const useStyles = makeStyles((theme) => ({
 
 const MemberList = () => {
   const styles = useStyles();
-  const classDetail = cookie.load("class_data");
+  const {classId} = useParams();
+  const [classDetail, setClassDetail] = useState()
+
+  useEffect(async () => {
+    setClassDetail(await classApi.getClassMember({classId: classId}));
+  },[])
 
   return (
     <div>
@@ -43,7 +48,7 @@ const MemberList = () => {
                   <h2>Teacher</h2>
                 </TableCell>
                 <TableCell align="right">
-                  <p>{classDetail.owner.length} teacher</p>
+                  <p>{classDetail?.owner.length} teacher</p>
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -52,7 +57,7 @@ const MemberList = () => {
         <div className={styles.container}>
           <Table className={styles.table}>
             <TableBody>
-              {classDetail.owner.map((item) => (
+              {classDetail?.owner.map((item) => (
                 <TableRow>
                   <TableCell className={styles.tableCell}>
                     <Avatar />
@@ -71,7 +76,7 @@ const MemberList = () => {
                   <h2>Classmates</h2>
                 </TableCell>
                 <TableCell align="right">
-                  <p>{classDetail.member.length} student</p>
+                  <p>{classDetail?.student.length} student</p>
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -80,8 +85,8 @@ const MemberList = () => {
         <div className={styles.container}>
           <Table className={styles.table}>
             <TableBody>
-              {classDetail.member.map((item) => (
-                <TableRow>
+              {classDetail?.student.map((item) => (
+                <TableRow key={item.id}>
                   <TableCell className={styles.tableCell}>
                     <Avatar />
                   </TableCell>

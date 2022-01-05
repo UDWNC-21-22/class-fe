@@ -18,6 +18,7 @@ import ListForTeacher from "./components/ListAssignment/ListForTeacher";
 import ActiveAccount from './components/authentication/activeAccount'
 import ResetPassword from "./components/authentication/resetPassword";
 import ForgotPassword from "./components/authentication/forgotPassword";
+import RoleMiddleware from "./middleware/role.middleware";
 
 function App() {
   const { dataInfo, authLogin, setDataInfo, setAuthLogin } = useLocalContext();
@@ -137,10 +138,10 @@ function App() {
             />
             <Route
               exact
-              path="/:classId/grades/teacher"
+              path="/:classId/grades"
               element={
                 <AuthMiddleware>
-                  <ListForTeacher/>
+                  <RoleMiddleware />
                 </AuthMiddleware>
               }
             />

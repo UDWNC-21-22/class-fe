@@ -153,38 +153,44 @@ export default function ClassDetail() {
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
-                    marginTop: '5%'
+                    marginTop: "5%",
                   }}
                 >
                   <div>
-                  <Box>
-                    <FormControl fullWidth>
-                      <InputLabel
-                        variant="standard"
-                        htmlFor="uncontrolled-native"
-                      >
-                        Role
-                      </InputLabel>
-                      <NativeSelect
-                        defaultValue={"member"}
-                        onChange={(e) => {
-                          setRole(e.target.value);
-                        }}
-                      >
-                        <option value={"member"}>Student</option>
-                        <option value={"owner"}>Teacher</option>
-                      </NativeSelect>
-                    </FormControl>
-                  </Box>
-                  <TextField
-                    onChange={(e) => setEmailInvite(e.target.value)}
-                    label="Email"
-                    placeholder="Enter email"
-                    fullWidth
-                    required
-                  />
+                    <Box>
+                      <FormControl fullWidth>
+                        <InputLabel
+                          variant="standard"
+                          htmlFor="uncontrolled-native"
+                        >
+                          Role
+                        </InputLabel>
+                        <NativeSelect
+                          defaultValue={"member"}
+                          onChange={(e) => {
+                            setRole(e.target.value);
+                          }}
+                        >
+                          <option value={"member"}>Student</option>
+                          <option value={"owner"}>Teacher</option>
+                        </NativeSelect>
+                      </FormControl>
+                    </Box>
+                    <TextField
+                      onChange={(e) => setEmailInvite(e.target.value)}
+                      label="Email"
+                      placeholder="Enter email"
+                      fullWidth
+                      required
+                    />
                   </div>
-                  <Button onClick={handleInvite} style={{marginTop: '2%', marginBottom: '2%'}} color='primary'>Invite</Button>
+                  <Button
+                    onClick={handleInvite}
+                    style={{ marginTop: "2%", marginBottom: "2%" }}
+                    color="primary"
+                  >
+                    Invite
+                  </Button>
                 </form>
                 <Divider variant="middle" />
                 <div>
@@ -218,12 +224,16 @@ export default function ClassDetail() {
               }}
             >
               <Typography variant="h6">Point distribution</Typography>
-              <Update
-                onClick={() => {
-                  navigate(`/${classId}/assignment`);
-                }}
-                style={{ cursor: "pointer" }}
-              />
+              {isTeacher ? (
+                <Update
+                  onClick={() => {
+                    navigate(`/${classId}/assignment`);
+                  }}
+                  style={{ cursor: "pointer" }}
+                />
+              ) : (
+                <></>
+              )}
             </div>
             {!classData.assignments ? (
               <></>

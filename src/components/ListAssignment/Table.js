@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import { useState } from "react";
 import { styled } from "@mui/system";
 import {
   Divider,
@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import TableHeaderCell from "./TableHeaderCell";
+import Notification from "../Notifications/Notification";
 
 const useStyles = makeStyles((themes) => ({
   TableHeader: {
@@ -53,23 +54,64 @@ const Root = styled("div")(
   `
 );
 
-const Cell = ({ point, assignmentId, memberId, updateGrade, setIsUpdate }) => {
+const Cell = ({
+  point,
+  assignmentId,
+  memberId,
+  updateGrade,
+  setIsUpdate,
+  setNotify,
+}) => {
   const [value, setValue] = useState(point);
-  const changeValue = async (e) => {
+  const [canSubmit, setCanSubmit] = useState(false);
+
+  const submitValue = async (e) => {
     e.preventDefault();
-    await updateGrade({assignmentId: assignmentId, memberId: memberId, grade: value})
+    
+    if(canSubmit){
+      await updateGrade({assignmentId: assignmentId, memberId: memberId, grade: value})
+      console.log('submited');
+    }
+    else{
+      setValue(0)
+    }
   };
 
+  const changeValue = e => {
+    e.preventDefault();
+    setValue(e.target.value)
+    const parsed = parseFloat(value);
+    if (isNaN(parsed)) {
+      console.log(1);
+      setNotify({
+        isOpen: true,
+        message: "Must be number",
+        type: "error",
+      });
+    }
+    else if(parsed < 0 || parsed > 10){
+      console.log(2);
+      setNotify({
+        isOpen: true,
+        message: "Must bewteen 0 to 10",
+        type: "error",
+      });
+    }
+    else{
+      console.log(3);
+      setCanSubmit(true);
+    }
+  }
+
   return (
-    <TextField
-      type="number"
-      style={{ width: "30px" }}
-      value={value}
-      onChange={(e) => {
-        setValue(e.target.value);
-      }}
-      onBlur={changeValue}
-    />
+    <div>
+      <TextField
+        style={{ width: "30px" }}
+        value={value}
+        onChange={changeValue}
+        onBlur={submitValue}
+      />
+    </div>
   );
 };
 
@@ -82,6 +124,11 @@ const Table = ({
   updateGrade,
 }) => {
   const styles = useStyles();
+  const [Notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
 
   return (
     <Root sx={{ maxWidth: "100%" }}>
@@ -130,6 +177,7 @@ const Table = ({
                       memberId={student.id}
                       updateGrade={updateGrade}
                       setIsUpdate={setIsUpdate}
+                      setNotify={setNotify}
                     />
                     <Typography
                       style={{ display: "flex", alignItems: "center" }}
@@ -145,6 +193,7 @@ const Table = ({
           ))}
         </tbody>
       </table>
+      <Notification Notify={Notify} setNotify={setNotify} />
     </Root>
   );
 };

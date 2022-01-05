@@ -25,7 +25,7 @@ const Home = () => {
     
     // setReloadClass(true);
   }, []);
-  console.log(dataClassJoined);
+  
   return (
     <div>
       {/* <Drawer /> */}
