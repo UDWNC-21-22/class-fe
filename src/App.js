@@ -19,6 +19,7 @@ import ActiveAccount from './components/authentication/activeAccount'
 import ResetPassword from "./components/authentication/resetPassword";
 import ForgotPassword from "./components/authentication/forgotPassword";
 import RoleMiddleware from "./middleware/role.middleware";
+import ReviewList from "./components/ReviewList/ReviewList";
 
 function App() {
   const { dataInfo, authLogin, setDataInfo, setAuthLogin } = useLocalContext();
@@ -142,6 +143,15 @@ function App() {
               element={
                 <AuthMiddleware>
                   <RoleMiddleware />
+                </AuthMiddleware>
+              }
+            />
+            <Route
+              exact
+              path="/:classId/:studentId"
+              element={
+                <AuthMiddleware>
+                  <ReviewList />
                 </AuthMiddleware>
               }
             />

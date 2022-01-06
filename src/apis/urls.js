@@ -30,5 +30,9 @@ module.exports = {
     updateStudentAssignmentGrade: '/grade/:classId/:assignmentId/:studentId',
     getClassMember: (classId) => `/class/${classId}/classMember`,
     getStudentGrade:(classId) => `/grade/${classId}/grades`,
-    
+    requestReview: ({classId, assignmentId}) => `/review/${classId}/${assignmentId}/postReview`,
+    postComment: ({classId, assignmentId}) => `/comment/${classId}/${assignmentId}/postComment`,
+    getComment: ({classId, assignmentId, studentId}) => `/comment/${classId}/${assignmentId}/getComment/${studentId}`,
+    getReview: ({classId, studentId}) => `/review/${classId}/${studentId}/getReview`,
+    markAsDoneReview: ({reviewId}) => `/review/${reviewId}`
 }

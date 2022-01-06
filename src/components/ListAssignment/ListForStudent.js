@@ -5,7 +5,6 @@ import {
   Box,
   Paper,
   Grid,
-  Divider,
   Accordion,
   AccordionSummary,
   AccordionDetails,
@@ -14,12 +13,11 @@ import {
 } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import classApi from "../../apis/class.api";
-import Notification from "../Notifications/Notification";
-import severity from "../Notifications/severity";
 import { useParams } from "react-router-dom";
 import RedditTextField from "./RedditTextField";
-import { RateReviewOutlined } from "@material-ui/icons";
 import RequestReviewForm from "../PopUp/RequestReview";
+import commentApi from "../../apis/comment.api";
+import { useLocalContext } from "../../context/context";
 
 const useStyles = makeStyles((themes) => ({
   container: {
@@ -58,72 +56,146 @@ const useStyles = makeStyles((themes) => ({
   },
   AccordionDetail: {
     display: "flex",
+    flexDirection: "column",
+  },
+  postComment: {
+    display: "flex",
     width: "100%",
-    flexDirection: 'row'
+    flexDirection: "row",
   },
   AccordionSummary: {
     display: "flex",
     width: "100%",
     justifyContent: "space-between",
-    alignItems: 'center',
+    alignItems: "center",
     marginLeft: themes.spacing(2),
     marginRight: themes.spacing(2),
   },
+  commentDiv: {
+    display: "flex",
+    flexDirection: "row",
+    marginTop: themes.spacing(1)
+  },
 }));
 
-const GradeTag = ({assignment, grade, assignmentId}) => {
-    const styles = useStyles();
-    const { classId } = useParams();
-    const [open, setOpen] = useState(false);
+const GradeTag = ({ assignment, grade, assignmentId }) => {
+  const { dataInfo } = useLocalContext();
+  const styles = useStyles();
+  const { classId } = useParams();
+  const [open, setOpen] = useState(false);
+  const [comment, setComment] = useState('');
+  const [commentsList, setCommentsList] = useState([]);
+  const [isSubmit, setIsSubmit] = useState(false);
 
-    const handleOpen = (e) => {
-        e.preventDefault();
-  
-        setOpen(true);
+
+
+  useEffect(async () => {
+    try {
+      const response = await commentApi.getComment({
+        studentId: dataInfo.id,
+        classId: classId,
+        assignmentId: assignmentId,
+      });
+      if (response) {
+        setCommentsList(response.comments);
+      }
+      setIsSubmit(false)
+    } catch (err) {}
+  }, [isSubmit]);
+
+  const handleOpen = (e) => {
+    e.preventDefault();
+
+    setOpen(true);
+  };
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      
+      if(comment === '') {
+        console.log('cmt', comment);
+        return
+      }
+      else{
+        await commentApi.postComment({
+          comment: comment,
+          classId: classId,
+          assignmentId: assignmentId,
+        });
+        setIsSubmit(true);
+        setComment('');
+      }
+      
+    } catch (err) {
+      if (Object.keys(err).length > 0) {
+        alert(err?.message)
     }
+    else {
+        // An error has occurred
+        alert('An error has occurred')
+    }
+      
+    }
+  };
 
-    return (
-        <Paper className={styles.GradePaper}>
-            <Accordion
-              className={styles.Accordion}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <AccordionSummary>
-                <div className={styles.AccordionSummary}>
-                  <Typography>{assignment}</Typography>
-                  <Typography>{grade}</Typography>
-                  
+  return (
+    <Paper className={styles.GradePaper}>
+      {console.log(commentsList)}
+      <Accordion
+        className={styles.Accordion}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+      >
+        <AccordionSummary>
+          <div className={styles.AccordionSummary}>
+            <Typography>{assignment}</Typography>
+            <Typography>{grade}</Typography>
+          </div>
+          <Button onClick={handleOpen}>Review</Button>
+        </AccordionSummary>
+        <AccordionDetails className={styles.AccordionDetail}>
+            <div className={styles.postComment}>
+              <Avatar />
+              <RedditTextField
+                label="Comment"
+                id="reddit-input"
+                variant="filled"
+                style={{ marginLeft: 11, marginRight: 11 }}
+                value={comment}
+                onChange={(e) => {
+                  setComment(e.target.value);
+                }}
+              />
+              <Button
+                onClick={handleSubmit}
+                style={{ backgroundColor: "#2979ff" }}
+              >
+                Submit
+              </Button>
+            </div>
+            <div>
+              {commentsList?.map((ele) => (
+                <div className={styles.commentDiv}>
+                  <Typography style={{marginRight: 10}}>{ele.role}: </Typography>{" "}
+                  <Typography>{ele.comment}</Typography>
                 </div>
-                <Button onClick={handleOpen}>Review</Button>
-              </AccordionSummary>
-              <AccordionDetails>
-                <div className={styles.AccordionDetail}>
-                  <Avatar />
-                  <RedditTextField
-                    label="Comment"
-                    id="reddit-input"
-                    variant="filled"
-                    style={{ marginLeft: 11, marginRight: 11 }}
-                  />
-                  <Button style={{backgroundColor:'#2979ff'}}>Submit</Button>
-                </div>
-              </AccordionDetails>
-            </Accordion>
-            <RequestReviewForm
-                open={open}
-                setOpen={setOpen}
-                assignmentId={assignmentId}
-             />
-          </Paper>
-    )
-}
+              ))}
+            </div>
+        </AccordionDetails>
+      </Accordion>
+      <RequestReviewForm
+        open={open}
+        setOpen={setOpen}
+        assignmentId={assignmentId}
+      />
+    </Paper>
+  );
+};
 
 const ListForStudent = () => {
   const styles = useStyles();
   const { classId } = useParams();
   const [grades, setGrades] = useState();
-
 
   useEffect(async () => {
     const data = await classApi.getStudentGrade({ classId });
@@ -139,14 +211,21 @@ const ListForStudent = () => {
           </Typography>
         </Grid>
         {grades?.grades.map((ele, i) => (
-          <GradeTag key={i}
+          <GradeTag
+            key={i}
             assignment={ele.name}
             grade={ele.grade}
             assignmentId={ele.id}
           />
         ))}
-        <Paper  className={styles.GradePaper} style={{ display: 'flex', alignItems: 'center' ,height: '50px'}}>
-          <Grid className={styles.AccordionSummary} style={{marginLeft: 30, marginRight: 55, fontWeight: 'bold'}}>
+        <Paper
+          className={styles.GradePaper}
+          style={{ display: "flex", alignItems: "center", height: "50px" }}
+        >
+          <Grid
+            className={styles.AccordionSummary}
+            style={{ marginLeft: 30, marginRight: 55, fontWeight: "bold" }}
+          >
             <Typography>Tổng: </Typography>
             <Typography>{grades?.total}</Typography>
           </Grid>

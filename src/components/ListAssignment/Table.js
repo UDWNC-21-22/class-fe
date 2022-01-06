@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import TableHeaderCell from "./TableHeaderCell";
 import Notification from "../Notifications/Notification";
+import { Link as LinkDom } from 'react-router-dom';
 
 const useStyles = makeStyles((themes) => ({
   TableHeader: {
@@ -59,7 +60,6 @@ const Cell = ({
   assignmentId,
   memberId,
   updateGrade,
-  setIsUpdate,
   setNotify,
 }) => {
   const [value, setValue] = useState(point);
@@ -122,6 +122,7 @@ const Table = ({
   uploadAssignmentGrade,
   downloadAssignmentGrade,
   updateGrade,
+  classId
 }) => {
   const styles = useStyles();
   const [Notify, setNotify] = useState({
@@ -163,7 +164,7 @@ const Table = ({
             <tr className={styles.TableRow} key={student.studentId}>
               <td style={{ width: 200 }}>
                 {student.studentId != null || student.studentId != undefined ? (
-                  <Link>{student.fullname}</Link>
+                  <Link style={{cursor: 'pointer'}} to={`/${classId}/${student.id}`} component={LinkDom}>{student.fullname}</Link>
                 ) : (
                   <Typography>{student.fullname}</Typography>
                 )}

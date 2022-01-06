@@ -65,6 +65,7 @@ const ListForTeacher = () => {
         uploadAssignmentGrade={uploadAssignmentGrade}
         downloadAssignmentGrade={downloadAssignmentGrade}
         updateGrade={updateGrade}
+        classId={classId}
       />
     </Fragment>
   );
