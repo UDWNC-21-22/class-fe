@@ -140,7 +140,6 @@ const GradeTag = ({ assignment, grade, assignmentId }) => {
 
   return (
     <Paper className={styles.GradePaper}>
-      {console.log(commentsList)}
       <Accordion
         className={styles.Accordion}
         aria-controls="panel1a-content"
@@ -196,6 +195,7 @@ const ListForStudent = () => {
   const styles = useStyles();
   const { classId } = useParams();
   const [grades, setGrades] = useState();
+  const { dataInfo } = useLocalContext();
 
   useEffect(async () => {
     const data = await classApi.getStudentGrade({ classId });
@@ -206,10 +206,13 @@ const ListForStudent = () => {
     <Container>
       <Box className={styles.container}>
         <Grid className={styles.grid}>
-          <Typography variant="h3" gutterBottom className={styles.name}>
+          <Typography variant="h3" gutterBottom align="center">
             {grades?.fullname}
           </Typography>
         </Grid>
+        {
+          !dataInfo.studentId?<Typography>You have to match your student id to view your grade</Typography>:
+          <div>
         {grades?.grades.map((ele, i) => (
           <GradeTag
             key={i}
@@ -230,6 +233,8 @@ const ListForStudent = () => {
             <Typography>{grades?.total}</Typography>
           </Grid>
         </Paper>
+        </div>
+        }
       </Box>
     </Container>
   );

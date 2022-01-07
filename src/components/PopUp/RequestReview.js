@@ -15,8 +15,8 @@ import severity from "../Notifications/severity";
 
 const RequestReviewForm = ({ open, setOpen, assignmentId }) => {
   const { classId } = useParams();
-  const [expectationGrade, setExpectationGrade] = useState();
-  const [explain, setExplain] = useState();
+  const [expectationGrade, setExpectationGrade] = useState('');
+  const [explain, setExplain] = useState('');
 
   const [Notify, setNotify] = useState({
     isOpen: false,
@@ -39,6 +39,8 @@ const RequestReviewForm = ({ open, setOpen, assignmentId }) => {
         assignmentId: assignmentId,
       });
       
+      setExpectationGrade('');
+      setExplain('');
       setOpen(false);
     } catch (err) {
       if (Object.keys(err).length > 0) {
@@ -68,6 +70,7 @@ const RequestReviewForm = ({ open, setOpen, assignmentId }) => {
             id="name"
             label="expectation grade"
             fullWidth
+            value={expectationGrade}
             variant="standard"
             onChange={(e)=> {setExpectationGrade(e.target.value)}}
           />
@@ -77,6 +80,7 @@ const RequestReviewForm = ({ open, setOpen, assignmentId }) => {
             id="name"
             label="Reason"
             fullWidth
+            value={explain}
             variant="standard"
             onChange={(e)=> {setExplain(e.target.value)}}
           />

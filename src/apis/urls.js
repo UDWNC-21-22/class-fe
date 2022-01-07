@@ -34,5 +34,7 @@ module.exports = {
     postComment: ({classId, assignmentId}) => `/comment/${classId}/${assignmentId}/postComment`,
     getComment: ({classId, assignmentId, studentId}) => `/comment/${classId}/${assignmentId}/getComment/${studentId}`,
     getReview: ({classId, studentId}) => `/review/${classId}/${studentId}/getReview`,
-    markAsDoneReview: ({reviewId}) => `/review/${reviewId}`
+    markAsDoneReview: ({reviewId}) => `/review/${reviewId}`,
+    getNotification: '/notification',
+    setNotification: ({notificationId}) => `/notification/${notificationId}`
 }

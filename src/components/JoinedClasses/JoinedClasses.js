@@ -21,7 +21,6 @@ const JoinedClasses = ({ classData, key }) => {
     })
     setCode(_code)
   }, []);
-  console.log('class data', classData);
   return (
     <li key={key} className="joined__list">
       <div className="joined__wrapper">
