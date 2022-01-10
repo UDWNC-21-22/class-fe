@@ -70,6 +70,7 @@ const Cell = ({
     
     if(canSubmit){
       await updateGrade({assignmentId: assignmentId, memberId: memberId, grade: value})
+      setCanSubmit(false)
       console.log('submited');
     }
     else{
@@ -87,8 +88,10 @@ const Cell = ({
         message: "Must be number",
         type: "error",
       });
+      setCanSubmit(false);
     }
     else if(parsed < 0 || parsed > 10){
+      setCanSubmit(false);
       setNotify({
         isOpen: true,
         message: "Must bewteen 0 to 10",
