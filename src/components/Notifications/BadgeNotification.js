@@ -90,7 +90,6 @@ const BadgeNotification = () => {
             key={i}
             style={{ backgroundColor: !ele.isRead ? "gray" : "white" }}
           >
-            {console.log(ele)}
             <Notice notice={ele} setReFecth={setReFecth} />
           </MenuItem>
         ))}

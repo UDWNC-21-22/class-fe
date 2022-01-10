@@ -82,7 +82,6 @@ const Cell = ({
     setValue(e.target.value)
     const parsed = parseFloat(value);
     if (isNaN(parsed)) {
-      console.log(1);
       setNotify({
         isOpen: true,
         message: "Must be number",
@@ -90,7 +89,6 @@ const Cell = ({
       });
     }
     else if(parsed < 0 || parsed > 10){
-      console.log(2);
       setNotify({
         isOpen: true,
         message: "Must bewteen 0 to 10",
@@ -98,7 +96,6 @@ const Cell = ({
       });
     }
     else{
-      console.log(3);
       setCanSubmit(true);
     }
   }

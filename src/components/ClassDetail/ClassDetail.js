@@ -182,6 +182,7 @@ export default function ClassDetail() {
                       placeholder="Enter email"
                       fullWidth
                       required
+                      type='email'
                     />
                   </div>
                   <Button
@@ -258,7 +259,7 @@ export default function ClassDetail() {
             )}
           </Paper>
         </div>
-        <div className={style.main}>Something here</div>
+        <div className={style.main}></div>
       </GridFixed>
       <Notification Notify={Notify} setNotify={setNotify} />
     </Grid>

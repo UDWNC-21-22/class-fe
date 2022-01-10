@@ -62,7 +62,24 @@ function Assignment() {
   });
 
   function isNumeric(value) {
-    return /^\d+$/.test(value);
+    const parsed = parseFloat(value);
+    if (isNaN(parsed)) {
+      setNotify({
+        isOpen: true,
+        message: "Must be number",
+        type: "error",
+      });
+      return false
+    }
+    else if(parsed < 0 || parsed > 10){
+      setNotify({
+        isOpen: true,
+        message: "Must bewteen 0 to 10",
+        type: "error",
+      });
+      return false
+    }
+    return true
   }
 
   const handleAdd = async (e) => {
@@ -70,11 +87,7 @@ function Assignment() {
       e.preventDefault();
 
       if (!isNumeric(scoreRate)) {
-        setNotify({
-          isOpen: true,
-          message: "Grade is a number value",
-          type: severity.warning,
-        });
+        //heya
       } else {
         let items = Array.from(characters);
         items.push({

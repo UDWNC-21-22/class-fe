@@ -14,6 +14,7 @@ import { useLocalContext } from "../../context/context";
 import Notification from "../Notifications/Notification";
 import severity from "../Notifications/severity";
 import cookie from "react-cookies";
+import UnMapRequest from "../PopUp/UnMapRequest";
 
 const useStyles = makeStyles((themes) => ({
   container: {
@@ -62,6 +63,12 @@ const Profile = () => {
     message: "",
     type: "",
   });
+  const [open, setOpen] = useState(false);
+  const handleOpen = (e) => {
+    e.preventDefault();
+
+    setOpen(true);
+  };
 
   const updateProfile = async (e) => {
     try {
@@ -143,6 +150,7 @@ const Profile = () => {
                 <Grid>
                   <Typography>Student ID</Typography>
                   <Typography>{currentStudentID}</Typography>
+                  <Button onClick={handleOpen}>UnMap Student ID</Button>
                 </Grid>
               ) : (
                 <Grid>
@@ -156,6 +164,7 @@ const Profile = () => {
                       }}
                     />
                     <Button type="submit"> update </Button>
+                    <Button onClick={handleOpen}>request mapping student Id</Button>
                     </form>
                 </Grid>
               )}
@@ -198,6 +207,10 @@ const Profile = () => {
                   </Grid>
                 </form>
               )}
+              <UnMapRequest 
+                    open={open}
+                    setOpen={setOpen}
+                  />
             </Grid>
           </Paper>
           <Paper className={styles.root}>

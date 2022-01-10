@@ -64,6 +64,8 @@ const ResetPassword = () => {
         message: "Change successed",
         type: severity.success,
       });
+      setChangePassword('')
+      setConfirmChangePassword('')
     } catch (err) {
       if (Object.keys(err).length > 0) {
         setNotify({
@@ -90,6 +92,7 @@ const ResetPassword = () => {
                 label="New Password"
                 placeholder="Enter new password"
                 type="password"
+                value={changePassword}
                 onChange={(e) => {
                   setChangePassword(e.target.value);
                 }}
@@ -99,6 +102,7 @@ const ResetPassword = () => {
                 label="Confirm Password"
                 placeholder="Re-enter new password"
                 type="password"
+                value={confirmChangePassword}
                 onChange={(e) => {
                   setConfirmChangePassword(e.target.value);
                 }}

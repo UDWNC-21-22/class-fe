@@ -48,7 +48,8 @@ const Header = ({ children }) => {
     setDataInfo,
     classId,
     setClassId,
-    isTeacher,
+    authLogin,
+    setAuthLogin
   } = useLocalContext();
 
   const handleCreate = () => {
@@ -75,6 +76,7 @@ const Header = ({ children }) => {
       cookie.remove("user_data");
       cookie.remove("access_token");
       setDataInfo({});
+      setAuthLogin(false)
       setClassId("");
       navigate("/login");
       //console.log(cookie.load('access_token'));
@@ -127,7 +129,7 @@ const Header = ({ children }) => {
               </Box>
             </div>
           )}
-          {dataInfo?.access_token == undefined ? (
+          {!authLogin ? (
             <></>
           ) : (
             <div className={classes.header__wrapper__right}>

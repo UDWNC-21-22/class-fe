@@ -117,15 +117,6 @@ const Login = () => {
 
                     <TextField onChange={(e) => setUsername(e.target.value)} label='Username' placeholder='Enter username' fullWidth required />
                     <TextField onChange={(e) => setPassword(e.target.value)} label='Password' placeholder='Enter password' type='password' fullWidth required />
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                name="checkedB"
-                                color="primary"
-                            />
-                        }
-                        label="Remember me"
-                    />
                     <Button type='submit' color='primary' variant="contained" style={btnstyle} fullWidth>
                         Sign in
                     </Button>

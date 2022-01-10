@@ -46,6 +46,11 @@ const Signup = () => {
                     message: 'Successed! Please check you mail to active account',
                     type: 'success'
                 })
+                setFullName('')
+                setPassword('')
+                setEmail('')
+                setUserName('')
+                setConfirmPassword('')
             }
         }
         catch (err) {
@@ -82,6 +87,7 @@ const Signup = () => {
                             onChange={e => setFullName(e.target.value)}
                         />
                         <TextField fullWidth
+                            type='email'
                             label='Email'
                             placeholder="Enter your email"
                             value={Email}
@@ -106,10 +112,6 @@ const Signup = () => {
                             value={ConfirmPassword}
                             onChange={e => setConfirmPassword(e.target.value)}
                             type='password'
-                        />
-                        <FormControlLabel
-                            control={<Checkbox name="checkedA" />}
-                            label="I accept the terms and conditions."
                         />
                         <Button type='submit' variant='contained' color='primary'>Sign up</Button>
                         <Divider style={{marginTop: '10px'}}/>

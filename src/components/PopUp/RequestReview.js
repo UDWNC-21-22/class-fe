@@ -62,7 +62,7 @@ const RequestReviewForm = ({ open, setOpen, assignmentId }) => {
         <DialogTitle>Review</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Please fill expectation grade and the reason ${assignmentId}
+            Please fill expectation grade and the reason
           </DialogContentText>
           <TextField
             autoFocus
