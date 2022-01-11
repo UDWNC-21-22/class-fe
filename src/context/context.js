@@ -14,8 +14,7 @@ export function ContextProvider({ children }) {
   const [check, setChecked] = useState(false);
   const [dataInfo, setDataInfo] = useState(cookie.load('user_data'));
   const [dataGrade, setDataGrade] = useState([]);
-  const [authLogin, setAuthLogin] = useState(false)
-  
+  const [authLogin, setAuthLogin] = useState(false); 
   const [classId, setClassId]=useState('');
   
   const value = {

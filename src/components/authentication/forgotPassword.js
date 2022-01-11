@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import authApi from "../../apis/auth.api";
 import Notification from "../Notifications/Notification";
 import severity from "../Notifications/severity";
+import { useNavigate } from 'react-router-dom'
 
 const useStyles = makeStyles((themes) => ({
   container: {
@@ -39,6 +40,8 @@ const useStyles = makeStyles((themes) => ({
 
 const ForgotPassword = () => {
   const styles = useStyles();
+  const navigate = useNavigate()
+
   const [email, setEmail] = useState();
   const [Notify, setNotify] = useState({
     isOpen: false,
@@ -57,6 +60,8 @@ const ForgotPassword = () => {
           message: "Please check your mail",
           type: severity.success,
         });
+
+        navigate('/login')
       } catch (err) {
         if (Object.keys(err).length > 0) {
           setNotify({

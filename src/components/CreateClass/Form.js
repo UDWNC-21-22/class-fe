@@ -1,46 +1,52 @@
 import { Button, DialogActions, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { useLocalContext } from "../../context/context";
-import classApi from '../../apis/class.api';
-import cookie from 'react-cookies';
+import classApi from "../../apis/class.api";
+import cookie from "react-cookies";
 
 const Form = () => {
-  const { setShowForm } = useLocalContext();
-  const { check, setChecked } = useLocalContext();
-  const { dataInfo } = useLocalContext();
+  const {
+    dataInfo,
+    setShowForm,
+    dataClassCreate,
+    setCreateClassDialog,
+    setDataClassCreate,
+    setCheckTeacher,
+    check,
+    setChecked,
+  } = useLocalContext();
 
   const [name, setClassName] = useState("");
   const [description, setDescription] = useState("");
 
-  const { dataClassCreate, setCreateClassDialog, setDataClassCreate } = useLocalContext();
-  const {setCheckTeacher} = useLocalContext();
-
   const handleSubmit = async (e) => {
     try {
-        e.preventDefault()
-        let userID=dataInfo.id
+      e.preventDefault();
+      let userID = dataInfo.id;
 
-        let response = await classApi.createClass({ name, description, userID })
-        setDataClassCreate([
-          ...dataClassCreate,
-          response.data
-        ])
-        setCreateClassDialog(false);
-        setShowForm(false);
-        setCheckTeacher(true)
-        cookie.save('check_teacher', true)
+      let response = await classApi.createClass({ name, description, userID });
+      console.log("dataClassCreate", dataClassCreate);
+      if (!dataClassCreate) {
+        setDataClassCreate([response.data]);
+      } else {
+        setDataClassCreate([...dataClassCreate, response.data]);
+      }
+
+      setCreateClassDialog(false);
+      setShowForm(false);
+      setCheckTeacher(true);
+      cookie.save("check_teacher", true);
+    } catch (err) {
+      console.log("ERROR create class, err: ", err);
     }
-    catch (err) {
-        console.log("ERROR create class, err: ", err)
-    }
-  }
+  };
 
   const handleCancel = () => {
     setCreateClassDialog(false);
     setShowForm(false);
     setChecked(!check);
-    setCheckTeacher(false)
-    cookie.save('check_teacher', false)
+    setCheckTeacher(false);
+    cookie.save("check_teacher", false);
   };
 
   return (
@@ -66,9 +72,7 @@ const Form = () => {
         />
       </div>
       <DialogActions>
-        <Button onClick={handleCancel}>
-          Cancel
-        </Button>
+        <Button onClick={handleCancel}>Cancel</Button>
         <Button color="primary" disabled={!name} onClick={handleSubmit}>
           Create
         </Button>
