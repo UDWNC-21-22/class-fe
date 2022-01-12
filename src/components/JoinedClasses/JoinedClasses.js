@@ -39,7 +39,6 @@ const JoinedClasses = ({ classData, key }) => {
               <p>{classData.description}</p>
             </Link>
             {code}
-            {/* {classData?.code } */}
           </div>
         </div>
         <Avatar

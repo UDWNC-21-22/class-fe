@@ -12,6 +12,8 @@ const Home = () => {
     setDataClassCreate,
   } = useLocalContext();
   const [isEmpty, setIsEmpty] = useState(false);
+  const [isEmptyCreate, setIsEmptyCreate] = useState(false);
+  const [isEmptyJoin, setIsEmptyJoin] = useState(false);
 
   setClassId("");
 
@@ -30,7 +32,14 @@ const Home = () => {
         ) {
           setIsEmpty(true);
         }
-        
+
+        if (response.data.classOwner.length === 0) {
+          setIsEmptyCreate(true);
+        }
+
+        if (response.data.classMember.length === 0) {
+          setIsEmptyJoin(true);
+        }
       } catch (err) {
         console.log("ERROR login, err: ", err);
       }
@@ -47,22 +56,35 @@ const Home = () => {
         </div>
       ) : (
         <div style={{ margin: "2rem" }}>
-          <h1>List of classes created</h1>
-          <ol className="joined">
-            {[...dataClassCreate].map((item, index) => (
-              <div key={index}>
-                <JoinedClasses classData={item} />
-              </div>
-            ))}
-          </ol>
-          <h1>List of classes attended</h1>
-          <ol className="joined">
-            {[...dataClassJoined].map((item, index) => (
-              <div key={index}>
-                <JoinedClasses classData={item} />
-              </div>
-            ))}
-          </ol>
+          {!isEmptyCreate ? (
+            <div>
+              <h1>List of classes created</h1>
+              <ol className="joined">
+                {[...dataClassCreate].map((item) => (
+                  <div key={item?.id.toString()}>
+                    <JoinedClasses classData={item} key={item?.id.toString()}/>
+                  </div>
+                ))}
+              </ol>
+            </div>
+          ) : (
+            <></>
+          )}
+
+          {!isEmptyJoin ? (
+            <div>
+              <h1 style={{ margin: "2rem 0 0 0" }}>List of classes attended</h1>
+              <ol className="joined">
+                {[...dataClassJoined].map((item) => (
+                  <div key={item?.id.toString()}>
+                    <JoinedClasses classData={item} key={item?.id.toString()} />
+                  </div>
+                ))}
+              </ol>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       )}
     </>
