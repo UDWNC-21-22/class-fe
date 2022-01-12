@@ -16,6 +16,8 @@ export function ContextProvider({ children }) {
   const [dataGrade, setDataGrade] = useState([]);
   const [authLogin, setAuthLogin] = useState(false); 
   const [classId, setClassId]=useState('');
+  const [dataClassJoined, setDataClassJoined] = useState([]);
+  const [dataClassCreate, setDataClassCreate] = useState([]);
   
   const value = {
     createClassDialog, setCreateClassDialog,
@@ -26,6 +28,8 @@ export function ContextProvider({ children }) {
     dataGrade, setDataGrade,
     authLogin, setAuthLogin,
     classId, setClassId,
+    dataClassJoined, setDataClassJoined,
+    dataClassCreate, setDataClassCreate,
   };
   return <AddContext.Provider value={value}>{children}</AddContext.Provider>;
 }

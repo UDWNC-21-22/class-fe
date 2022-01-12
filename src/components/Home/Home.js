@@ -4,42 +4,49 @@ import { useLocalContext } from "../../context/context";
 import classApi from "../../apis/class.api";
 
 const Home = () => {
-  const [dataClassJoined, setDataClassJoined] = useState([]);
-  const [dataClassCreate, setDataClassCreate] = useState([]);
-  const { setClassId } = useLocalContext();
-  const [isEmpty,setIsEmpty]=useState(false)
+  const {
+    setClassId,
+    dataClassJoined,
+    setDataClassJoined,
+    dataClassCreate,
+    setDataClassCreate,
+  } = useLocalContext();
+  const [isEmpty, setIsEmpty] = useState(false);
 
   setClassId("");
 
-  useEffect(()=>{
-    const fetchData =async () => {
+  useEffect(() => {
+    const fetchData = async () => {
       try {
         let response = await classApi.getClasses();
-  
+
         // set response.data to global state user
         setDataClassCreate(response.data.classOwner);
         setDataClassJoined(response.data.classMember);
 
-        if (response.data.classOwner.length===0 && response.data.classMember.length===0){
-          setIsEmpty(true)
+        if (
+          response.data.classOwner.length === 0 &&
+          response.data.classMember.length === 0
+        ) {
+          setIsEmpty(true);
         }
-        console.log(isEmpty)
+        
       } catch (err) {
         console.log("ERROR login, err: ", err);
       }
-  }
-  fetchData()
+    };
+    fetchData();
   }, []);
 
   return (
     <>
       {isEmpty ? (
-        <div style={{margin:'2rem'}}>
+        <div style={{ margin: "2rem" }}>
           <h1>You have not in any class</h1>
           <h2>Please join or create new class</h2>
         </div>
       ) : (
-        <div style={{margin:'2rem'}}>
+        <div style={{ margin: "2rem" }}>
           <h1>List of classes created</h1>
           <ol className="joined">
             {[...dataClassCreate].map((item, index) => (

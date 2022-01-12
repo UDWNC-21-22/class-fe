@@ -11,7 +11,6 @@ const Form = () => {
     dataClassCreate,
     setCreateClassDialog,
     setDataClassCreate,
-    setCheckTeacher,
     check,
     setChecked,
   } = useLocalContext();
@@ -24,17 +23,13 @@ const Form = () => {
       e.preventDefault();
       let userID = dataInfo.id;
 
-      let response = await classApi.createClass({ name, description, userID });
-      console.log("dataClassCreate", dataClassCreate);
-      if (!dataClassCreate) {
-        setDataClassCreate([response.data]);
-      } else {
-        setDataClassCreate([...dataClassCreate, response.data]);
-      }
+      await classApi.createClass({ name, description, userID });
+      let response = await classApi.getClasses();
 
+        // set response.data to global state user
+      setDataClassCreate(response.data.classOwner);
       setCreateClassDialog(false);
       setShowForm(false);
-      setCheckTeacher(true);
       cookie.save("check_teacher", true);
     } catch (err) {
       console.log("ERROR create class, err: ", err);
@@ -45,7 +40,6 @@ const Form = () => {
     setCreateClassDialog(false);
     setShowForm(false);
     setChecked(!check);
-    setCheckTeacher(false);
     cookie.save("check_teacher", false);
   };
 

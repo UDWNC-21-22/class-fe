@@ -12,7 +12,7 @@ const JoinedClasses = ({ classData, key }) => {
   const [code, setCode] = useState();
 
   useEffect(() => {
-    const _code = classData.owner.map((item) => {
+    const _code = classData?.owner.map((item) => {
       return (
         <p className="joined__owner">
           {item.id !== dataInfo.id ? item.username : null}
