@@ -13,7 +13,7 @@ const postComment = ({comment, studentId, classId, assignmentId})=> {
 }
 
 const getComment = ({studentId, classId, assignmentId}) => {
-    console.log('id', studentId);
+
     return AxiosBasic({
         url: urls.getComment({classId: classId, assignmentId: assignmentId,studentId: studentId}),
         method: 'GET',

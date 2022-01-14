@@ -9,6 +9,7 @@ import { NotificationsNone } from "@mui/icons-material";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import notificationApi from "../../apis/notification.api";
+import { useLocalContext } from "../../context/context";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -20,13 +21,37 @@ const useStyles = makeStyles((theme) => ({
 
 const Notice = ({ notice, setReFecth }) => {
   const navigate = useNavigate();
+  const { dataInfo } = useLocalContext();
+
+  const navigatePage = () => {
+    if(notice.notificationCode == 1){
+      navigate(`/${notice.elementIds.classId}/grades`);
+    }
+    else if(notice.notificationCode == 2){
+      if(dataInfo.id == notice.elementIds?.studentId){
+        navigate(`/${notice.elementIds.classId}/grades`);
+      }
+      else{
+        navigate(`/${notice.elementIds.classId}/${notice.elementIds.studentId}`);
+      }
+    }
+    else if(notice.notificationCode == 3){
+      navigate(`/${notice.elementIds.classId}/${notice.elementIds.studentId}`);
+    }
+    else if(notice.notificationCode == 4){
+      navigate(`/${notice.elementIds.classId}/grades`)
+    }
+  }
+
   const handleClick = async (e) => {
     e.preventDefault();
     if (notice.isRead) {
+      navigatePage();
       return;
     }
     await notificationApi.setNotification({ notificationId: notice.id });
     setReFecth(true);
+    navigatePage();
   };
   return (
     <div onClick={handleClick}>
