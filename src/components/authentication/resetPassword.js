@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import authApi from "../../apis/auth.api";
 import Notification from "../Notifications/Notification";
 import severity from "../Notifications/severity";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((themes) => ({
   container: {
@@ -43,6 +43,8 @@ const ResetPassword = () => {
   const [changePassword, setChangePassword] = useState("");
   const [confirmChangePassword, setConfirmChangePassword] = useState("");
   const { id } = useParams();
+  const navigate = useNavigate();
+
   const [Notify, setNotify] = useState({
     isOpen: false,
     message: "",
@@ -64,8 +66,8 @@ const ResetPassword = () => {
         message: "Change successed",
         type: severity.success,
       });
-      setChangePassword('')
-      setConfirmChangePassword('')
+      setChangePassword("");
+      setConfirmChangePassword("");
     } catch (err) {
       if (Object.keys(err).length > 0) {
         setNotify({
@@ -107,10 +109,28 @@ const ResetPassword = () => {
                   setConfirmChangePassword(e.target.value);
                 }}
               />
-              <Button type="submit">Change Password</Button>
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                style={{ margin: "8px 0" }}
+                fullWidth
+              >
+                CHANGE PASSWORD
+              </Button>
+
+              <Button
+                onClick={() => {
+                  navigate("/login");
+                }}
+                variant="contained"
+                style={{ margin: "8px 0" }}
+                fullWidth
+              >
+                BACK TO LOGIN
+              </Button>
             </form>
           </Grid>
-          <Notification Notify={Notify} setNotify={setNotify} />
         </Paper>
       </Box>
       <Notification Notify={Notify} setNotify={setNotify} />

@@ -60,8 +60,6 @@ const ForgotPassword = () => {
           message: "Please check your mail",
           type: severity.success,
         });
-
-        navigate('/login')
       } catch (err) {
         if (Object.keys(err).length > 0) {
           setNotify({
@@ -92,7 +90,9 @@ const ForgotPassword = () => {
                 setEmail(e.target.value);
               }}
             />
-            <Button type="submit">SEND EMAIL</Button>
+            <Button type="submit" color='primary' variant="contained" style={{margin: '8px 0'}} fullWidth>SEND EMAIL</Button>
+            
+            <Button onClick={()=>{navigate('/login')}} variant="contained" style={{margin: '8px 0'}} fullWidth>BACK TO LOGIN</Button>
           </form>
         </Grid>
       </Paper>

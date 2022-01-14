@@ -66,18 +66,21 @@ export default function ClassDetail() {
   const [isTeacher, setIsTeacher] = useState(false);
   const style = useStyle();
 
-  useEffect(async () => {
-    try {
-      const res = await classApi.getClassById({ id: classId });
-      setClassData(res.data);
-
-      for (let i = 0; i < res.data.ownerId.length; i++) {
-        if (res.data.ownerId[i] == dataInfo.id) {
-          setIsTeacher(true);
-          break;
+  useEffect(()=>{
+    const fetchData = async () => {
+      try {
+        const res = await classApi.getClassById({ id: classId });
+        setClassData(res.data);
+  
+        for (let i = 0; i < res.data.ownerId.length; i++) {
+          if (res.data.ownerId[i] === dataInfo.id) {
+            setIsTeacher(true);
+            break;
+          }
         }
-      }
-    } catch (e) {}
+      } catch (e) {}
+  }
+  fetchData()
   }, []);
 
   const handleInvite = async () => {
@@ -129,7 +132,7 @@ export default function ClassDetail() {
       <div className="list">
         <div className="wrapper">
           <div className="container">
-            <div className="image" />
+            <div className="image"/>
             <div className="content">
               <div className="title">
                 <h1>{classData?.name}</h1>
