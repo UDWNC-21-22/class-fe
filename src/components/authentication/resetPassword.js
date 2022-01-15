@@ -42,7 +42,7 @@ const ResetPassword = () => {
   const styles = useStyles();
   const [changePassword, setChangePassword] = useState("");
   const [confirmChangePassword, setConfirmChangePassword] = useState("");
-  const { id } = useParams();
+  const { email, id } = useParams();
   const navigate = useNavigate();
 
   const [Notify, setNotify] = useState({
@@ -59,6 +59,7 @@ const ResetPassword = () => {
         newPassword: changePassword,
         confirmPassword: confirmChangePassword,
         oldPassword: id,
+        email: email,
       });
 
       setNotify({

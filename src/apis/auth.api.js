@@ -33,7 +33,7 @@ const acctiveAccount = async ({id}) => {
     })
 }
 
-const resetPassword = async ({ newPassword, confirmPassword, oldPassword }) => {
+const resetPassword = async ({ newPassword, confirmPassword, oldPassword, email }) => {
     return AxiosBasic({
         url: urls.resetPassword,
         method: 'POST',
